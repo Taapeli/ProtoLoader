@@ -1,0 +1,57 @@
+
+# How to start neo4jphp and run it (on Linux)
+# ===========================================
+
+
+# 1. Install git if it's not yet done
+# -----------------------------------
+
+#    sudo apt-get install git
+
+
+# 2. May be you must install php5-curl
+# ------------------------------------
+
+#    sudo apt-get install php5-curl
+
+
+# 3. Make the test directory
+# -------------------------
+
+#    mkdir Taapeli
+
+
+# 4. And go in
+# ------------
+#    cd Taapeli
+
+
+# 5. Get composer
+# ---------------
+
+#    curl -sS http://getcomposer.org/installer | php
+
+
+# 6. Make this file and store the lines below in it:
+# --------------------------------------------------
+
+#    gedit composer.json
+
+#    {
+#      "require": {
+#        "everyman/neo4jphp": "dev-master"
+#      }
+#    }
+
+
+# 7. Install composer
+# -------------------
+
+#    php composer.phar install
+
+
+# 8. After that you can run .php's on command line like
+# --------------------------------------------------
+
+#   php some.php
+
