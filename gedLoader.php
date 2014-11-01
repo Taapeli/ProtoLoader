@@ -169,7 +169,7 @@ th,td { padding: 5px; }
                     ->setProperty('last_name', $names[1])
                     ->save();
 
-                  $rel = $person[$id]->relateTo($name, 'HAVE NAME')->save();
+                  $rel = $person[$id]->relateTo($name, 'HAS_NAME')->save();
                 }
                 else { // later names with another NAME tag
                   $later_name = $name
