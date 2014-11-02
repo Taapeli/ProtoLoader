@@ -12,7 +12,7 @@ th,td { padding: 5px; }
 
 <body>
 <h1>Taapeli testiluku</h1>
-<p>Luetaan neo4j-tietokantaa.</p>
+<p>Luetaan neo4j-tietokannasta.</p>
 <?php
 
   require('vendor/autoload.php');
@@ -31,7 +31,7 @@ th,td { padding: 5px; }
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $query_string = "MATCH (n)-[:HAS_NAME]-()-[:BIRTH]-(m) WHERE n.last_name='" . $name . "' RETURN n, m ORDER BY n.first_name";
+    $query_string = "MATCH (n)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name='" . $name . "' RETURN n, m, id ORDER BY n.first_name";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -42,14 +42,17 @@ th,td { padding: 5px; }
       $last_name[] = $rows[0]->getProperty('last_name');
       $birth_date[] = $rows[1]->getProperty('birth_date');
       $birth_place[] = $rows[1]->getProperty('birth_place');
+      $id[] = $rows[2]->getProperty('id');
     }
   }
 
   echo '<table  cellpadding="0" cellspacing="1" border="1">';
-  echo '<tr><th>Etunimet<th>Sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
+  echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
  
   for ($i=0; $i<sizeof($first_name); $i++) {
-    echo "<tr><td>" . $first_name[$i] .
+    echo "<tr><td><a href='readIndividData.php?id=" .
+         $id[$i] . "'>" . $id[$i] .
+         "</a></td><td> " . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
          "</td><td> " . $birth_date[$i] .
          "</td><td> " . $birth_place[$i] .
