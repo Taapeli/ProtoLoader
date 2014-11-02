@@ -12,7 +12,7 @@ th,td { padding: 5px; }
 
 <body>
 <h1>Taapeli testiluku</h1>
-<p>Luetaan neo4j-tietokantaa.</p>
+<p>Luetaan neo4j-tietokannasta.</p>
 
 
 <form action="listNames.php" method="POST" enctype="multipart/form-data"></p>
