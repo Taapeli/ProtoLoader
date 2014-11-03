@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ">
-<title>Taapeli aineiston luku kantaan</title>
+<title>Taapeli haku</title>
 <style>
 b { color:red }
 .form { background-color: #dde; margin-left: auto; margin-right: auto; }
@@ -11,22 +11,17 @@ th,td { padding: 5px; }
 </head>
 
 <body>
-<h1>Taapeli testiluku</h1>
-<p>Luetaan neo4j-tietokannasta.</p>
+<h1>Haku syntymäajalla Taapeli-kannasta</h1>
+
 <?php
 
   require('vendor/autoload.php');
 
-/*-------------------------- Tiedoston luku ----------------------------*/
-/*
-* 	   Simple file Upload system with PHP by Tech Stream
-*      http://techstream.org/Web-Development/PHP/Single-File-Upload-With-PHP
-*/
-
   if(isset($_POST['birth'])){
     // Tiedoston käsittelyn muuttujat
     $birth = $_POST['birth'];
-
+	echo "<p>Poiminta syntymäaika = '$birth'</p>";
+	
     require('vendor/autoload.php');
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
