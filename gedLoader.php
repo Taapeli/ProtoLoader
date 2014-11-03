@@ -108,6 +108,11 @@ th,td { padding: 5px; }
 
       $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
+      $idLabel = $sukudb->makeLabel('Person');
+      $nameLabel = $sukudb->makeLabel('Name');
+      $birthLabel = $sukudb->makeLabel('Birth');
+      $deathLabel = $sukudb->makeLabel('Death');
+
       $n = 0;
       $load_individ = $load_family = false;
 
@@ -143,6 +148,7 @@ th,td { padding: 5px; }
             $person[$id] = $sukudb->makeNode()
                ->setProperty('id', $id)
                   ->save();
+            $idLabels = $person[$id]->addLabels(array($idLabel));
           }
           else if ($id_1 == "F") {
             $load_individ = false;
@@ -168,6 +174,7 @@ th,td { padding: 5px; }
                     ->setProperty('first_name', $names[0])
                     ->setProperty('last_name', $names[1])
                     ->save();
+                  $nameLabels = $name->addLabels(array($nameLabel));
 
                   $rel = $person[$id]->relateTo($name, 'HAS_NAME')->save();
                 }
@@ -185,11 +192,13 @@ th,td { padding: 5px; }
               case "BIRT":
                 $event = "BIRT";
                 $birt = $sukudb->makeNode()->save();
+                $birthLabels = $birt->addLabels(array($birthLabel));
                 $rel = $person[$id]->relateTo($birt, 'BIRTH')->save();
                 break;
               case "DEAT":
                 $event = "DEAT";
                 $deat = $sukudb->makeNode()->save();
+                $deathLabels = $deat->addLabels(array($deathLabel));
                 $rel = $person[$id]->relateTo($deat, 'DEATH')->save();
                 break;
               case "EMIG":
@@ -235,6 +244,8 @@ th,td { padding: 5px; }
                 $chil = idtrim($arg0);
                 $rel = $person[$husb]->relateTo($person[$chil], 'CHILD')->save();
                 $rel = $person[$wife]->relateTo($person[$chil], 'CHILD')->save();
+                $rel = $person[$chil]->relateTo($person[$husb], 'FATHER')->save();
+                $rel = $person[$chil]->relateTo($person[$wife], 'MOTHER')->save();
                 break;
               case "MARR":
                 $event = "MARR";
