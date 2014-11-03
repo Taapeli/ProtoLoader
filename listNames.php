@@ -31,7 +31,7 @@ th,td { padding: 5px; }
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $query_string = "MATCH (n)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name='" . $name . "' RETURN n, m, id ORDER BY n.first_name";
+    $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name='" . $name . "' RETURN n, m, id ORDER BY n.first_name";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();

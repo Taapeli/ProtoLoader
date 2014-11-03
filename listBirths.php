@@ -31,7 +31,7 @@ th,td { padding: 5px; }
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $query_string = "MATCH (n)-[:BIRTH]-(id)-[:HAS_NAME]-(m) WHERE n.birth_date='" . $birth . "' RETURN n, m, id ORDER BY m.last_name, m.first_name";
+    $query_string = "MATCH (n:Birth)-[:BIRTH]-(id)-[:HAS_NAME]-(m) WHERE n.birth_date='" . $birth . "' RETURN n, m, id ORDER BY m.last_name, m.first_name";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -47,7 +47,8 @@ th,td { padding: 5px; }
   }
 
   echo '<table  cellpadding="0" cellspacing="1" border="1">';
-  echo '<tr><th>Etunimet<th>Sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
+  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>Syntym&auml;aika
+            <th>Syntym&auml;paikka</tr>';
  
   for ($i=0; $i<sizeof($first_name); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" .
