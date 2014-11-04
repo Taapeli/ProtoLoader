@@ -37,12 +37,13 @@ th,td { padding: 5px; }
       $birth_place[] = $row[0]->getProperty('birth_place');
       $first_name[] = $row[1]->getProperty('first_name');
       $last_name[] = $row[1]->getProperty('last_name');
+      $later_names[] = $row[1]->getProperty('later_name(s)');
       $id[] = $row[2]->getProperty('id');
     }
   }
 
   echo '<table  cellpadding="0" cellspacing="1" border="1">';
-  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>Syntym&auml;aika
+  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika
             <th>Syntym&auml;paikka</tr>';
  
   for ($i=0; $i<sizeof($first_name); $i++) {
@@ -50,6 +51,7 @@ th,td { padding: 5px; }
          $id[$i] . "'>" . $id[$i] .
          "</a></td><td>" . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
+         "</td><td> " . $later_names[$i] .
          "</td><td> " . $birth_date[$i] .
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";

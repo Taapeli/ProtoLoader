@@ -40,6 +40,7 @@ th,td { padding: 5px; }
     {
       $first_name = $rows[0]->getProperty('first_name');
       $last_name = $rows[0]->getProperty('last_name');
+      $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
     $query_string = "MATCH (n:Person)-[:BIRTH]-(m) WHERE n.id='" . $id . "' RETURN m";
@@ -73,6 +74,7 @@ th,td { padding: 5px; }
     {
       $father_first_name = $rows[0]->getProperty('first_name');
       $father_last_name = $rows[0]->getProperty('last_name');
+      $father_later_names = $rows[0]->getProperty('later_name(s)');
       $father_id = $rows[1]->getProperty('id');
     }
 
@@ -109,6 +111,7 @@ th,td { padding: 5px; }
     {
       $mother_first_name = $rows[0]->getProperty('first_name');
       $mother_last_name = $rows[0]->getProperty('last_name');
+      $mother_later_names = $rows[0]->getProperty('later_name(s)');
       $mother_id = $rows[1]->getProperty('id');
     }
 
@@ -145,6 +148,7 @@ th,td { padding: 5px; }
     {
       $spouse_first_name[] = $rows[0]->getProperty('first_name');
       $spouse_last_name[] = $rows[0]->getProperty('last_name');
+      $spouse_later_names[] = $rows[0]->getProperty('later_name(s)');
       $spouse_id[] = $rows[1]->getProperty('id');
     }
 
@@ -194,6 +198,7 @@ th,td { padding: 5px; }
       {
         $child_first_name[$i] = $rows[0]->getProperty('first_name');
         $child_last_name[$i] = $rows[0]->getProperty('last_name');
+        $child_later_names[$i] = $rows[0]->getProperty('later_name(s)');
       }
 
       $query_string = "MATCH (n:Person)-[:DEATH]-(m) WHERE n.id='" . $child_id[$i] . "' RETURN m";
@@ -209,12 +214,14 @@ th,td { padding: 5px; }
     }
 
     echo '<table  cellpadding="0" cellspacing="1" border="1">';
-    echo '<tr><th> <th>id<th>Etunimet<th>Sukunimi<th>Syntym&auml;aika
-              <th>Syntym&auml;paikka<th>Kuolinaika<th>Kuolinpaikka</tr>';
+    echo '<tr><th> <th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
+          <th>Syntym&auml;aika<th>Syntym&auml;paikka
+          <th>Kuolinaika<th>Kuolinpaikka</tr>';
  
     echo "<tr><th>Henkil&ouml;:<td>" . $id . 
          "</td><td>" . $first_name .
          "</td><td>" . $last_name .
+         "</td><td>" . $later_names .
          "</td><td>" . $birth_date .
          "</td><td>" . $birth_place .
          "</td><td>" . $death_date .
@@ -225,6 +232,7 @@ th,td { padding: 5px; }
            $father_id . "'>" . $father_id . 
          "</a></td><td>" . $father_first_name .
          "</td><td>" . $father_last_name .
+         "</td><td>" . $father_later_names .
          "</td><td>" . $father_birth_date .
          "</td><td>" . $father_birth_place .
          "</td><td>" . $father_death_date .
@@ -235,19 +243,22 @@ th,td { padding: 5px; }
            $mother_id . "'>" . $mother_id . 
          "</a></td><td>" . $mother_first_name .
          "</td><td>" . $mother_last_name .
+         "</td><td>" . $mother_later_names .
          "</td><td>" . $mother_birth_date .
          "</td><td>" . $mother_birth_place .
          "</td><td>" . $mother_death_date .
          "</td><td>" . $mother_death_place .
          "</td></tr>";
 
-    echo '<tr><th>Puoliso(t):<th>id<th>Etunimet<th>Sukunimi<th>Syntym&auml;aika 
-              <th>Syntym&auml;paikka<th>Kuolinaika<th>Kuolinpaikka</tr>';
+    echo '<tr><th>Puoliso(t):<th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
+          <th>Syntym&auml;aika<th>Syntym&auml;paikka
+          <th>Kuolinaika<th>Kuolinpaikka</tr>';
     for ($i=0; $i<sizeof($spouse_id); $i++) {
       echo "<tr><td></td><td><a href='readIndividData.php?id=" .
          $spouse_id[$i] . "'>" . $spouse_id[$i] .
        "</a></td><td>" . $spouse_first_name[$i] .
        "</td><td>" . $spouse_last_name[$i] .
+       "</td><td>" . $spouse_later_names[$i] .
        "</td><td>" . $spouse_birth_date[$i] .
        "</td><td>" . $spouse_birth_place[$i] .
        "</td><td>" . $spouse_death_date[$i] .
@@ -255,13 +266,15 @@ th,td { padding: 5px; }
        "</td></tr>";
     }
 
-    echo '<tr><th>Lapset:<th>id<th>Etunimet<th>Sukunimi<th>Syntym&auml;aika 
-              <th>Syntym&auml;paikka<th>Kuolinaika<th>Kuolinpaikka</tr>';
+    echo '<tr><th>Lapset:<th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
+          <th>Syntym&auml;aika<th>Syntym&auml;paikka
+          <th>Kuolinaika<th>Kuolinpaikka</tr>';
     for ($i=0; $i<sizeof($child_id); $i++) {
       echo "<tr><td></td><td><a href='readIndividData.php?id=" .
          $child_id[$i] . "'>" . $child_id[$i] .
        "</a></td><td>" . $child_first_name[$i] .
        "</td><td>" . $child_last_name[$i] .
+       "</td><td>" . $child_later_names[$i] .
        "</td><td>" . $child_birth_date[$i] .
        "</td><td>" . $child_birth_place[$i] .
        "</td><td>" . $child_death_date[$i] .

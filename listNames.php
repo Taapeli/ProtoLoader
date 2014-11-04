@@ -19,13 +19,13 @@ th,td { padding: 5px; }
   if(isset($_POST['name'])){
     // Tiedoston käsittelyn muuttujat
     $name = $_POST['name'];
-	echo "<p>Poiminta nimi = '$name'</p>";
+    echo "<p>Poiminta nimi = '$name'</p>";
 
     require('vendor/autoload.php');
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name='" . $name . "' RETURN n, m, id ORDER BY n.first_name";
+    $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name=~'" . $name . ".*' RETURN n, m, id ORDER BY n.last_name, n.first_name";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -34,6 +34,7 @@ th,td { padding: 5px; }
     {
       $first_name[] = $rows[0]->getProperty('first_name');
       $last_name[] = $rows[0]->getProperty('last_name');
+      $later_names[] = $rows[0]->getProperty('later_name(s)');
       $birth_date[] = $rows[1]->getProperty('birth_date');
       $birth_place[] = $rows[1]->getProperty('birth_place');
       $id[] = $rows[2]->getProperty('id');
@@ -41,13 +42,14 @@ th,td { padding: 5px; }
   }
 
   echo '<table  cellpadding="0" cellspacing="1" border="1">';
-  echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
+  echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
  
   for ($i=0; $i<sizeof($first_name); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" .
          $id[$i] . "'>" . $id[$i] .
          "</a></td><td> " . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
+         "</td><td> " . $later_names[$i] .
          "</td><td> " . $birth_date[$i] .
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";
