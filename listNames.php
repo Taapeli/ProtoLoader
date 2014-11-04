@@ -16,16 +16,22 @@ th,td { padding: 5px; }
 
   require('vendor/autoload.php');
 
-  if(isset($_POST['name'])){
+  if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
     $name = $_POST['name'];
-    echo "<p>Poiminta nimi = '$name'</p>";
+    $wildcard = $_POST['wildcard'];
+    echo "<p>Poiminta nimi = '$name''$wildcard'</p>";
 
     require('vendor/autoload.php');
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name=~'" . $name . ".*' RETURN n, m, id ORDER BY n.last_name, n.first_name";
+    if ($name != '') {
+      $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name='" . $name . "' RETURN n, m, id ORDER BY n.last_name, n.first_name";
+    }
+    else {
+      $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name=~'" . $wildcard . ".*' RETURN n, m, id ORDER BY n.last_name, n.first_name";
+    }
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();

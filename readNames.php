@@ -18,8 +18,12 @@ th,td { padding: 5px; }
 <form action="listNames.php" method="POST" enctype="multipart/form-data"></p>
 <table class="form">
 <tr><td>
-<h2>Anna haettava sukunimi</h2>
-<p>Sy&ouml;te: <input type="text" name="name" required/></p>
+<h2>Anna haettava sukunimi Sukunimi-kentt&auml;&auml;n tai</h2>
+<h2> sukunimen alku Wildcard-kentt&auml;&auml;n</h2>
+<h3>Huom! Haku suoritetaan ensisijaisesti Sukunimen mukaan</h3>
+<h3>Jos k&auml;yt&auml;t Wildcard-kentt&auml;&auml;, niin j&auml;t&auml; Sukunimi-kentt&auml; tyhj&auml;ksi</h3>
+<p>Sukunimi: <input type="text" name="name"/> (esim. Saarikunnas)</p>
+<p>Wildcard: <input type="text" name="wildcard"/>(esim. Saarik)</p>
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
