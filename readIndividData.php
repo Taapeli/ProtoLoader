@@ -139,7 +139,7 @@ th,td { padding: 5px; }
       }
     }
 
-    $query_string = "MATCH (n:Person)-[:MARRIED]-(id)-[:HAS_NAME]-(m) WHERE n.id='" . $id . "' RETURN m, id";
+    $query_string = "MATCH (n:Person)-[m:MARRIED]-(id)-[:HAS_NAME]-(p) WHERE n.id='" . $id . "' RETURN p, m, id";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -149,7 +149,13 @@ th,td { padding: 5px; }
       $spouse_first_name[] = $rows[0]->getProperty('first_name');
       $spouse_last_name[] = $rows[0]->getProperty('last_name');
       $spouse_later_names[] = $rows[0]->getProperty('later_name(s)');
-      $spouse_id[] = $rows[1]->getProperty('id');
+      $married_date[] = $rows[1]->getProperty('married_date');
+      $married_status[] = $rows[1]->getProperty('married_status');
+      $married_place[] = $rows[1]->getProperty('married_place');
+      $divoced_date[] = $rows[1]->getProperty('divoced_date');
+      $divoced_status[] = $rows[1]->getProperty('divoced_status');
+      $divoced_place[] = $rows[1]->getProperty('divoced_place');
+      $spouse_id[] = $rows[2]->getProperty('id');
     }
 
     for ($i=0; $i<sizeof($spouse_id); $i++) {
@@ -249,6 +255,18 @@ th,td { padding: 5px; }
          "</td><td>" . $mother_death_date .
          "</td><td>" . $mother_death_place .
          "</td></tr>";
+
+    echo '<tr><th>Avioliitot:<th><th>Vihitty<th>Vihkiaika<th>Vihkipaikka
+          <th><th>Eronnut<th>Eroaika<th>Eropaikka</tr>';
+    for ($i=0; $i<sizeof($spouse_id); $i++) {
+      echo "<tr><td></td><td></td><td>" . $married_status[$i] .
+       "</td><td>" . $married_date[$i] .
+       "</td><td>" . $married_place[$i] .
+       "</td><td> </td><td align='center'>" . $divoced_status[$i] .
+       "</td><td>" . $divoced_date[$i] .
+       "</td><td>" . $divoced_place[$i] .
+       "</td></tr>";
+    }
 
     echo '<tr><th>Puoliso(t):<th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
           <th>Syntym&auml;aika<th>Syntym&auml;paikka
