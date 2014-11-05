@@ -11,6 +11,10 @@ th,td { padding: 5px; }
 </head>
 
 <body>
+<div style="display: block; width: 100px; position: fixed;
+    top: 1em; right: 1em; color: #FFF;
+    background-color: #ddd;
+    text-align: center; padding: 4px; text-decoration: none;"><a href="index.php">Paluu</a></div>
 <h1>Taapeli testilataus</h1>
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
@@ -425,24 +429,24 @@ th,td { padding: 5px; }
 
 /*-------------------------- Tiedoston valintalomake ----------------------------*/
 ?>
+<!-- 
 
 <form action="" method="POST" enctype="multipart/form-data"></p>
 <table class="form">
 <tr><td>
 <h2>Anna ladattava gedcom-tiedosto</h2>
 <p>Sy&ouml;te: <input type="file" name="image" required/></p>
-<!-- 
 <p>Merkist&ouml;: <input type="radio" name="charset" value="UTF-8" checked>UTF-8
    (<input type="radio" name="charset" value="UTF-16" disabled>UTF-16LE ei tarjolla)
 </p>
 <p><input type="checkbox" name="show" value="ged" checked>N&auml;yt&auml; my&ouml;s gedcom-tietokent&auml;t</p>
 <p>K&auml;sitelt&auml;v&auml; maksimi rivim&auml;&auml;r&auml;
    <input type="number" name="maxlines" value="999"></p>
--->
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
 </table>
 </form>
+-->
 </body>
 </html>
