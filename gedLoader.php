@@ -252,7 +252,11 @@ th,td { padding: 5px; }
                 break;
               case "DIV":
                 $event = "DIV";
-                $rel_div = $person[$husb]->relateTo($person[$wife], 'DIVOCED')->save();
+                if (sizeof($a) > 2) {
+                  $div_status = $rel_married
+                    ->setProperty('divoced_status', $arg0)
+                    ->save();
+                }
                 break;
               case "NOTE":
                 $event = "NOTE";
@@ -373,12 +377,12 @@ th,td { padding: 5px; }
                     break;
                   case "DIV":
                     if (sizeof($date) == 3) {
-                      $div_date = $rel_div
+                      $div_date = $rel_married
                         ->setProperty('divoced_date', $date_str)
                         ->save();
                     }
                     else {
-                      $marr = $rel_div
+                      $marr = $rel_married
                         ->setProperty('divoced_status', $arg0)
                         ->save();
                     }
@@ -392,6 +396,11 @@ th,td { padding: 5px; }
                   case "MARR":
                     $marr = $rel_married
                       ->setProperty('married_place', $arg0)
+                      ->save();
+                    break;
+                  case "DIV":
+                    $marr = $rel_married
+                      ->setProperty('divoced_place', $arg0)
                       ->save();
                     break;
                   default;
