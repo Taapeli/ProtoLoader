@@ -11,10 +11,6 @@ th,td { padding: 5px; }
 </head>
 
 <body>
-<div style="display: block; width: 100px; position: fixed;
-    top: 1em; right: 1em; color: #FFF;
-    background-color: #ddd;
-    text-align: center; padding: 4px; text-decoration: none;"><a href="index.php">Paluu</a></div>
 <h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
 
@@ -31,10 +27,10 @@ th,td { padding: 5px; }
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     if ($name != '') {
-      $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name='" . $name . "' RETURN n, m, id ORDER BY n.last_name, n.first_name";
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person)-[:BIRTH]->(m)-[:PLACE]->(p) WHERE n.last_name='" . $name . "' RETURN DISTINCT n, m, p, id ORDER BY n.last_name, n.first_name";
     }
     else {
-      $query_string = "MATCH (n:Name)-[:HAS_NAME]-(id)-[:BIRTH]-(m) WHERE n.last_name=~'" . $wildcard . ".*' RETURN n, m, id ORDER BY n.last_name, n.first_name";
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person)-[:BIRTH]->(m)-[:PLACE]->(p) WHERE n.last_name=~'" . $wildcard . ".*' RETURN DISTINCT n, m, p, id ORDER BY n.last_name, n.first_name";
     }
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -46,8 +42,8 @@ th,td { padding: 5px; }
       $last_name[] = $rows[0]->getProperty('last_name');
       $later_names[] = $rows[0]->getProperty('later_name(s)');
       $birth_date[] = $rows[1]->getProperty('birth_date');
-      $birth_place[] = $rows[1]->getProperty('birth_place');
-      $id[] = $rows[2]->getProperty('id');
+      $birth_place[] = $rows[2]->getProperty('name');
+      $id[] = $rows[3]->getProperty('id');
     }
   }
 

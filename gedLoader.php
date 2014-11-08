@@ -11,10 +11,6 @@ th,td { padding: 5px; }
 </head>
 
 <body>
-<div style="display: block; width: 100px; position: fixed;
-    top: 1em; right: 1em; color: #FFF;
-    background-color: #ddd;
-    text-align: center; padding: 4px; text-decoration: none;"><a href="index.php">Paluu</a></div>
 <h1>Taapeli testilataus</h1>
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
@@ -151,7 +147,7 @@ th,td { padding: 5px; }
             $name_cnt = 0;
             $person[$id] = $sukudb->makeNode()
                ->setProperty('id', $id)
-                  ->save();
+               ->save();
             $idLabels = $person[$id]->addLabels(array($idLabel));
           }
           else if ($id_1 == "F") {
@@ -237,12 +233,12 @@ th,td { padding: 5px; }
             switch ($key)  {
               case "HUSB":
                 $husb = idtrim($arg0);
+                $marr = $sukudb->makeNode()->save();
                 break;
               case "WIFE":
                 $wife = idtrim($arg0);
-                $rel_married = $person[$husb]
-                  ->relateTo($person[$wife], 'MARRIED')
-                  ->save();
+                $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
+                $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
                 break;
               case "CHIL":
                 $chil = idtrim($arg0);
@@ -256,11 +252,7 @@ th,td { padding: 5px; }
                 break;
               case "DIV":
                 $event = "DIV";
-                if (sizeof($a) > 2) {
-                  $div_status = $rel_married
-                    ->setProperty('divoced_status', $arg0)
-                    ->save();
-                }
+                $rel_div = $person[$husb]->relateTo($person[$wife], 'DIVOCED')->save();
                 break;
               case "NOTE":
                 $event = "NOTE";
@@ -306,14 +298,26 @@ th,td { padding: 5px; }
               case "PLAC":
                 switch ($event) {
                   case "BIRT":
-                    $birt_plac = $birt
-                      ->setProperty('birth_place', $arg0)
-                      ->save();
+                    // The connection between Birth node and Place node can be done
+                    // if the Place node already exists in the data base
+                    $query_string = "MATCH (n:Person {id:'" . $id . 
+                      "'})-[:BIRTH]->(b), (p:Place {name:'" . $arg0 . 
+                      "'}) MERGE (n)-[:BIRTH]->(b)-[:PLACE]->(p)";
+
+                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+                    $result = $query->getResultSet();
                     break;
                   case "DEAT":
-                    $deat_plac = $deat
-                      ->setProperty('death_place', $arg0)
-                      ->save();
+                    // The connection between Death node and Place node can be done
+                    // if the Place node already exists in the data base
+                    $query_string = "MATCH (n:Person {id:'" . $id . 
+                      "'})-[:DEATH]->(b), (p:Place {name:'" . $arg0 . 
+                      "'}) MERGE (n)-[:DEATH]->(b)-[:PLACE]->(p)";
+
+                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+                    $result = $query->getResultSet();
                     break;
                   case "EMIG":
                     $emig_plac = $emig
@@ -369,24 +373,24 @@ th,td { padding: 5px; }
                 switch ($event) {
                   case "MARR":
                     if (sizeof($date) == 3) {
-                      $marr_date = $rel_married
+                      $marr_date = $marr
                         ->setProperty('married_date', $date_str)
                         ->save();
                     }
                     else {
-                      $marr = $rel_married
+                      $marr = $marr
                         ->setProperty('married_status', $arg0)
                         ->save();
                     }
                     break;
                   case "DIV":
                     if (sizeof($date) == 3) {
-                      $div_date = $rel_married
+                      $div_date = $rel_div
                         ->setProperty('divoced_date', $date_str)
                         ->save();
                     }
                     else {
-                      $marr = $rel_married
+                      $div_date = $rel_div
                         ->setProperty('divoced_status', $arg0)
                         ->save();
                     }
@@ -398,14 +402,15 @@ th,td { padding: 5px; }
               case "PLAC":
                 switch ($event) {
                   case "MARR":
-                    $marr = $rel_married
-                      ->setProperty('married_place', $arg0)
-                      ->save();
-                    break;
-                  case "DIV":
-                    $marr = $rel_married
-                      ->setProperty('divoced_place', $arg0)
-                      ->save();
+                    // The connection between Marriage node and Place node can be done
+                    // if the Place node already exists in the data base
+                    $query_string = "MATCH (n:Person {id:'" . $husb . 
+                      "'})-[:MARRIED]->(b), (p:Place {name:'" . $arg0 . 
+                      "'}) MERGE (n)-[:MARRIED]->(b)-[:PLACE]->(p)";
+
+                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+                    $result = $query->getResultSet();
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -429,24 +434,24 @@ th,td { padding: 5px; }
 
 /*-------------------------- Tiedoston valintalomake ----------------------------*/
 ?>
-<!-- 
 
 <form action="" method="POST" enctype="multipart/form-data"></p>
 <table class="form">
 <tr><td>
 <h2>Anna ladattava gedcom-tiedosto</h2>
 <p>Sy&ouml;te: <input type="file" name="image" required/></p>
+<!-- 
 <p>Merkist&ouml;: <input type="radio" name="charset" value="UTF-8" checked>UTF-8
    (<input type="radio" name="charset" value="UTF-16" disabled>UTF-16LE ei tarjolla)
 </p>
 <p><input type="checkbox" name="show" value="ged" checked>N&auml;yt&auml; my&ouml;s gedcom-tietokent&auml;t</p>
 <p>K&auml;sitelt&auml;v&auml; maksimi rivim&auml;&auml;r&auml;
    <input type="number" name="maxlines" value="999"></p>
+-->
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
 </table>
 </form>
--->
 </body>
 </html>

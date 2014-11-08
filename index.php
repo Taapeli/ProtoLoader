@@ -53,10 +53,23 @@ vapaahaku-kentt&auml;n mukaan.</p>
 </div>
 
 <div class="form">
-<form action="getloader.php" method="POST" enctype="multipart/form-data"></p>
+<form action="gedLoader.php" method="POST" enctype="multipart/form-data"></p>
 <h2>Lataa gedcom-tiedosto</h2>
 <p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan 
 siellä jo olevien tietojen lisäksi.</p>
+<p><span class="tit">Sy&ouml;te:</span> 
+<input type="file" name="image" required/>
+<input class="subm" type="submit"/></p>
+</form>
+</div>
+
+<div class="form">
+<form action="placeLoader.php" method="POST" enctype="multipart/form-data"></p>
+<h2>Lataa paikka-tiedosto</h2>
+<p>Sy&ouml;tteen&auml; annettu paikka-tiedosto luetaan kantaan 
+siellä jo olevien tietojen lisäksi.</p>
+<p>Ohjelma ei talleta tuplia tietokantaan. Jos jokin paikka on jo olemassa tietokannassa, niin uutta tallennusta ei silloin suoriteta.</p>
+<p> Luettava rivi on muotoa: 2 PLAC Paikka.</p>
 <p><span class="tit">Sy&ouml;te:</span> 
 <input type="file" name="image" required/>
 <input class="subm" type="submit"/></p>

@@ -11,10 +11,6 @@ th,td { padding: 5px; }
 </head>
 
 <body>
-<div style="display: block; width: 100px; position: fixed;
-    top: 1em; right: 1em; color: #FFF;
-    background-color: #ddd;
-    text-align: center; padding: 4px; text-decoration: none;"><a href="index.php">Paluu</a></div>
 <h1>Haku syntymäajalla Taapeli-kannasta</h1>
 
 <?php
@@ -30,7 +26,7 @@ th,td { padding: 5px; }
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $query_string = "MATCH (n:Birth)-[:BIRTH]-(id)-[:HAS_NAME]-(m) WHERE n.birth_date='" . $birth . "' RETURN n, m, id ORDER BY m.last_name, m.first_name";
+    $query_string = "MATCH (n:Birth)<-[:BIRTH]-(id:Person)-[:HAS_NAME]-(m) WHERE n.birth_date='" . $birth . "' MATCH (n)-[:PLACE]->(p) RETURN DISTINCT n, m, p, id ORDER BY m.last_name, m.first_name";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -38,11 +34,11 @@ th,td { padding: 5px; }
     foreach ($result as $row)
     {
       $birth_date[] = $row[0]->getProperty('birth_date');
-      $birth_place[] = $row[0]->getProperty('birth_place');
       $first_name[] = $row[1]->getProperty('first_name');
       $last_name[] = $row[1]->getProperty('last_name');
       $later_names[] = $row[1]->getProperty('later_name(s)');
-      $id[] = $row[2]->getProperty('id');
+      $birth_place[] = $row[2]->getProperty('name');
+      $id[] = $row[3]->getProperty('id');
     }
   }
 

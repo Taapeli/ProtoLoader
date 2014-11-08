@@ -43,7 +43,7 @@ th,td { padding: 5px; }
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH]-(m) WHERE n.id='" . $id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(m)-[:PLACE]->(p) WHERE n.id='" . $id . "' RETURN m, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -51,10 +51,10 @@ th,td { padding: 5px; }
     foreach ($result as $rows)
     {
       $birth_date = $rows[0]->getProperty('birth_date');
-      $birth_place = $rows[0]->getProperty('birth_place');
+      $birth_place = $rows[1]->getProperty('name');
     }
 
-    $query_string = "MATCH (n:Person)-[:DEATH]-(m) WHERE n.id='" . $id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:DEATH]->(m)-[:PLACE]->(p) WHERE n.id='" . $id . "' RETURN m, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -62,7 +62,7 @@ th,td { padding: 5px; }
     foreach ($result as $rows)
     {
       $death_date = $rows[0]->getProperty('death_date');
-      $death_place = $rows[0]->getProperty('death_place');
+      $death_place = $rows[1]->getProperty('name');
     }
 
     $query_string = "MATCH (n:Person)-[:FATHER]->(id)-[:HAS_NAME]-(m) WHERE n.id='" . $id . "' RETURN m, id";
@@ -78,7 +78,7 @@ th,td { padding: 5px; }
       $father_id = $rows[1]->getProperty('id');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH]-(m) WHERE n.id='" . $father_id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:BIRTH]-(m)-[:PLACE]-(p) WHERE n.id='" . $father_id . "' RETURN m, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -86,10 +86,10 @@ th,td { padding: 5px; }
     foreach ($result as $rows)
     {
       $father_birth_date = $rows[0]->getProperty('birth_date');
-      $father_birth_place = $rows[0]->getProperty('birth_place');
+      $father_birth_place = $rows[1]->getProperty('name');
     }
 
-    $query_string = "MATCH (n:Person)-[:DEATH]-(m) WHERE n.id='" . $father_id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:DEATH]-(m)-[:PLACE]-(p) WHERE n.id='" . $father_id . "' RETURN m, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -97,7 +97,7 @@ th,td { padding: 5px; }
     foreach ($result as $rows)
     {
       $father_death_date = $rows[0]->getProperty('death_date');
-      $father_death_place = $rows[0]->getProperty('death_place');
+      $father_death_place = $rows[1]->getProperty('name');
     }
 
     $query_string = "MATCH (n:Person)-[:MOTHER]->(id)-[:HAS_NAME]-(m) WHERE n.id='" . $id . "' RETURN m, id";
@@ -113,7 +113,7 @@ th,td { padding: 5px; }
       $mother_id = $rows[1]->getProperty('id');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH]-(m) WHERE n.id='" . $mother_id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:BIRTH]-(m)-[:PLACE]-(p) WHERE n.id='" . $mother_id . "' RETURN m, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -121,10 +121,10 @@ th,td { padding: 5px; }
     foreach ($result as $rows)
     {
       $mother_birth_date = $rows[0]->getProperty('birth_date');
-      $mother_birth_place = $rows[0]->getProperty('birth_place');
+      $mother_birth_place = $rows[1]->getProperty('name');
     }
 
-    $query_string = "MATCH (n:Person)-[:DEATH]-(m) WHERE n.id='" . $mother_id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:DEATH]-(m)-[:PLACE]-(p) WHERE n.id='" . $mother_id . "' RETURN m, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -132,10 +132,11 @@ th,td { padding: 5px; }
     foreach ($result as $rows)
     {
       $mother_death_date = $rows[0]->getProperty('death_date');
-      $mother_death_place = $rows[0]->getProperty('death_place');
+      $mother_death_place = $rows[1]->getProperty('name');
     }
 
-    $query_string = "MATCH (n:Person)-[m:MARRIED]-(id)-[:HAS_NAME]-(p) WHERE n.id='" . $id . "' RETURN p, m, id ORDER BY m.married_date";
+    $query_string = "MATCH (n:Person)-[:MARRIED]->(m) WHERE n.id='" 
+      . $id . "' MATCH (m)<-[:MARRIED]-(id:Person)-[:HAS_NAME]-(k) WHERE n.id <> id.id  RETURN DISTINCT k, m, id ORDER BY m.married_date";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -147,15 +148,25 @@ th,td { padding: 5px; }
       $spouse_later_names[] = $rows[0]->getProperty('later_name(s)');
       $married_date[] = $rows[1]->getProperty('married_date');
       $married_status[] = $rows[1]->getProperty('married_status');
-      $married_place[] = $rows[1]->getProperty('married_place');
       $divoced_date[] = $rows[1]->getProperty('divoced_date');
       $divoced_status[] = $rows[1]->getProperty('divoced_status');
-      $divoced_place[] = $rows[1]->getProperty('divoced_place');
+//      $divoced_place[] = $rows[1]->getProperty('divoced_place');
       $spouse_id[] = $rows[2]->getProperty('id');
     }
 
+    $query_string = "MATCH (n:Person)-[:MARRIED]->(m)-[:PLACE]->(p) WHERE n.id='" 
+      . $id . "' RETURN p ORDER BY m.married_date";
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+    $result = $query->getResultSet();
+
+    foreach ($result as $rows)
+    {
+      $married_place[] = $rows[0]->getProperty('name');
+    }
+
     for ($i=0; $i<sizeof($spouse_id); $i++) {
-      $query_string = "MATCH (n:Person)-[:BIRTH]-(m) WHERE n.id='" . $spouse_id[$i] . "' RETURN m";
+      $query_string = "MATCH (n:Person)-[:BIRTH]-(m)-[:PLACE]-(p) WHERE n.id='" . $spouse_id[$i] . "' RETURN m, p";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
       $result = $query->getResultSet();
@@ -163,10 +174,10 @@ th,td { padding: 5px; }
       foreach ($result as $rows)
       {
         $spouse_birth_date[$i] = $rows[0]->getProperty('birth_date');
-        $spouse_birth_place[$i] = $rows[0]->getProperty('birth_place');
+        $spouse_birth_place[$i] = $rows[1]->getProperty('name');
       }
 
-      $query_string = "MATCH (n:Person)-[:DEATH]-(m) WHERE n.id='" . $spouse_id[$i] . "' RETURN m";
+      $query_string = "MATCH (n:Person)-[:DEATH]-(m)-[:PLACE]-(p) WHERE n.id='" . $spouse_id[$i] . "' RETURN m, p";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
       $result = $query->getResultSet();
@@ -174,11 +185,11 @@ th,td { padding: 5px; }
       foreach ($result as $rows)
       {
         $spouse_death_date[$i] = $rows[0]->getProperty('death_date');
-        $spouse_death_place[$i] = $rows[0]->getProperty('death_place');
+        $spouse_death_place[$i] = $rows[1]->getProperty('name');
       }
     }
 
-    $query_string = "MATCH (n:Person)-[:CHILD]->(id)-[:BIRTH]-(m) WHERE n.id='" . $id . "' RETURN m, id ORDER BY m.birth_date";
+    $query_string = "MATCH (n:Person)-[:CHILD]->(id)-[:BIRTH]->(m)-[:PLACE]->(p) WHERE n.id='" . $id . "' RETURN DISTINCT m, p, id ORDER BY m.birth_date";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -186,8 +197,8 @@ th,td { padding: 5px; }
     foreach ($result as $rows)
     {
       $child_birth_date[] = $rows[0]->getProperty('birth_date');
-      $child_birth_place[] = $rows[0]->getProperty('birth_place');
-      $child_id[] = $rows[1]->getProperty('id');
+      $child_birth_place[] = $rows[1]->getProperty('name');
+      $child_id[] = $rows[2]->getProperty('id');
     }
 
     for ($i=0; $i<sizeof($child_id); $i++) {
@@ -203,7 +214,7 @@ th,td { padding: 5px; }
         $child_later_names[$i] = $rows[0]->getProperty('later_name(s)');
       }
 
-      $query_string = "MATCH (n:Person)-[:DEATH]-(m) WHERE n.id='" . $child_id[$i] . "' RETURN m";
+      $query_string = "MATCH (n:Person)-[:DEATH]-(m)-[:PLACE]-(p) WHERE n.id='" . $child_id[$i] . "' RETURN m, p";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
       $result = $query->getResultSet();
@@ -211,7 +222,7 @@ th,td { padding: 5px; }
       foreach ($result as $rows)
       {
         $child_death_date[$i] = $rows[0]->getProperty('death_date');
-        $child_death_place[$i] = $rows[0]->getProperty('death_place');
+        $child_death_place[$i] = $rows[1]->getProperty('name');
       }
     }
 
@@ -253,14 +264,13 @@ th,td { padding: 5px; }
          "</td></tr>";
 
     echo '<tr><th>Avioliitot:<th><th>Vihitty<th>Vihkiaika<th>Vihkipaikka
-          <th><th>Eronnut<th>Eroaika<th>Eropaikka</tr>';
+          <th><th>Eronnut<th>Eroaika</tr>';
     for ($i=0; $i<sizeof($spouse_id); $i++) {
       echo "<tr><td></td><td></td><td>" . $married_status[$i] .
        "</td><td>" . $married_date[$i] .
        "</td><td>" . $married_place[$i] .
        "</td><td> </td><td align='center'>" . $divoced_status[$i] .
        "</td><td>" . $divoced_date[$i] .
-       "</td><td>" . $divoced_place[$i] .
        "</td></tr>";
     }
 
