@@ -11,6 +11,11 @@ th,td { padding: 5px; }
 </head>
 
 <body>
+<div style="display: block; width: 100px; position: fixed;
+    top: 1em; right: 1em; color: #FFF;
+    background-color: #ddd;
+    text-align: center; padding: 4px; text-decoration: none;">
+  <a href="index.php">Paluu</a></div>
 <h1>Taapeli testilataus</h1>
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
