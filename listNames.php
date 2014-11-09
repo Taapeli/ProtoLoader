@@ -32,25 +32,36 @@ th,td { padding: 5px; }
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     if ($name != '') {
-      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person)-[:BIRTH]->(m)-[:PLACE]->(p) WHERE n.last_name='" . $name . "' RETURN DISTINCT n, m, p, id ORDER BY n.last_name, n.first_name";
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name='" . $name . "' RETURN id, n ORDER BY n.last_name, n.first_name";
     }
     else {
-      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person)-[:BIRTH]->(m)-[:PLACE]->(p) WHERE n.last_name=~'" . $wildcard . ".*' RETURN DISTINCT n, m, p, id ORDER BY n.last_name, n.first_name";
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name=~'" . $wildcard . ".*' RETURN id, n ORDER BY n.last_name, n.first_name";
     }
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-
     $result = $query->getResultSet();
 
     foreach ($result as $rows)
     {
-      $first_name[] = $rows[0]->getProperty('first_name');
-      $last_name[] = $rows[0]->getProperty('last_name');
-      $later_names[] = $rows[0]->getProperty('later_name(s)');
-      $birth_date[] = $rows[1]->getProperty('birth_date');
-      $birth_place[] = $rows[2]->getProperty('name');
-      $id[] = $rows[3]->getProperty('id');
+      $id[] = $rows[0]->getProperty('id');
+      $birth_date[] = $rows[0]->getProperty('birth_date');
+      $first_name[] = $rows[1]->getProperty('first_name');
+      $last_name[] = $rows[1]->getProperty('last_name');
+      $later_names[] = $rows[1]->getProperty('later_name(s)');
+    }
+
+    for ($i=0; $i<sizeof($id); $i++) {
+      $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" .
+        $id[$i] . "' RETURN p";
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $result = $query->getResultSet();
+
+      foreach ($result as $rows)
+      {
+        $birth_place[] = $rows[0]->getProperty('name');
+      }
     }
   }
+
 
   echo '<table  cellpadding="0" cellspacing="1" border="1">';
   echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';

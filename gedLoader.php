@@ -115,8 +115,7 @@ th,td { padding: 5px; }
 
       $idLabel = $sukudb->makeLabel('Person');
       $nameLabel = $sukudb->makeLabel('Name');
-      $birthLabel = $sukudb->makeLabel('Birth');
-      $deathLabel = $sukudb->makeLabel('Death');
+      $marriageLabel = $sukudb->makeLabel('Marriage');
 
       $n = 0;
       $load_individ = $load_family = false;
@@ -196,15 +195,9 @@ th,td { padding: 5px; }
                 break;
               case "BIRT":
                 $event = "BIRT";
-                $birt = $sukudb->makeNode()->save();
-                $birthLabels = $birt->addLabels(array($birthLabel));
-                $rel = $person[$id]->relateTo($birt, 'BIRTH')->save();
                 break;
               case "DEAT":
                 $event = "DEAT";
-                $deat = $sukudb->makeNode()->save();
-                $deathLabels = $deat->addLabels(array($deathLabel));
-                $rel = $person[$id]->relateTo($deat, 'DEATH')->save();
                 break;
               case "EMIG":
                 $event = "EMIG";
@@ -238,7 +231,10 @@ th,td { padding: 5px; }
             switch ($key)  {
               case "HUSB":
                 $husb = idtrim($arg0);
-                $marr = $sukudb->makeNode()->save();
+                $marr = $sukudb->makeNode()
+                  ->setProperty('id', $id)
+                  ->save();
+                  $marriageLabels = $marr->addLabels(array($marriageLabel));
                 break;
               case "WIFE":
                 $wife = idtrim($arg0);
@@ -257,7 +253,11 @@ th,td { padding: 5px; }
                 break;
               case "DIV":
                 $event = "DIV";
-                $rel_div = $person[$husb]->relateTo($person[$wife], 'DIVOCED')->save();
+                if  (sizeof($a) > 2) {
+                  $div_date = $marr
+                    ->setProperty('divoced_status', $arg0)
+                    ->save();
+                }
                 break;
               case "NOTE":
                 $event = "NOTE";
@@ -287,13 +287,11 @@ th,td { padding: 5px; }
                 }
                 switch ($event) {
                   case "BIRT":
-                    $birt_date = $birt
-                      ->setProperty('birth_date', $date_str)
+                    $person[$id]->setProperty('birth_date', $date_str)
                       ->save();
                     break;
                   case "DEAT":
-                    $deat_date = $deat
-                      ->setProperty('death_date', $date_str)
+                    $person[$id]->setProperty('death_date', $date_str)
                       ->save();
                     break;
                   default;
@@ -306,8 +304,8 @@ th,td { padding: 5px; }
                     // The connection between Birth node and Place node can be done
                     // if the Place node already exists in the data base
                     $query_string = "MATCH (n:Person {id:'" . $id . 
-                      "'})-[:BIRTH]->(b), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:BIRTH]->(b)-[:PLACE]->(p)";
+                      "'}), (p:Place {name:'" . $arg0 . 
+                      "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
 
                     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -317,8 +315,8 @@ th,td { padding: 5px; }
                     // The connection between Death node and Place node can be done
                     // if the Place node already exists in the data base
                     $query_string = "MATCH (n:Person {id:'" . $id . 
-                      "'})-[:DEATH]->(b), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:DEATH]->(b)-[:PLACE]->(p)";
+                      "'}), (p:Place {name:'" . $arg0 . 
+                      "'}) MERGE (n)-[:DEATH_PLACE]->(p)";
 
                     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -390,13 +388,8 @@ th,td { padding: 5px; }
                     break;
                   case "DIV":
                     if (sizeof($date) == 3) {
-                      $div_date = $rel_div
+                      $div_date = $marr
                         ->setProperty('divoced_date', $date_str)
-                        ->save();
-                    }
-                    else {
-                      $div_date = $rel_div
-                        ->setProperty('divoced_status', $arg0)
                         ->save();
                     }
                     break;
@@ -409,9 +402,9 @@ th,td { padding: 5px; }
                   case "MARR":
                     // The connection between Marriage node and Place node can be done
                     // if the Place node already exists in the data base
-                    $query_string = "MATCH (n:Person {id:'" . $husb . 
-                      "'})-[:MARRIED]->(b), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:MARRIED]->(b)-[:PLACE]->(p)";
+                    $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                      "'}), (p:Place {name:'" . $arg0 . 
+                      "'}) MERGE (n)-[:MARRIAGE_PLACE]->(p)";
 
                     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
