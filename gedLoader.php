@@ -285,6 +285,9 @@ th,td { padding: 5px; }
                   $date[1] = monthtrim($date[1]);
                   $date_str = $date[2] . "." . $date[1] . "." . $date[0];
                 }
+                else {
+                  $date_str = $arg0;
+                }
                 switch ($event) {
                   case "BIRT":
                     $person[$id]->setProperty('birth_date', $date_str)
@@ -372,6 +375,9 @@ th,td { padding: 5px; }
                 if (sizeof($date) == 3) {
                   $date[1] = monthtrim($date[1]);
                   $date_str = $date[2] . "." . $date[1] . "." . $date[0];
+                }
+                else {
+                  $date_str = $arg0;
                 }
                 switch ($event) {
                   case "MARR":
