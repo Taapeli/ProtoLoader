@@ -25,9 +25,7 @@ th,td { padding: 5px; }
   if(isset($_POST['birth'])){
     // Tiedoston käsittelyn muuttujat
     $birth = $_POST['birth'];
-	echo "<p>Poiminta syntymäaika = '$birth'</p>";
-	
-    require('vendor/autoload.php');
+    echo "<p>Poiminta syntymäaika = '$birth'</p>";
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 

@@ -31,8 +31,6 @@ th,td { padding: 5px; }
     // Tiedoston käsittelyn muuttujat
     $id = $_GET['id'];
 
-    require('vendor/autoload.php');
-
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     $query_string = "MATCH (n:Person) WHERE n.id='" . $id . "' RETURN n";

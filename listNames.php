@@ -27,8 +27,6 @@ th,td { padding: 5px; }
     $wildcard = $_POST['wildcard'];
     echo "<p>Poiminta nimi = '$name''$wildcard'</p>";
 
-    require('vendor/autoload.php');
-
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     if ($name != '') {
