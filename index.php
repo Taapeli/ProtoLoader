@@ -28,6 +28,10 @@ input.subm { position: float; right: 40em; }
 <h1>Taapelin prototyyppi</h1>
 </div>
 <div class="form">
+<h2>Taapelin tarkistus ohjelmat</h2>
+<p>Listaa sellaiset henkil&ouml;t, joilla ei ole:</p> 
+<p><a href="listNotSetBirthdays.php" target="_blank">syntym&auml;aikaa</a>
+<div class="form">
 <form action="listBirths.php" method="POST" enctype="multipart/form-data"></p>
 <h2>Haku syntymäajalla</h2>
 <p>Anna haettava syntym&auml;aika muodossa "1837.09.02"</p>
