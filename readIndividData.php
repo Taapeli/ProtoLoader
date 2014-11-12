@@ -369,5 +369,16 @@ th,td { padding: 5px; }
   }
 ?>
 
+<form action="readHiskiLink.php" method="POST" enctype="multipart/form-data"></p>
+<table class="form">
+<tr><td>
+<p>Katso/lis&auml;&auml; Hiski-linkki.</p>
+<input type="hidden" name="id" value="<?php echo $id; ?>" />
+</td><td style="vertical-align: bottom"> 
+<input type="submit"/>
+</td></tr>
+</table>
+</form>
+
 </body>
 </html>
