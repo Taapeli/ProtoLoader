@@ -16,7 +16,8 @@ th,td { padding: 5px; }
     text-align: center; padding: 4px; text-decoration: none;">
   <a href="index.php">Paluu</a></div>
 <h1>Taapeli testiyll&auml;pito</h1>
-<p>Muutetaan neo4j-tietokantaa.</p>
+<p>Tiedot poistettu neo4j-tietokannasta.</p>
+
 <?php
 
   require('vendor/autoload.php');
@@ -27,13 +28,23 @@ th,td { padding: 5px; }
 *      http://techstream.org/Web-Development/PHP/Single-File-Upload-With-PHP
 */
 
-  if(isset($_POST['id'])){
+  if(isset($_POST['id']) && isset($_POST['hiski'])) {
     // Tiedoston käsittelyn muuttujat
     $id = $_POST['id'];
+    $hiski = $_POST['hiski'];
 
-    require('vendor/autoload.php');
+    // echo "id: '$id' hiski: '$hiski'";
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+
+    $sourceLabel = $sukudb->makeLabel('Source');
+
+    $query_string = "MATCH (n:Person {id:'" . $id . 
+      "'})-[r:HISKI_LINK]->(m:Source {hiski_link:'" . $hiski . 
+      "'}) DELETE r";
+
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+    $result = $query->getResultSet();
 
     $query_string = "MATCH (n:Person) WHERE n.id='" . $id . "' RETURN n";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -68,7 +79,7 @@ th,td { padding: 5px; }
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
-    $query_string = "MATCH (n:Person)-[:HISKI_LINK]-(m) WHERE n.id='" . $id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:HISKI_LINK]-(m:Source) WHERE n.id='" . $id . "' RETURN m";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -89,39 +100,20 @@ th,td { padding: 5px; }
          "</td><td> " . $birth_place .
          "</td></tr>";
 
-    for ($i=0; $i<sizeof($hiski_link); $i++) {
-      echo "<tr><td></td><td>Hiski-linkki:<td><a href='http://hiski.genealogia.fi/hiski?fi+t"  . $hiski_link[$i] . "' target='_blank'>" . $hiski_link[$i] .
-         "</a></td><td></td><td></td><td></td></tr>";
+    if (sizeof($hiski_link) > 0) {
+      for ($i=0; $i<sizeof($hiski_link); $i++) {
+        echo "<tr><td></td><td>Hiski-linkki:<td><a href='http://hiski.genealogia.fi/hiski?fi+t"  . $hiski_link[$i] . "' target='_blank'>" . $hiski_link[$i] .
+           "</a></td><td></td><td></td><td></td></tr>";
+      }
     }
-
+    else {
+      echo "<tr><td></td><td>Hiski-linkki:<td>-</td><td></td><td></td><td></td></tr>";
+    }
+ 
     echo "</table>";
 
   }
 ?>
-
-<form action="addHiskiLink.php" method="POST" enctype="multipart/form-data"></p>
-<table class="form">
-<tr><td>
-<h2>Anna lis&auml;tt&auml;v&auml;n Hiski-linkin numero, esim. 6088275:</h2>
-<p>Sy&ouml;te: <input type="text" name="hiski" required/></p>
-<input type="hidden" name="id" value="<?php echo $id; ?>" />
-</td><td style="vertical-align: bottom"> 
-<input type="submit"/>
-</td></tr>
-</table>
-</form>
-
-<form action="deleteHiskiLink.php" method="POST" enctype="multipart/form-data"></p>
-<table class="form">
-<tr><td>
-<h2>Anna poistettavan Hiski-linkin numero, esim. 6088275:</h2>
-<p>Sy&ouml;te: <input type="text" name="hiski" required/></p>
-<input type="hidden" name="id" value="<?php echo $id; ?>" />
-</td><td style="vertical-align: bottom"> 
-<input type="submit"/>
-</td></tr>
-</table>
-</form>
 
 </body>
 </html>

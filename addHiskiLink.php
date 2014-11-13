@@ -16,7 +16,7 @@ th,td { padding: 5px; }
     text-align: center; padding: 4px; text-decoration: none;">
   <a href="index.php">Paluu</a></div>
 <h1>Taapeli testiyll&auml;pito</h1>
-<p>Tiedot lis&auml;tty neo4j-tietokantaa.</p>
+<p>Tiedot lis&auml;tty neo4j-tietokantaan.</p>
 
 <?php
 
