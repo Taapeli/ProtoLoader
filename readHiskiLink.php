@@ -89,9 +89,14 @@ th,td { padding: 5px; }
          "</td><td> " . $birth_place .
          "</td></tr>";
 
-    for ($i=0; $i<sizeof($hiski_link); $i++) {
-      echo "<tr><td></td><td>Hiski-linkki:<td><a href='http://hiski.genealogia.fi/hiski?fi+t"  . $hiski_link[$i] . "' target='_blank'>" . $hiski_link[$i] .
-         "</a></td><td></td><td></td><td></td></tr>";
+    if (sizeof($hiski_link) > 0) {
+      for ($i=0; $i<sizeof($hiski_link); $i++) {
+        echo "<tr><td></td><td>Hiski-linkki:<td><a href='http://hiski.genealogia.fi/hiski?fi+t"  . $hiski_link[$i] . "' target='_blank'>" . $hiski_link[$i] .
+           "</a></td><td></td><td></td><td></td></tr>";
+      }
+    }
+    else {
+      echo "<tr><td></td><td>Hiski-linkki:<td>-</td><td></td><td></td><td></td></tr>";
     }
 
     echo "</table>";
