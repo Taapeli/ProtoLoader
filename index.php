@@ -30,7 +30,8 @@ input.subm { position: float; right: 40em; }
 <div class="form">
 <h2>Taapelin tarkistus ohjelmat</h2>
 <p>Listaa sellaiset henkil&ouml;t, joilla ei ole:</p> 
-<p><a href="listNotSetBirthdays.php" target="_blank">syntym&auml;aikaa</a>
+<p><a href="listNotSetBirthdays.php" target="_blank">syntym&auml;aikaa</a></p>
+<p><a href="listNoHiskiLinks.php" target="_blank">Hiski-linkki&auml;</a></p>
 <div class="form">
 <form action="listBirths.php" method="POST" enctype="multipart/form-data"></p>
 <h2>Haku syntymäajalla</h2>
