@@ -3,18 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ">
 <title>Taapeli aineiston luku kannasta</title>
-<style>
-b { color:red }
-.form { background-color: #dde; margin-left: auto; margin-right: auto; }
-th,td { padding: 5px; }
-</style>
+<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
-
 <body>
+<div class="goback"><a href="index.php">Paluu</a></div>
 <h1>Taapeli testiluku</h1>
 <p>Luetaan neo4j-tietokannasta.</p>
-
-
 <form action="listNames.php" method="POST" enctype="multipart/form-data"></p>
 <table class="form">
 <tr><td>

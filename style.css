@@ -1,0 +1,16 @@
+p { font-family:Helvetica, sans-serif; }
+h1,h2 { font-family:Georgia, serif; }
+h1 { font-size: 120%; }
+h2 { font-size: 110%; }
+div.top { width: 100%; }
+div.form { background-color: #dde; 
+	border: 5px solid white;
+	width: 40em;
+}
+.tit { width: 6em; float: left; }
+input.subm { position: float; right: 40em; }
+
+.goback {display: block; width: 100px; position: fixed;
+    top: 1em; right: 1em; color: #FFF;
+    background-color: #ddd;
+    text-align: center; padding: 4px; text-decoration: none;}

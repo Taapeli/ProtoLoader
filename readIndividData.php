@@ -3,17 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ">
 <title>Taapeli aineiston luku kantaan</title>
-<style>
-b { color:red }
-.form { background-color: #dde; margin-left: auto; margin-right: auto; }
-th,td { padding: 5px; }
-</style>
+<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-<div style="display: block; width: 100px; position: fixed;
-    top: 1em; right: 1em; color: #FFF;
-    background-color: #ddd;
-    text-align: center; padding: 4px; text-decoration: none;">
+<div class="goback">
   <a href="index.php">Paluu</a></div>
 <h1>Taapeli testiluku</h1>
 <p>Luetaan neo4j-tietokannasta.</p>
