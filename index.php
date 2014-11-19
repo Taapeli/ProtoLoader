@@ -3,34 +3,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Taapelin prototyyppi</title>
-<style>
-p { font-family:Helvetica, sans-serif; }
-h1,h2 { font-family:Georgia, serif; }
-h1 { font-size: 120%; }
-h2 { font-size: 110%; }
-div.top { width: 100%; }
-div.form { background-color: #dde; 
-	border: 5px solid white;
-	width: 40em;
-}
-.tit { width: 6em; float: left; }
-input.subm { position: float; right: 40em; }
-</style>
+<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
-<div style="display: block; width: 100px; position: fixed;
-    top: 1em; right: 1em; color: #FFF;
-    background-color: #ddd;
-    text-align: center; padding: 4px; text-decoration: none;"><a href="index.php">Paluu</a></div>
+<div class="goback"><a href="index.php">Paluu</a></div>
 
 <div class="top">
 <h1>Taapelin prototyyppi</h1>
 </div>
 <div class="form">
 <h2>Taapelin tarkistus ohjelmat</h2>
+<p>Gedcom-tiedoston tarkistuksessa l&ouml;ydetyt:</p>
+<p><a href="listToDoData.php" target="_blank">Korjausta vaativat seikat</a></p>
 <p>Listaa sellaiset henkil&ouml;t, joilla ei ole:</p> 
-<p><a href="listNotSetBirthdays.php" target="_blank">syntym&auml;aikaa</a></p>
+<p><a href="listNotSetBirthdays.php" target="_blank">Syntym&auml;aikaa</a></p>
 <p><a href="listNoHiskiLinks.php" target="_blank">Hiski-linkki&auml;</a></p>
 <div class="form">
 <form action="listBirths.php" method="POST" enctype="multipart/form-data"></p>

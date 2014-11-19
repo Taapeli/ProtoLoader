@@ -233,6 +233,14 @@
                   ->save();
                 $rel = $person[$id]->relateTo($note, 'NOTE')->save();
                 break;
+              case "_TODO":
+                $event = "TODO";
+                $todo_prev = $arg0; // CONC/CONT possible
+                $todo = $sukudb->makeNode()
+                  ->setProperty('description', $arg0)
+                  ->save();
+                $rel = $person[$id]->relateTo($todo, 'TODO')->save();
+                break;
               case "SOUR":
                 $event = "SOUR";
                 $sour_prev = $arg0; // CONC/CONT possible
@@ -264,6 +272,7 @@
                 break;
               default;
                 echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                $event = "";
             } // switch $key
           }
           else if ($load_family) {
@@ -309,6 +318,7 @@
                 break;
               default;
                 echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                $event = "";
             } // switch $key
           }
         }
@@ -352,6 +362,7 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "PLAC":
@@ -427,6 +438,7 @@
                      break;
                  default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "CONC":
@@ -449,8 +461,15 @@
                       ->setProperty('source', $note_prev)
                       ->save();
                    break;
+                  case "TODO":
+                    $todo_prev = $todo_prev . " " . $arg0;
+                    $todo_conc = $source
+                      ->setProperty('description', $todo_prev)
+                      ->save();
+                    break;
                   default;
-                   echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "CONT":
@@ -467,8 +486,15 @@
                       ->setProperty('source', $note_prev)
                       ->save();
                    break;
+                  case "TODO":
+                    $todo_prev = $todo_prev . " " . $arg0;
+                    $todo_cont = $source
+                      ->setProperty('description', $todo_prev)
+                      ->save();
+                   break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "CAUS":
@@ -480,6 +506,7 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "TYPE":
@@ -491,6 +518,7 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "POST":
@@ -499,6 +527,7 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "CITY":
@@ -507,6 +536,7 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "CTRY":
@@ -515,10 +545,12 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               default;
                 echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                $event = "";
             } // switch $key
           }
           else if ($load_family) {
@@ -554,6 +586,7 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "PLAC":
@@ -571,6 +604,7 @@
                     break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "NOTE":
@@ -586,6 +620,7 @@
                 break;
               default;
                 echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                $event = "";
             } // $key
           }
         }
@@ -613,6 +648,7 @@
                       ->save();
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               case "CONT":
@@ -636,10 +672,12 @@
                       ->save();
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
                 } // $event
                 break;
               default;
                 echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                $event = "";
             } // $key
           }
         }
