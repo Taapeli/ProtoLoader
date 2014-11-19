@@ -69,6 +69,16 @@
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
+    $query_string = "MATCH (n:Person)-[:TODO]-(t) WHERE n.id='" . $id . "' RETURN t";
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+    $result = $query->getResultSet();
+
+    foreach ($result as $rows)
+    {
+      $todo_description = $rows[0]->getProperty('description');
+    }
+
     $query_string = "MATCH (n:Person)-[:FATHER]->(id) WHERE n.id='" . $id . "' RETURN id";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -187,6 +197,19 @@
       }
     }
 
+    for ($i=0; $i<sizeof($marriage_id); $i++) {
+      $query_string = "MATCH (n)-[:TODO]->(t) WHERE n.id='" 
+        . $marriage_id[$i] . "' RETURN t";
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+      $result = $query->getResultSet();
+
+      foreach ($result as $rows)
+      {
+        $marr_todo_description[] = $rows[0]->getProperty('description');
+      }
+    }
+
     for ($i=0; $i<sizeof($spouse_id); $i++) {
       $query_string = "MATCH (n:Person)-[:HAS_NAME]-(m) WHERE n.id='" . 
         $spouse_id[$i] . "' RETURN m";
@@ -292,6 +315,9 @@
          "</td><td>" . $death_place .
          "</td></tr>";
 
+    echo "<tr><th>Huomautus:<td colspan='8'>" . $todo_description .
+         "</td></tr>";
+
     echo "<tr><th>Is&auml;:<td><a href='readIndividData.php?id=" .
            $father_id . "'>" . $father_id . 
          "</a></td><td>" . $father_first_name .
@@ -323,7 +349,10 @@
        "</td><td> </td><td align='center'>" . $divoced_status[$i] .
        "</td><td>" . $divoced_date[$i] .
        "</td><td></td></tr>";
+      echo "<tr><th>Huomautus:<td colspan='8'>" . $marr_todo_description[$i] .
+         "</td></tr>";
     }
+
 
     echo '<tr><th>Puoliso(t):<th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
           <th>Syntym&auml;aika<th>Syntym&auml;paikka

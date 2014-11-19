@@ -316,6 +316,15 @@
                 $rel_husb = $person[$husb]->relateTo($note, 'NOTE')->save();
                 $rel_wife = $person[$wife]->relateTo($note, 'NOTE')->save();
                 break;
+              case "_TODO":
+                $event = "TODO";
+                $todo_prev = $arg0; // CONC/CONT possible
+                $todo = $sukudb->makeNode()
+                  ->setProperty('description', $arg0)
+                  ->save();
+                $rel_husb = $person[$husb]->relateTo($todo, 'TODO')->save();
+                $rel_wife = $person[$wife]->relateTo($todo, 'TODO')->save();
+                break;
               default;
                 echo "Unknown tag " . $key . " on line: " . $n . "\n";
                 $event = "";
@@ -618,6 +627,17 @@
                   break;
                 } // $event
                 break;
+              case "_TODO":
+                switch ($event) {
+                  case "MARR":
+                    $todo_prev = $arg0; // CONC/CONT possible
+                    $todo = $sukudb->makeNode()
+                      ->setProperty('description', $arg0)
+                      ->save();
+                    $rel_marr = $marr->relateTo($todo, 'TODO')->save();
+                  break;
+                } // $event
+                break;
               default;
                 echo "Unknown tag " . $key . " on line: " . $n . "\n";
                 $event = "";
@@ -641,11 +661,6 @@
                       ->setProperty('data', $even_prev)
                       ->save();
                     break;
-                  case "MARR":
-                    $note_prev = $note_prev . " " . $arg0;
-                    $note_conc = $sukudb->makeNode()
-                      ->setProperty('note', $arg0)
-                      ->save();
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
                     $event = "";
@@ -665,11 +680,51 @@
                       ->setProperty('data', $even_prev)
                       ->save();
                     break;
-                  case "MARR":
+                  default;
+                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
+                } // $event
+                break;
+              default;
+                echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                $event = "";
+            } // $key
+          }
+          else if ($load_family) {
+            switch ($key)  {
+              case "CONC":
+                switch ($event) {
+                  case "NOTE":
                     $note_prev = $note_prev . " " . $arg0;
-                    $note_cont = $sukudb->makeNode()
-                      ->setProperty('note', $arg0)
+                    $note_conc = $note
+                      ->setProperty('note', $note_prev)
                       ->save();
+                    break;
+                  case "TODO":
+                    $todo_prev = $todo_prev . " " . $arg0;
+                    $todo_conc = $todo
+                      ->setProperty('description', $todo_prev)
+                      ->save();
+                    break;
+                  default;
+                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                    $event = "";
+                } // $event
+                break;
+              case "CONT":
+                switch ($event) {
+                  case "NOTE":
+                    $note_prev = $note_prev . " " . $arg0;
+                    $note_cont = $note
+                      ->setProperty('note', $note_prev)
+                      ->save();
+                    break;
+                  case "TODO":
+                    $todo_prev = $todo_prev . " " . $arg0;
+                    $todo_cont = $todo
+                      ->setProperty('description', $todo_prev)
+                      ->save();
+                    break;
                   default;
                     echo "Unknown tag " . $key . " on line: " . $n . "\n";
                     $event = "";
