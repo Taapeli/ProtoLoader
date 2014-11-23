@@ -21,15 +21,61 @@
 *      http://techstream.org/Web-Development/PHP/Single-File-Upload-With-PHP
 */
 
-  if(isset($_POST['id']) && isset($_POST['birth'])) {
+  if ((isset($_POST['id'])) && (isset($_POST['prevPlace'])) && ((isset($_POST['birth'])) || (isset($_POST['prevPlace'])))) {
     // Tiedoston käsittelyn muuttujat
     $id = $_POST['id'];
+    $prev_place = $_POST['prevPlace'];
     $birth = $_POST['birth'];
+    $place = $_POST['place'];
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
+    if ($birth) {
+      $query_string = "MATCH (n:Person) WHERE n.id='" . $id . 
+        "' SET n.birth_date='" . $birth . "' RETURN n";
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+      $result = $query->getResultSet();
+    }
+
+    if ($prev_place <> $place) {
+      
+      $query_string = "MATCH (p:Place {name:'" . $place . 
+        "'}) RETURN p";
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $result = $query->getResultSet();
+
+      foreach ($result as $rows)
+      {
+        $birth_place = $rows[0]->getProperty('name');
+      }
+
+      if (!$birth_place) {
+?>
+  <script type="text/javascript">
+    alert("Syntymäpaikkaa ei muutettu. Tarkista kirjoitusasu!");
+    history.back();
+  </script>
+<?php
+      }
+      else {
+        $query_string = "MATCH (n:Person)-[r:BIRTH_PLACE]-() WHERE n.id='" . $id . 
+          "' DELETE r";
+        $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+        $result = $query->getResultSet();
+
+        $query_string = "MATCH (n:Person {id:'" . $id . 
+          "'}), (p:Place {name:'" . $place . 
+          "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
+
+        $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+        $result = $query->getResultSet();
+      }
+    }
+
     $query_string = "MATCH (n:Person) WHERE n.id='" . $id . 
-      "' SET n.birth_date='" . $birth . "' RETURN n";
+      "' RETURN n";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();

@@ -402,5 +402,16 @@
 </table>
 </form>
 
+<form action="updateBirthData.php" method="GET" enctype="multipart/form-data"></p>
+<table class="form">
+<tr><td>
+<p>Yll&auml;pid&auml; syntym&auml;tietoa.</p>
+<input type="hidden" name="id" value="<?php echo $id; ?>" />
+</td><td style="vertical-align: bottom"> 
+<input type="submit"/>
+</td></tr>
+</table>
+</form>
+
 </body>
 </html>

@@ -81,8 +81,11 @@
 <table class="form">
 <tr><td>
 <h2>Anna syntym&auml;p&auml;iv&auml; muodossa 1835.08.03:</h2>
-<p>Sy&ouml;te: <input type="text" name="birth" required/></p>
+<p>Sy&ouml;te: <input type="text" name="birth" /></p>
+<h2>Anna uusi syntym&auml;paikka:</h2>
+<p>Sy&ouml;te: <input type="text" name="place" /></p>
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
+<input type="hidden" name="prevPlace" value="<?php echo $birth_place; ?>" />
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
