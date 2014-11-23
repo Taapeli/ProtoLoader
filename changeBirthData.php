@@ -38,7 +38,7 @@
       $result = $query->getResultSet();
     }
 
-    if ($prev_place <> $place) {
+    if ($place && ($prev_place <> $place)) {
       
       $query_string = "MATCH (p:Place {name:'" . $place . 
         "'}) RETURN p";
