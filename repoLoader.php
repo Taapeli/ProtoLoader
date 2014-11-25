@@ -53,6 +53,11 @@
 	// }
       echo "</em><p>\n";
 
+      function idtrim($id) {
+        // Remove @ signs
+        return substr(trim($id), 1, -1);
+      }
+
       $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
       $repoLabel = $sukudb->makeLabel('Repo');
@@ -83,38 +88,34 @@
         }
 
         if ($level == 0) {
+          $id = idtrim($key);
+          $source_id = 0; // set the base id for the source
+          $query_string = "MERGE (n:Repo {id:'" . $id . "'})";
+
+          $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+           $result = $query->getResultSet();
+        }
+        else if ($level == 1) {
           switch ($key)  {
-            case "REPO":
-              $event = "REPO";
-              $repo_name = $arg0;
-              $query_string = "MERGE (n:Repo {name:'" . $arg0 . "'})";
+            case "NAME":
+              $query_string = "MATCH (n:Repo {id:'" . $id .
+                "'}) SET n.name='" . $arg0 . "'";
+
+              $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+              $result = $query->getResultSet();
+              break;
+            case "SOUR":
+              $query_string = "MATCH (n:Repo {id:'" . $id .
+                "'}) MERGE (n)-[:REPO_SOURCE]-(:Repo_source {id:'" .
+                $source_id++ . "', name:'" . $arg0 . "'})";
 
               $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
               $result = $query->getResultSet();
               break;
             default;
-              $event = "";
-          }
-        }
-        else if ($level == 1) {
-          switch ($key)  {
-            case "SOUR":
-              switch ($event) {
-                case "REPO":
-                  $query_string = "MATCH (n:Repo {name:'" . $repo_name .
-                    "'}) MERGE (n)-[:REPO_SOURCE]-(s:Repo_source {name:'" . $arg0 . "'})";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-
-                  $result = $query->getResultSet();
-                  break;
-                default;
-                  $event = "";
-              }
-              break;
-            default;
-              $event = "";
+              echo "Unknown tag: " . $key . "\n";
           }
         }
       } // while feof
