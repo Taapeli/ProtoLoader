@@ -75,7 +75,8 @@ siellä jo olevien tietojen lisäksi.</p>
 siellä jo olevien tietojen lisäksi.</p>
 <p>Ohjelma ei talleta tuplia tietokantaan. Jos jokin repo tai repon source on jo olemassa tietokannassa, niin uutta tallennusta ei silloin suoriteta.</p>
 <p>Luettavat rivit ovat muotoa:</p>
-<p>0 REPO Repository<br>
+<p>0 @R123@ REPO
+   1 NAME Repository<br>
    1 SOUR Source</p>
 <p><span class="tit">Sy&ouml;te:</span> 
 <input type="file" name="image" required/>

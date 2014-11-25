@@ -5,8 +5,13 @@ Prototyyppi sisältää nyt seuraavat ohjelmat:
 
 * getLoader:		Gedcom-tiedoston lukeminen kantaan
 * placeLoader:		Paikka-tiedon lukeminen kantaan
+* repoLoader:		Repo-tiedon lukeminen kantaan
 
 * listToDoData		Tulostus tarkistusajossa havaituista korjausta vaativista seikoista
+
+* updateRepoData	Tulostus henkilön repo-datasta
+* chooseRepo		Repon ja repon sourcen valinta
+* addBirthRepo		Lisätään henkilölle syntymätapahtuman repo-tiedot
 
 * readBirths:		Haku syntymäajalla
 * listBirths:		Tulostus syntymäajan perusteella poimittuna
