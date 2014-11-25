@@ -9,7 +9,7 @@
 <div  class="goback">
   <a href="index.php">Paluu</a></div>
 <h1>Taapeli testiyll&auml;pito</h1>
-<p>Tiedot muutettu neo4j-tietokantaa.</p>
+<p>Tiedot muutettu neo4j-tietokantaan.</p>
 
 <?php
 
