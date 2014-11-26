@@ -21,27 +21,25 @@
 *      http://techstream.org/Web-Development/PHP/Single-File-Upload-With-PHP
 */
 
-  if ((isset($_GET['id'])) && (isset($_GET['repo']))) {
+  if ((isset($_GET['id'])) && ((isset($_GET['repoid'])) || (isset($_GET['sourceid'])))) {
     // Tiedoston käsittelyn muuttujat
     $id = $_GET['id'];
-    $repo_id = $_GET['repo'];
-    $repo_source_id = "";
+    $repo_id = $_GET['repoid'];
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    if (isset($_GET['source'])) {
-      $repo_source_id = $_GET['source'];
+    if (isset($_GET['sourceid'])) {
+      $repo_source_id = $_GET['sourceid'];
 
-      $query_string = "MATCH (n:Person {id:'" . $id . 
-        "'}), (r:Repo {id:'" . $repo_id . 
-        "'})-[:REPO_SOURCE]-(s:Repo_source {id:'" . $repo_source_id . 
-        "'}) MERGE (n)-[:BIRTH_REPO]-(s)";
+      $query_string = "MATCH (:Person {id:'" . $id . 
+        "'})-[r:BIRTH_REPO]-(:Repo_source {id:'" . $repo_source_id . 
+        "'})-[:REPO_SOURCE]-(:Repo {id:'" . $repo_id . "'}) DELETE r";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
     }
     else {
-      $query_string = "MATCH (n:Person {id:'" . $id . 
-        "'}), (r:Repo {id:'" . $repo_id . "'}) MERGE (n)-[:BIRTH_REPO]-(r)";
+      $query_string = "MATCH (:Person {id:'" . $id . 
+        "'})-[r:BIRTH_REPO]-(:Repo {id:'" . $repo_id . "'}) DELETE r";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
     }

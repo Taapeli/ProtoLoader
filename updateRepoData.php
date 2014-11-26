@@ -61,24 +61,29 @@
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_REPO]-(m) WHERE n.id='" . $id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:BIRTH_REPO]-(s:Repo_source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . 
+      "' RETURN r, s";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
 
     foreach ($result as $rows)
     {
-      $repo_name = $rows[0]->getProperty('name');
+      $repo_id[] = $rows[0]->getProperty('id');
+      $repo_name[] = $rows[0]->getProperty('name');
+      $repo_source_id[] = $rows[1]->getProperty('id');
+      $repo_source[] = $rows[1]->getProperty('name');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_REPO_SOURCE]-(m) WHERE n.id='" . $id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[:BIRTH_REPO]-(m:Repo) WHERE n.id='" . $id . "' RETURN m";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
 
     foreach ($result as $rows)
     {
-      $repo_source = $rows[0]->getProperty('name');
+      $repo_id_only[] = $rows[0]->getProperty('id');
+      $repo_name_only[] = $rows[0]->getProperty('name');
     }
 
     echo '<table  cellpadding="0" cellspacing="1" border="1">';
@@ -92,11 +97,22 @@
          "</td><td> " . $birth_place .
          "</td></tr>";
 
-    echo "<tr><td><th>Repo:</td><td colspan='5'> " . $repo_name .
+    for ($i=0; $i<sizeof($repo_source); $i++) {
+      echo "<tr><td rowspan='2'><a href='disconnectRepo.php?id=" . $id .
+        "&repoid=" . $repo_id[$i] . "&sourceid=" . $repo_source_id[$i] . 
+        "'>Poista</a></td><th rowspan='2'>Repo:<td colspan='4'> " . $repo_name[$i] .
          "</td></tr>";
 
-    echo "<tr><td><th>Source:</td><td colspan='5'> " . $repo_source .
+      echo "<tr><td colspan='5'> " . $repo_source[$i] .
          "</td></tr>";
+    }
+
+    for ($i=0; $i<sizeof($repo_name_only); $i++) {
+      echo "<tr><td rowspan='2'><a href='disconnectRepo.php?id=" . $id .
+        "&repoid=" . $repo_id_only[$i] .
+        "'>Poista</a></td><th>Repo:<td colspan='4'> " . $repo_name_only[$i] .
+         "</td></tr>";
+    }
  
     echo "</table>";
 
@@ -106,8 +122,10 @@
 <form action="chooseRepo.php" method="POST" enctype="multipart/form-data"></p>
 <table class="form">
 <tr><td>
-<h2>Valitse uusi repo:</h2>
+<h2>Lis&auml;&auml; uusi repo:</h2>
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
+<input type="hidden" name="repo" value="<?php echo $repo_name; ?>" />
+<input type="hidden" name="source" value="<?php echo $repo_source; ?>" />
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
