@@ -3,7 +3,7 @@ Taapelin prototyyppi
 
 Prototyyppi sisältää nyt seuraavat ohjelmat:
 
-* getLoader:		Gedcom-tiedoston lukeminen kantaan
+* gedLoader:		Gedcom-tiedoston lukeminen kantaan
 * placeLoader:		Paikka-tiedon lukeminen kantaan
 * repoLoader:		Repo-tiedon lukeminen kantaan
 
@@ -12,6 +12,7 @@ Prototyyppi sisältää nyt seuraavat ohjelmat:
 * updateRepoData	Tulostus henkilön repo-datasta
 * chooseRepo		Repon ja repon sourcen valinta
 * addBirthRepo		Lisätään henkilölle syntymätapahtuman repo-tiedot
+* disconnectRepo	Poistetaan haluttu repo-tieto
 
 * readBirths:		Haku syntymäajalla
 * listBirths:		Tulostus syntymäajan perusteella poimittuna
