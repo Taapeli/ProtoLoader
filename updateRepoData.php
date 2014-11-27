@@ -24,10 +24,6 @@
     // Tiedoston käsittelyn muuttujat
     $id = $_GET['id'];
 
-    if(isset($_GET['page'])){
-      $page = $_GET['page'];
-    }
-
     require('vendor/autoload.php');
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
@@ -132,7 +128,7 @@
 <tr><td>
 <h2>Lis&auml;&auml; uusi repo:</h2>
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-<input type="hidden" name="page" value="<?php echo $page; ?>" />
+Anna repon sivunumero: <input type="text" name="page" />
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>

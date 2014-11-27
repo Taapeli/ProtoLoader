@@ -418,7 +418,6 @@
 <tr><td>
 <p>Yll&auml;pid&auml; repo-tietoa.</p>
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-<input type="text" name="page" />
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
