@@ -20,6 +20,10 @@
  
   if (isset($_POST['id'])) {
     $id = $_POST['id'];
+ 
+    if (isset($_POST['page'])) {
+      $page = $_POST['page'];
+    }
 
     $query_string = "MATCH (n:Repo) RETURN n ORDER BY n.name";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -30,7 +34,7 @@
       $repo_id = $rows[0]->getProperty('id');
       $repo_name = $rows[0]->getProperty('name');
       echo "<li>
-      <a href='addBirthRepo.php?id=$id&repo=$repo_id'>" . $repo_name . "</a>";
+      <a href='addBirthRepo.php?id=$id&repo=$repo_id&page=$page'>" . $repo_name . "</a>";
       echo "<ul>";
       $query_string2 = "MATCH (n:Repo)-[:REPO_SOURCE]->(s) WHERE n.name='" .
         $repo_name . "' RETURN s ORDER BY s.name";
@@ -41,7 +45,7 @@
       {
         $repo_source_id = $rows2[0]->getProperty('id');
         $repo_source = $rows2[0]->getProperty('name');
-        echo "<li><a href='addBirthRepo.php?id=$id&repo=$repo_id&source=$repo_source_id'>" . $repo_source . "</a></li>";
+        echo "<li><a href='addBirthRepo.php?id=$id&repo=$repo_id&source=$repo_source_id&page=$page'>" . $repo_source . "</a></li>";
       }
       echo "</ul>";
       echo "</li>";

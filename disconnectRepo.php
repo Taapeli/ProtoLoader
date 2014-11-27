@@ -78,7 +78,7 @@
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_REPO]-(s:Repo_source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s";
+    $query_string = "MATCH (n:Person)-[p:BIRTH_REPO]-(s:Repo_source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s,p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -87,9 +87,10 @@
     {
       $repo_name[] = $rows[0]->getProperty('name');
       $repo_source[] = $rows[1]->getProperty('name');
+      $repo_page[] = $rows[2]->getProperty('page');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_REPO]-(r:Repo) WHERE n.id='" . $id . "' RETURN r";
+    $query_string = "MATCH (n:Person)-[p:BIRTH_REPO]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -97,6 +98,7 @@
     foreach ($result as $rows)
     {
       $repo_name_only[] = $rows[0]->getProperty('name');
+      $repo_page_only[] = $rows[1]->getProperty('page');
     }
 
     echo '<table  cellpadding="0" cellspacing="1" border="1">';
@@ -110,17 +112,19 @@
          "</td><td> " . $birth_place .
          "</td></tr>";
 
+    echo "<tr><th> <th colspan='4'>Repo/Source<th>Sivu</tr>";
+
     for ($i=0; $i<sizeof($repo_source); $i++) {
-      echo "<tr><th rowspan='2'>Repo:<td colspan='5'> " . $repo_name[$i] .
+      echo "<tr><td rowspan='2'></td><td colspan='4'> " . $repo_name[$i] .
          "</td></tr>";
 
-      echo "<tr><td colspan='5'> " . $repo_source[$i] .
-         "</td></tr>";
+      echo "<tr><td colspan='4'> " . $repo_source[$i] .
+         "</td><td>" . $repo_page[$i] . "</td></tr>";
     }
 
     for ($i=0; $i<sizeof($repo_name_only); $i++) {
-      echo "<tr><th>Repo:<td colspan='5'> " . $repo_name_only[$i] .
-         "</td></tr>";
+      echo "<tr><td></td><td colspan='4'> " . $repo_name_only[$i] .
+         "</td><td>" . $repo_page_only[$i] . "</td></tr>";
     }
  
     echo "</table>";

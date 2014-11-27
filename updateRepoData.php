@@ -24,6 +24,10 @@
     // Tiedoston käsittelyn muuttujat
     $id = $_GET['id'];
 
+    if(isset($_GET['page'])){
+      $page = $_GET['page'];
+    }
+
     require('vendor/autoload.php');
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
@@ -61,8 +65,8 @@
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_REPO]-(s:Repo_source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . 
-      "' RETURN r, s";
+    $query_string = "MATCH (n:Person)-[p:BIRTH_REPO]-(s:Repo_source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . 
+      "' RETURN r, s, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -73,9 +77,10 @@
       $repo_name[] = $rows[0]->getProperty('name');
       $repo_source_id[] = $rows[1]->getProperty('id');
       $repo_source[] = $rows[1]->getProperty('name');
+      $repo_page[] = $rows[2]->getProperty('page');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_REPO]-(m:Repo) WHERE n.id='" . $id . "' RETURN m";
+    $query_string = "MATCH (n:Person)-[p:BIRTH_REPO]-(m:Repo) WHERE n.id='" . $id . "' RETURN m, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -84,6 +89,7 @@
     {
       $repo_id_only[] = $rows[0]->getProperty('id');
       $repo_name_only[] = $rows[0]->getProperty('name');
+      $repo_page_only[] = $rows[1]->getProperty('page');
     }
 
     echo '<table  cellpadding="0" cellspacing="1" border="1">';
@@ -97,21 +103,23 @@
          "</td><td> " . $birth_place .
          "</td></tr>";
 
+    echo "<tr><th> <th colspan='4'>Repo/Source<th>Sivu</tr>";
+
     for ($i=0; $i<sizeof($repo_source); $i++) {
       echo "<tr><td rowspan='2'><a href='disconnectRepo.php?id=" . $id .
         "&repoid=" . $repo_id[$i] . "&sourceid=" . $repo_source_id[$i] . 
-        "'>Poista</a></td><th rowspan='2'>Repo:<td colspan='4'> " . $repo_name[$i] .
+        "'>Poista</a></td><td colspan='4'> " . $repo_name[$i] .
          "</td></tr>";
 
-      echo "<tr><td colspan='5'> " . $repo_source[$i] .
-         "</td></tr>";
+      echo "<tr><td colspan='4'> " . $repo_source[$i] .
+         "</td><td>" . $repo_page[$i] . "</td></tr>";
     }
 
     for ($i=0; $i<sizeof($repo_name_only); $i++) {
-      echo "<tr><td rowspan='2'><a href='disconnectRepo.php?id=" . $id .
+      echo "<tr><td><a href='disconnectRepo.php?id=" . $id .
         "&repoid=" . $repo_id_only[$i] .
-        "'>Poista</a></td><th>Repo:<td colspan='4'> " . $repo_name_only[$i] .
-         "</td></tr>";
+        "'>Poista</a></td><td colspan='4'> " . $repo_name_only[$i] .
+         "</td><td>" . $repo_page_only[$i] . "</td></tr>";
     }
  
     echo "</table>";
@@ -124,8 +132,7 @@
 <tr><td>
 <h2>Lis&auml;&auml; uusi repo:</h2>
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-<input type="hidden" name="repo" value="<?php echo $repo_name; ?>" />
-<input type="hidden" name="source" value="<?php echo $repo_source; ?>" />
+<input type="hidden" name="page" value="<?php echo $page; ?>" />
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
