@@ -23,35 +23,42 @@
 
   if ((isset($_GET['id'])) && ((isset($_GET['repoid'])) || (isset($_GET['sourceid'])))) {
     // Tiedoston käsittelyn muuttujat
-    $id = $_GET['id'];
-    $repo_id = $_GET['repoid'];
+    $input_id = $_GET['id'];
+    $input_repo_id = $_GET['repoid'];
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     if (isset($_GET['sourceid'])) {
-      $repo_source_id = $_GET['sourceid'];
+      $input_repo_source_id = $_GET['sourceid'];
 
-      $query_string = "MATCH (:Person {id:'" . $id . 
-        "'})-[r:BIRTH_REPO]-(:Repo_source {id:'" . $repo_source_id . 
-        "'})-[:REPO_SOURCE]-(:Repo {id:'" . $repo_id . "'}) DELETE r";
-      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $query_string = "MATCH (:Person {id:{id}})-[r:BIRTH_REPO]-(:Repo_source {id:{repo_source_id}})-[:REPO_SOURCE]-(:Repo {id:{repo_id}}) DELETE r";
+
+      $query_array = array('id' => $input_id, 'repo_source_id' => $input_repo_source_id, 'repo_id' => $input_repo_id);
+
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
       $result = $query->getResultSet();
     }
     else {
-      $query_string = "MATCH (:Person {id:'" . $id . 
-        "'})-[r:BIRTH_REPO]-(:Repo {id:'" . $repo_id . "'}) DELETE r";
-      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $query_string = "MATCH (:Person {id:{id}})-[r:BIRTH_REPO]-(:Repo {id:{repo_id}}) DELETE r";
+
+      $query_array = array('id' => $input_id, 'repo_id' => $input_repo_id);
+
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
+
       $result = $query->getResultSet();
     }
 
-    $query_string = "MATCH (n:Person) WHERE n.id='" . $id . 
-      "' RETURN n";
-    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+    $query_string = "MATCH (n:Person) WHERE n.id={id} RETURN n";
+
+      $query_array = array('id' => $input_id);
+
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
 
     $result = $query->getResultSet();
 
     foreach ($result as $rows)
     {
+      $id = $rows[0]->getProperty('id'); // This variable is used for later MATCHs
       $birth_date = $rows[0]->getProperty('birth_date');
       $death_date = $rows[0]->getProperty('death_date');
     }

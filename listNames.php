@@ -16,19 +16,26 @@
 
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
-    $name = $_POST['name'];
-    $wildcard = $_POST['wildcard'];
-    echo "<p>Poiminta nimi = '$name''$wildcard'</p>";
+    $input_name = $_POST['name'];
+    $input_wildcard = $_POST['wildcard'];
+    echo "<p>Poiminta nimi = '$input_name''$input_wildcard'</p>";
+    $input_wildcard = $input_wildcard . ".*";
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    if ($name != '') {
-      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name='" . $name . "' RETURN id, n ORDER BY n.last_name, n.first_name";
+    if ($input_name != '') {
+      // Neo4j parameter {name} used to avoid hacking injection
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name={name} RETURN id, n ORDER BY n.last_name, n.first_name";
+
+      $query_array = array('name' => $input_name);
     }
     else {
-      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name=~'" . $wildcard . ".*' RETURN id, n ORDER BY n.last_name, n.first_name";
+      // Neo4j parameter {wildcard} used to avoid hacking injection
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name=~{wildcard} RETURN id, n ORDER BY n.last_name, n.first_name";
+
+      $query_array = array('wildcard' => $input_wildcard);
     }
-    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
 
     foreach ($result as $rows)
@@ -52,7 +59,6 @@
       }
     }
   }
-
 
   echo '<table  cellpadding="0" cellspacing="1" border="1">';
   echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';

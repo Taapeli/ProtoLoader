@@ -22,19 +22,23 @@
 
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
-    $id = $_GET['id'];
+    $input_id = $_GET['id'];
 
     require('vendor/autoload.php');
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
+    // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person) WHERE n.id='" . $id . "' RETURN n";
-    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
+    $query_array = array('id' => $input_id);
+
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
 
     foreach ($result as $rows)
     {
+      $id = $rows[0]->getProperty('id'); // This variable is used for later MATCHs
       $birth_date = $rows[0]->getProperty('birth_date');
       $death_date = $rows[0]->getProperty('death_date');
     }

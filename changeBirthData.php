@@ -21,28 +21,34 @@
 *      http://techstream.org/Web-Development/PHP/Single-File-Upload-With-PHP
 */
 
-  if ((isset($_POST['id'])) && (isset($_POST['prevPlace'])) && ((isset($_POST['birth'])) || (isset($_POST['prevPlace'])))) {
+  if ((isset($_POST['id'])) && (isset($_POST['prevPlace'])) && ((isset($_POST['birth'])) || (isset($_POST['place'])))) {
     // Tiedoston käsittelyn muuttujat
     $id = $_POST['id'];
     $prev_place = $_POST['prevPlace'];
-    $birth = $_POST['birth'];
-    $place = $_POST['place'];
+    $input_birth = $_POST['birth'];
+    $input_place = $_POST['place'];
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    if ($birth) {
+    if ($input_birth) {
+      // Neo4j parameter {birth} is used to avoid hacking injection
       $query_string = "MATCH (n:Person) WHERE n.id='" . $id . 
-        "' SET n.birth_date='" . $birth . "' RETURN n";
-      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+        "' SET n.birth_date={birth} RETURN n";
 
+      $query_array = array('birth' => $input_birth);
+
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
       $result = $query->getResultSet();
     }
 
-    if ($place && ($prev_place <> $place)) {
+    if ($input_place && ($prev_place <> $input_place)) {
       
-      $query_string = "MATCH (p:Place {name:'" . $place . 
-        "'}) RETURN p";
-      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      // Neo4j parameter {place} is used to avoid hacking injection
+      $query_string = "MATCH (p:Place) WHERE p.name={place} RETURN p";
+
+      $query_array = array('place' => $input_place);
+
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
       $result = $query->getResultSet();
 
       foreach ($result as $rows)
@@ -65,7 +71,7 @@
         $result = $query->getResultSet();
 
         $query_string = "MATCH (n:Person {id:'" . $id . 
-          "'}), (p:Place {name:'" . $place . 
+          "'}), (p:Place {name:'" . $birth_place . 
           "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
 
         $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);

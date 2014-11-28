@@ -17,14 +17,16 @@
 
   if(isset($_POST['birth'])){
     // Tiedoston käsittelyn muuttujat
-    $birth = $_POST['birth'];
-    echo "<p>Poiminta syntymäaika = '$birth'</p>";
+    $input_birth = $_POST['birth'];
+    echo "<p>Poiminta syntymäaika = '$input_birth'</p>";
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $query_string = "MATCH (n:Person) WHERE n.birth_date='" . $birth . "' RETURN n";
+    $query_string = "MATCH (n:Person) WHERE n.birth_date={birth} RETURN n";
 
-    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+    $query_array = array('birth' => $input_birth);
+
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
 
     foreach ($result as $row)
