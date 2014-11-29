@@ -24,19 +24,17 @@
   if(isset($_POST['id']) && isset($_POST['hiski'])) {
     // Tiedoston käsittelyn muuttujat
     $id = $_POST['id'];
-    $hiski = $_POST['hiski'];
-
-    // echo "id: '$id' hiski: '$hiski'";
+    $input_hiski = $_POST['hiski'];
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
-    $sourceLabel = $sukudb->makeLabel('Source');
-
+    // Neo4j parameter {hiski} is used to avoid hacking injection
     $query_string = "MATCH (n:Person {id:'" . $id . 
-      "'})-[r:HISKI_LINK]->(m:Source {hiski_link:'" . $hiski . 
-      "'}) DELETE r";
+      "'})-[r:HISKI_LINK]->(m:Source {hiski_link:{hiski}}) DELETE r";
 
-    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+    $query_array = array('hiski' => $input_hiski);
+
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
 
     $query_string = "MATCH (n:Person) WHERE n.id='" . $id . "' RETURN n";

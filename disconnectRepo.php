@@ -31,6 +31,8 @@
     if (isset($_GET['sourceid'])) {
       $input_repo_source_id = $_GET['sourceid'];
 
+      // Neo4j parameters {id}, {repo_id} and {repo_source_id} are used 
+      // to avoid hacking injection
       $query_string = "MATCH (:Person {id:{id}})-[r:BIRTH_REPO]-(:Repo_source {id:{repo_source_id}})-[:REPO_SOURCE]-(:Repo {id:{repo_id}}) DELETE r";
 
       $query_array = array('id' => $input_id, 'repo_source_id' => $input_repo_source_id, 'repo_id' => $input_repo_id);
@@ -39,18 +41,19 @@
       $result = $query->getResultSet();
     }
     else {
+      // Neo4j parameters {id} and {repo_id} are used to avoid hacking injection
       $query_string = "MATCH (:Person {id:{id}})-[r:BIRTH_REPO]-(:Repo {id:{repo_id}}) DELETE r";
 
       $query_array = array('id' => $input_id, 'repo_id' => $input_repo_id);
 
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-
       $result = $query->getResultSet();
     }
 
+    // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person) WHERE n.id={id} RETURN n";
 
-      $query_array = array('id' => $input_id);
+    $query_array = array('id' => $input_id);
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
 
