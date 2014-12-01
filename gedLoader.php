@@ -122,7 +122,8 @@
       $marriageLabel = $sukudb->makeLabel('Marriage');
 
       $n = 0;
-      $load_individ = $load_family = false;
+      $n = $n_indi = $n_fam = $n_sour = $n_repo = 0; // How many lines were read
+      $load_type = ""; // values: INDI, FAM, SOUR, REPO 
 
 /*
 ** Avataan tiedosto
@@ -148,592 +149,596 @@
 
         if ($level == 0) {
           $id = idtrim($key);
-          $id_1 = substr(trim($id), 0, 1);
-          if ($id_1 == "I") {
-            $load_individ = true;
-            $load_family = false;
-            $name_cnt = 0;
-            $person[$id] = $sukudb->makeNode()
-               ->setProperty('id', $id)
-               ->save();
-            $idLabels = $person[$id]->addLabels(array($idLabel));
-          }
-          else if ($id_1 == "F") {
-            $load_individ = false;
-            $load_family = true;
+          if (sizeof($a) > 2) {
+            switch ($arg0)  {
+              case "INDI":
+                $n_indi++;
+                $load_type = "INDI";
+                $name_cnt = 0;
+                $person[$id] = $sukudb->makeNode()
+                   ->setProperty('id', $id)
+                   ->save();
+                $idLabels = $person[$id]->addLabels(array($idLabel));
+                break;
+              case "FAM":
+                $n_fam++;
+                $load_type = "FAM";
+                break;
+              case "SOUR":
+                $n_sour++;
+                $load_type = "SOUR";
+                break;
+              case "REPO":
+                $n_repo++;
+                $load_type = "REPO";
+                break;
+              case "SUBM":
+                $load_type = "SUBM";
+                break;
+              default;
+                echo "Unknown tag " . $arg0 . " on line: " . $n . "\n";
+                $event = "";
+                $load_type = "";
+            }
           }
           // echo "id = " . $id . "\n";
         }
         else if ($level == 1) {
-          if ($load_individ) {
-            switch ($key)  {
-              case "SEX":
-                $person[$id]->setProperty('sex', $arg0)
-                  ->save();
-                break;
-              case "NAME":
-                $names = explode('/', $arg0, 3);
-                if (sizeof($names)<2) {
-                  $names[1] = "N";
-                }
-
-                if ($name_cnt++ == 0) {
-                  $name = $sukudb->makeNode()
-                    ->setProperty('first_name', $names[0])
-                    ->setProperty('last_name', $names[1])
+          switch ($load_type) {
+            case "INDI":
+              switch ($key)  {
+                case "SEX":
+                  $person[$id]->setProperty('sex', $arg0)
                     ->save();
-                  $nameLabels = $name->addLabels(array($nameLabel));
+                  break;
+                case "NAME":
+                  $names = explode('/', $arg0, 3);
+                  if (sizeof($names)<2) {
+                    $names[1] = "N";
+                  }
+  
+                  if ($name_cnt++ == 0) {
+                    $name = $sukudb->makeNode()
+                      ->setProperty('first_name', $names[0])
+                      ->setProperty('last_name', $names[1])
+                      ->save();
+                    $nameLabels = $name->addLabels(array($nameLabel));
 
-                  $rel = $person[$id]->relateTo($name, 'HAS_NAME')->save();
-                }
-                else { // later names with another NAME tag
-                  $later_name = $name
-                    ->setProperty('later_name(s)', $names[1])
-                  ->save();
-                }
-                break;
-              case "ALIA":
-                $names = nametrim($arg0);
-                $alia = $name->setProperty('later_name(s)', $names)
-                  ->save();
-                break;
-              case "BIRT":
-                $event = "BIRT";
-                break;
-              case "CHR":
-                $event = "CHR";
-                break;
-              case "CONF":
-                $event = "CONF";
-                break;
-              case "DEAT":
-                $event = "DEAT";
-                break;
-              case "BURI":
-                $event = "BURI";
-                break;
-              case "EMIG":
-                $event = "EMIG";
-                $emig = $sukudb->makeNode()->save();
-                $rel = $person[$id]->relateTo($emig, 'MOVED_TO')->save();
-                break;
-              case "OCCU":
-                $event = "OCCU";
-                $occu_prev = $arg0; // CONC/CONT possible
-                $occu = $sukudb->makeNode()
-                  ->setProperty('occupation', $arg0)
-                  ->save();
-                $rel = $person[$id]->relateTo($occu, 'OCCUPATION')->save();
-                break;
-              case "NOTE":
-                $event = "NOTE";
-                $note_prev = $arg0; // CONC/CONT possible
-                $note = $sukudb->makeNode()
-                  ->setProperty('note', $arg0)
-                  ->save();
-                $rel = $person[$id]->relateTo($note, 'NOTE')->save();
-                break;
-              case "_TODO":
-                $event = "TODO";
-                $todo_prev = $arg0; // CONC/CONT possible
-                $todo = $sukudb->makeNode()
-                  ->setProperty('description', $arg0)
-                  ->save();
-                $rel = $person[$id]->relateTo($todo, 'TODO')->save();
-                break;
-              case "SOUR":
-                $event = "SOUR";
-                $sour_prev = $arg0; // CONC/CONT possible
-                $source = $sukudb->makeNode()
-                  ->setProperty('source', $arg0)
-                  ->save();
-                $rel = $person[$id]->relateTo($source, 'SOURCE')->save();
-                break;
-              case "CHAN":
-                $event = "CHAN";
-                break;
-              case "EVEN":
-                $event = "EVEN";
-                $even = $sukudb->makeNode()
-                  ->setProperty('event', $arg0)
-                  ->save();
-                $rel = $person[$id]->relateTo($even, 'EVENT')->save();
-                break;
-              case "ADDR":
-                $event = "ADDR";
-                break;
-              case "RESI":
-                $event = "RESI";
-                break;
-              case "FAMC":
-              case "FAMS":
-              case "LANG":
-              case "STAT":
-                break;
-              default;
-                echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                $event = "";
-            } // switch $key
-          }
-          else if ($load_family) {
-            switch ($key)  {
-              case "HUSB":
-                $husb = idtrim($arg0);
-                $marr = $sukudb->makeNode()
-                  ->setProperty('id', $id)
-                  ->save();
-                  $marriageLabels = $marr->addLabels(array($marriageLabel));
-                break;
-              case "WIFE":
-                $wife = idtrim($arg0);
-                $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
-                $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
-                break;
-              case "CHIL":
-                $chil = idtrim($arg0);
-                $rel = $person[$husb]->relateTo($person[$chil], 'CHILD')->save();
-                $rel = $person[$wife]->relateTo($person[$chil], 'CHILD')->save();
-                $rel = $person[$chil]->relateTo($person[$husb], 'FATHER')->save();
-                $rel = $person[$chil]->relateTo($person[$wife], 'MOTHER')->save();
-                break;
-              case "MARR":
-                $event = "MARR";
-                break;
-              case "DIV":
-                $event = "DIV";
-                if  (sizeof($a) > 2) {
-                  $div_date = $marr
-                    ->setProperty('divoced_status', $arg0)
+                    $rel = $person[$id]->relateTo($name, 'HAS_NAME')->save();
+                  }
+                  else { // later names with another NAME tag
+                    $later_name = $name
+                      ->setProperty('later_name(s)', $names[1])
                     ->save();
-                }
-                break;
-              case "NOTE":
-                $event = "NOTE";
-                $note_prev = $arg0; // CONC/CONT possible
-                $note = $sukudb->makeNode()
-                  ->setProperty('note', $arg0)
-                  ->save();
-                $rel_husb = $person[$husb]->relateTo($note, 'NOTE')->save();
-                $rel_wife = $person[$wife]->relateTo($note, 'NOTE')->save();
-                break;
-              case "_TODO":
-                $event = "TODO";
-                $todo_prev = $arg0; // CONC/CONT possible
-                $todo = $sukudb->makeNode()
-                  ->setProperty('description', $arg0)
-                  ->save();
-                $rel_husb = $person[$husb]->relateTo($todo, 'TODO')->save();
-                $rel_wife = $person[$wife]->relateTo($todo, 'TODO')->save();
-                break;
-              default;
-                echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                $event = "";
-            } // switch $key
+                  }
+                  break;
+                case "ALIA":
+                  $names = nametrim($arg0);
+                  $alia = $name->setProperty('later_name(s)', $names)
+                    ->save();
+                  break;
+                case "BIRT":
+                  $event = "BIRT";
+                  break;
+                case "CHR":
+                  $event = "CHR";
+                  break;
+                case "CONF":
+                  $event = "CONF";
+                  break;
+                case "DEAT":
+                  $event = "DEAT";
+                  break;
+                case "BURI":
+                  $event = "BURI";
+                  break;
+                case "EMIG":
+                  $event = "EMIG";
+                  $emig = $sukudb->makeNode()->save();
+                  $rel = $person[$id]->relateTo($emig, 'MOVED_TO')->save();
+                  break;
+                case "OCCU":
+                  $event = "OCCU";
+                  $occu_prev = $arg0; // CONC/CONT possible
+                  $occu = $sukudb->makeNode()
+                    ->setProperty('occupation', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($occu, 'OCCUPATION')->save();
+                  break;
+                case "NOTE":
+                  $event = "NOTE";
+                  $note_prev = $arg0; // CONC/CONT possible
+                  $note = $sukudb->makeNode()
+                    ->setProperty('note', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($note, 'NOTE')->save();
+                  break;
+                case "_TODO":
+                  $event = "TODO";
+                  $todo_prev = $arg0; // CONC/CONT possible
+                  $todo = $sukudb->makeNode()
+                    ->setProperty('description', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($todo, 'TODO')->save();
+                  break;
+                case "SOUR":
+                  $event = "SOUR";
+                  echo "1 SOUR is ignored (syntax error) on line " . $n . "\n";
+                  break;
+                case "CHAN":
+                  $event = "CHAN";
+                  break;
+                case "EVEN":
+                  $event = "EVEN";
+                  $even = $sukudb->makeNode()
+                    ->setProperty('event', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($even, 'EVENT')->save();
+                  break;
+                case "ADDR":
+                  $event = "ADDR";
+                  break;
+                case "RESI":
+                  $event = "RESI";
+                  break;
+                case "FAMC":
+                case "FAMS":
+                case "LANG":
+                case "STAT":
+                  break;
+                default;
+                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  $event = "";
+              } // switch $key
+              break;
+
+            case "FAM":
+              switch ($key)  {
+                case "HUSB":
+                  $husb = idtrim($arg0);
+                  $marr = $sukudb->makeNode()
+                    ->setProperty('id', $id)
+                    ->save();
+                    $marriageLabels = $marr->addLabels(array($marriageLabel));
+                  break;
+                case "WIFE":
+                  $wife = idtrim($arg0);
+                  $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
+                  $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
+                  break;
+                case "CHIL":
+                  $chil = idtrim($arg0);
+                  $rel = $person[$husb]->relateTo($person[$chil], 'CHILD')->save();
+                  $rel = $person[$wife]->relateTo($person[$chil], 'CHILD')->save();
+                  $rel = $person[$chil]->relateTo($person[$husb], 'FATHER')->save();
+                  $rel = $person[$chil]->relateTo($person[$wife], 'MOTHER')->save();
+                  break;
+                case "MARR":
+                  $event = "MARR";
+                  break;
+                case "DIV":
+                  $event = "DIV";
+                  if  (sizeof($a) > 2) {
+                    $div_date = $marr
+                      ->setProperty('divoced_status', $arg0)
+                      ->save();
+                  }
+                  break;
+                case "NOTE":
+                  $event = "NOTE";
+                  $note_prev = $arg0; // CONC/CONT possible
+                  $note = $sukudb->makeNode()
+                    ->setProperty('note', $arg0)
+                    ->save();
+                  $rel_husb = $person[$husb]->relateTo($note, 'NOTE')->save();
+                  $rel_wife = $person[$wife]->relateTo($note, 'NOTE')->save();
+                  break;
+                case "_TODO":
+                  $event = "TODO";
+                  $todo_prev = $arg0; // CONC/CONT possible
+                  $todo = $sukudb->makeNode()
+                    ->setProperty('description', $arg0)
+                    ->save();
+                  $rel_husb = $person[$husb]->relateTo($todo, 'TODO')->save();
+                  $rel_wife = $person[$wife]->relateTo($todo, 'TODO')->save();
+                  break;
+                default;
+                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  $event = "";
+              } // switch $key
+              break;
+            default;
           }
         }
         else if ($level == 2) {
-          if ($load_individ) {
-            switch ($key)  {
-              case "NSFX":
-                $nsfx = $name->setProperty('partonymic', $arg0)->save();
-                break;
-              case "DATE":
-                $date = explode(' ', $arg0, 3);
-                if (sizeof($date) == 3) {
-                  $date[1] = monthtrim($date[1]);
-                  $date_str = $date[2] . "." . $date[1] . "." . $date[0];
-                }
-                else {
-                  $date_str = $arg0;
-                }
-                switch ($event) {
-                  case "BIRT":
-                    $person[$id]->setProperty('birth_date', $date_str)
-                      ->save();
-                    break;
-                  case "CHR":
-                    $person[$id]->setProperty('christen_date', $date_str)
-                      ->save();
-                    break;
-                  case "CONF":
-                    $person[$id]->setProperty('confirmation_date', $date_str)
-                      ->save();
-                    break;
-                  case "DEAT":
-                    $person[$id]->setProperty('death_date', $date_str)
-                      ->save();
-                    break;
-                  case "BURI":
-                    $person[$id]->setProperty('buried_date', $date_str)
-                      ->save();
-                    break;
-                  case "CHAN":
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "PLAC":
-                switch ($event) {
-                  case "BIRT":
-                    // The connection between Person and Place node can be done
-                    // if the Place node already exists in the data base
-                    $query_string = "MATCH (n:Person {id:'" . $id . 
-                      "'}), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
+          switch ($load_type) {
+            case "INDI":
+              switch ($key)  {
+                case "NSFX":
+                  $nsfx = $name->setProperty('partonymic', $arg0)->save();
+                  break;
+                case "DATE":
+                  $date = explode(' ', $arg0, 3);
+                  if (sizeof($date) == 3) {
+                    $date[1] = monthtrim($date[1]);
+                    $date_str = $date[2] . "." . $date[1] . "." . $date[0];
+                  }
+                  else {
+                    $date_str = $arg0;
+                  }
+                  switch ($event) {
+                    case "BIRT":
+                      $person[$id]->setProperty('birth_date', $date_str)
+                        ->save();
+                      break;
+                    case "CHR":
+                      $person[$id]->setProperty('christen_date', $date_str)
+                        ->save();
+                      break;
+                    case "CONF":
+                      $person[$id]->setProperty('confirmation_date', $date_str)
+                        ->save();
+                      break;
+                    case "DEAT":
+                      $person[$id]->setProperty('death_date', $date_str)
+                        ->save();
+                      break;
+                    case "BURI":
+                      $person[$id]->setProperty('buried_date', $date_str)
+                        ->save();
+                      break;
+                    case "CHAN":
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "PLAC":
+                  switch ($event) {
+                    case "BIRT":
+                      $query_string = "MATCH (n:Person {id:'" . $id . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
 
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
-                    $result = $query->getResultSet();
+                      $result = $query->getResultSet();
+                      break;
+                    case "CHR":
+                      $query_string = "MATCH (n:Person {id:'" . $id . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (n)-[:CHRISTEN_PLACE]->(p)";
+
+                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+                      $result = $query->getResultSet();
+                      break;
+                    case "CONF":
+                      $query_string = "MATCH (n:Person {id:'" . $id . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (n)-[:CONFIRMATION_PLACE]->(p)";
+
+                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+                      $result = $query->getResultSet();
+                      break;
+                    case "DEAT":
+                      $query_string = "MATCH (n:Person {id:'" . $id . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (n)-[:DEATH_PLACE]->(p)";
+
+                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+                      $result = $query->getResultSet();
+                      break;
+                    case "BURI":
+                      $query_string = "MATCH (n:Person {id:'" . $id . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (n)-[:BURIED_PLACE]->(p)";
+
+                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
+                      $result = $query->getResultSet();
+                      break;
+                    case "EMIG":
+                      $emig_prev = $arg0; // CONC/CONT possible
+                      $emig_plac = $emig
+                        ->setProperty('moved_to', $arg0)
+                        ->save();
+                      break;
+                    case "EVEN":
+                      $even_prev = $arg0; // CONC/CONT possible
+                      $even_plac = $even
+                        ->setProperty('data', $arg0)
+                        ->save();
+                      break;
+                    case "RESI":
+                       break;
+                   default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "CONC":
+                  switch ($event) {
+                    case "OCCU":
+                      $occu_prev = $occu_prev . " " . $arg0;
+                      $occu_conc = $occu
+                        ->setProperty('occupation', $occu_prev)
+                        ->save();
                     break;
-                  case "CHR":
-                    // The connection between Person node and Place node can be done
-                    // if the Place node already exists in the data base
-                    $query_string = "MATCH (n:Person {id:'" . $id . 
-                      "'}), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:CHRISTEN_PLACE]->(p)";
-
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-
-                    $result = $query->getResultSet();
-                    break;
-                  case "CONF":
-                    // The connection between Person node and Place node can be done
-                    // if the Place node already exists in the data base
-                    $query_string = "MATCH (n:Person {id:'" . $id . 
-                      "'}), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:CONFIRMATION_PLACE]->(p)";
-
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-
-                    $result = $query->getResultSet();
-                    break;
-                  case "DEAT":
-                    // The connection between Person node and Place node can be done
-                    // if the Place node already exists in the data base
-                    $query_string = "MATCH (n:Person {id:'" . $id . 
-                      "'}), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:DEATH_PLACE]->(p)";
-
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-
-                    $result = $query->getResultSet();
-                    break;
-                  case "BURI":
-                    // The connection between Person node and Place node can be done
-                    // if the Place node already exists in the data base
-                    $query_string = "MATCH (n:Person {id:'" . $id . 
-                      "'}), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:BURIED_PLACE]->(p)";
-
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-
-                    $result = $query->getResultSet();
-                    break;
-                  case "EMIG":
-                    $emig_prev = $arg0; // CONC/CONT possible
-                    $emig_plac = $emig
-                      ->setProperty('moved_to', $arg0)
-                      ->save();
-                    break;
-                  case "EVEN":
-                    $even_prev = $arg0; // CONC/CONT possible
-                    $even_plac = $even
-                      ->setProperty('data', $arg0)
-                      ->save();
-                    break;
-                  case "RESI":
+                    case "NOTE":
+                      $note_prev = $note_prev . " " . $arg0;
+                      $note_conc = $note
+                        ->setProperty('note', $note_prev)
+                        ->save();
                      break;
-                 default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "CONC":
-                switch ($event) {
-                  case "OCCU":
-                    $occu_prev = $occu_prev . " " . $arg0;
-                    $occu_conc = $occu
-                      ->setProperty('occupation', $occu_prev)
-                      ->save();
+                    case "SOUR":
+                      echo "2 CONC is ignored (syntax error) on line " . $n . "\n";
+                     break;
+                    case "TODO":
+                      $todo_prev = $todo_prev . " " . $arg0;
+                      $todo_conc = $source
+                        ->setProperty('description', $todo_prev)
+                        ->save();
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
                   break;
-                  case "NOTE":
-                    $note_prev = $note_prev . " " . $arg0;
-                    $note_conc = $note
-                      ->setProperty('note', $note_prev)
-                      ->save();
-                   break;
-                  case "SOUR":
-                    $sour_prev = $sour_prev . " " . $arg0;
-                    $sour_conc = $source
-                      ->setProperty('source', $note_prev)
-                      ->save();
-                   break;
-                  case "TODO":
-                    $todo_prev = $todo_prev . " " . $arg0;
-                    $todo_conc = $source
-                      ->setProperty('description', $todo_prev)
-                      ->save();
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "CONT":
-                switch ($event) {
-                  case "NOTE":
-                    $note_prev = $note_prev . " " . $arg0;
-                    $note_cont = $note
-                      ->setProperty('note', $note_prev)
-                      ->save();
-                    break;
-                  case "SOUR":
-                    $sour_prev = $sour_prev . " " . $arg0;
-                    $sour_cont = $source
-                      ->setProperty('source', $note_prev)
-                      ->save();
-                   break;
-                  case "TODO":
-                    $todo_prev = $todo_prev . " " . $arg0;
-                    $todo_cont = $source
-                      ->setProperty('description', $todo_prev)
-                      ->save();
-                   break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "CAUS":
-                switch ($event) {
-                  case "DEAT":
-                    $deat_cause = $even
-                      ->setProperty('death_cause', $arg0)
-                      ->save();
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "TYPE":
-                switch ($event) {
-                  case "EVEN":
-                    $even_type = $even
-                      ->setProperty('type', $arg0)
-                      ->save();
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "POST":
-                switch ($event) {
-                  case "ADDR":
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "CITY":
-                switch ($event) {
-                  case "ADDR":
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "CTRY":
-                switch ($event) {
-                  case "ADDR":
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              default;
-                echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                $event = "";
-            } // switch $key
-          }
-          else if ($load_family) {
-            switch ($key)  {
-              case "DATE":
-                $date = explode(' ', $arg0, 3);
-                if (sizeof($date) == 3) {
-                  $date[1] = monthtrim($date[1]);
-                  $date_str = $date[2] . "." . $date[1] . "." . $date[0];
-                }
-                else {
-                  $date_str = $arg0;
-                }
-                switch ($event) {
-                  case "MARR":
-                    if (sizeof($date) == 3) {
-                      $marr_date = $marr
-                        ->setProperty('married_date', $date_str)
+                case "CONT":
+                  switch ($event) {
+                    case "NOTE":
+                      $note_prev = $note_prev . " " . $arg0;
+                      $note_cont = $note
+                        ->setProperty('note', $note_prev)
                         ->save();
-                    }
-                    else {
-                      $marr = $marr
-                        ->setProperty('married_status', $arg0)
+                      break;
+                    case "SOUR":
+                      echo "2 CONT is ignored (syntax error) on line " . $n . "\n";
+                     break;
+                    case "TODO":
+                      $todo_prev = $todo_prev . " " . $arg0;
+                      $todo_cont = $source
+                        ->setProperty('description', $todo_prev)
                         ->save();
-                    }
-                    break;
-                  case "DIV":
-                    if (sizeof($date) == 3) {
-                      $div_date = $marr
-                        ->setProperty('divoced_date', $date_str)
+                     break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "CAUS":
+                  switch ($event) {
+                    case "DEAT":
+                      $deat_cause = $even
+                        ->setProperty('death_cause', $arg0)
                         ->save();
-                    }
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "PLAC":
-                switch ($event) {
-                  case "MARR":
-                    // The connection between Marriage node and Place node can be done
-                    // if the Place node already exists in the data base
-                    $query_string = "MATCH (n:Marriage {id:'" . $id . 
-                      "'}), (p:Place {name:'" . $arg0 . 
-                      "'}) MERGE (n)-[:MARRIAGE_PLACE]->(p)";
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "TYPE":
+                  switch ($event) {
+                    case "EVEN":
+                      $even_type = $even
+                        ->setProperty('type', $arg0)
+                        ->save();
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "POST":
+                  switch ($event) {
+                    case "ADDR":
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "CITY":
+                  switch ($event) {
+                    case "ADDR":
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "CTRY":
+                  switch ($event) {
+                    case "ADDR":
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                default;
+                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  $event = "";
+              } // switch $key
+              break;
+            case "FAM":
+              switch ($key)  {
+                case "DATE":
+                  $date = explode(' ', $arg0, 3);
+                  if (sizeof($date) == 3) {
+                    $date[1] = monthtrim($date[1]);
+                    $date_str = $date[2] . "." . $date[1] . "." . $date[0];
+                  }
+                  else {
+                    $date_str = $arg0;
+                  }
+                  switch ($event) {
+                    case "MARR":
+                      if (sizeof($date) == 3) {
+                        $marr_date = $marr
+                          ->setProperty('married_date', $date_str)
+                          ->save();
+                      }
+                      else {
+                        $marr = $marr
+                          ->setProperty('married_status', $arg0)
+                          ->save();
+                      }
+                      break;
+                    case "DIV":
+                      if (sizeof($date) == 3) {
+                        $div_date = $marr
+                          ->setProperty('divoced_date', $date_str)
+                          ->save();
+                      }
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "PLAC":
+                  switch ($event) {
+                    case "MARR":
+                      $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (n)-[:MARRIAGE_PLACE]->(p)";
 
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
-                    $result = $query->getResultSet();
+                      $result = $query->getResultSet();
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "NOTE":
+                  switch ($event) {
+                    case "MARR":
+                      $note_prev = $arg0; // CONC/CONT possible
+                      $note = $sukudb->makeNode()
+                        ->setProperty('note', $arg0)
+                        ->save();
+                      $rel_marr = $marr->relateTo($note, 'NOTE')->save();
                     break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "NOTE":
-                switch ($event) {
-                  case "MARR":
-                    $note_prev = $arg0; // CONC/CONT possible
-                    $note = $sukudb->makeNode()
-                      ->setProperty('note', $arg0)
-                      ->save();
-                    $rel_marr = $marr->relateTo($note, 'NOTE')->save();
+                  } // $event
                   break;
-                } // $event
-                break;
-              case "_TODO":
-                switch ($event) {
-                  case "MARR":
-                    $todo_prev = $arg0; // CONC/CONT possible
-                    $todo = $sukudb->makeNode()
-                      ->setProperty('description', $arg0)
-                      ->save();
-                    $rel_marr = $marr->relateTo($todo, 'TODO')->save();
+                case "_TODO":
+                  switch ($event) {
+                    case "MARR":
+                      $todo_prev = $arg0; // CONC/CONT possible
+                      $todo = $sukudb->makeNode()
+                        ->setProperty('description', $arg0)
+                        ->save();
+                      $rel_marr = $marr->relateTo($todo, 'TODO')->save();
+                    break;
+                  } // $event
                   break;
-                } // $event
-                break;
-              default;
-                echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                $event = "";
-            } // $key
+                default;
+                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  $event = "";
+              } // $key
+            default;
           }
         }
         else if ($level == 3) {
-          if ($load_individ) {
-            switch ($key)  {
-              case "CONC":
-                switch ($event) {
-                  case "EMIG":
-                    $emig_prev = $emig_prev . " " . $arg0;
-                    $emig_conc = $emig
-                      ->setProperty('moved_to', $emig_prev)
-                      ->save();
-                    break;
-                  case "EVEN":
-                    $even_prev = $even_prev . " " . $arg0;
-                    $even_conc = $even
-                      ->setProperty('data', $even_prev)
-                      ->save();
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "CONT":
-                switch ($event) {
-                  case "EMIG":
-                    $emig_prev = $emig_prev . " " . $arg0;
-                    $emig_cont = $emig
-                      ->setProperty('moved_to', $emig_prev)
-                      ->save();
-                    break;
-                  case "EVEN":
-                    $even_prev = $even_prev . " " . $arg0;
-                    $even_cont = $even
-                      ->setProperty('data', $even_prev)
-                      ->save();
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
+          switch ($load_type) {
+            case "INDI":
+              switch ($key)  {
+                case "CONC":
+                  switch ($event) {
+                    case "EMIG":
+                      $emig_prev = $emig_prev . " " . $arg0;
+                      $emig_conc = $emig
+                        ->setProperty('moved_to', $emig_prev)
+                        ->save();
+                      break;
+                    case "EVEN":
+                      $even_prev = $even_prev . " " . $arg0;
+                      $even_conc = $even
+                        ->setProperty('data', $even_prev)
+                        ->save();
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "CONT":
+                  switch ($event) {
+                    case "EMIG":
+                      $emig_prev = $emig_prev . " " . $arg0;
+                      $emig_cont = $emig
+                        ->setProperty('moved_to', $emig_prev)
+                        ->save();
+                      break;
+                    case "EVEN":
+                      $even_prev = $even_prev . " " . $arg0;
+                      $even_cont = $even
+                        ->setProperty('data', $even_prev)
+                        ->save();
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                default;
+                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  $event = "";
+              } // $key
               default;
-                echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                $event = "";
-            } // $key
-          }
-          else if ($load_family) {
-            switch ($key)  {
-              case "CONC":
-                switch ($event) {
-                  case "NOTE":
-                    $note_prev = $note_prev . " " . $arg0;
-                    $note_conc = $note
-                      ->setProperty('note', $note_prev)
-                      ->save();
-                    break;
-                  case "TODO":
-                    $todo_prev = $todo_prev . " " . $arg0;
-                    $todo_conc = $todo
-                      ->setProperty('description', $todo_prev)
-                      ->save();
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
-              case "CONT":
-                switch ($event) {
-                  case "NOTE":
-                    $note_prev = $note_prev . " " . $arg0;
-                    $note_cont = $note
-                      ->setProperty('note', $note_prev)
-                      ->save();
-                    break;
-                  case "TODO":
-                    $todo_prev = $todo_prev . " " . $arg0;
-                    $todo_cont = $todo
-                      ->setProperty('description', $todo_prev)
-                      ->save();
-                    break;
-                  default;
-                    echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                    $event = "";
-                } // $event
-                break;
+            case "FAM":
+              switch ($key)  {
+                case "CONC":
+                  switch ($event) {
+                    case "NOTE":
+                      $note_prev = $note_prev . " " . $arg0;
+                      $note_conc = $note
+                        ->setProperty('note', $note_prev)
+                        ->save();
+                      break;
+                    case "TODO":
+                      $todo_prev = $todo_prev . " " . $arg0;
+                      $todo_conc = $todo
+                        ->setProperty('description', $todo_prev)
+                        ->save();
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                case "CONT":
+                  switch ($event) {
+                    case "NOTE":
+                      $note_prev = $note_prev . " " . $arg0;
+                      $note_cont = $note
+                        ->setProperty('note', $note_prev)
+                        ->save();
+                      break;
+                    case "TODO":
+                      $todo_prev = $todo_prev . " " . $arg0;
+                      $todo_cont = $todo
+                        ->setProperty('description', $todo_prev)
+                        ->save();
+                      break;
+                    default;
+                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      $event = "";
+                  } // $event
+                  break;
+                default;
+                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  $event = "";
+              } // $key
               default;
-                echo "Unknown tag " . $key . " on line: " . $n . "\n";
-                $event = "";
-            } // $key
           }
         }
       } // while feof
@@ -741,7 +746,9 @@
     echo "</p>\n";
 			
     fclose($file_handle);
-    echo "<p><em>{$file_name} {$n} rivi&auml;</em></p>";
+    echo "<p><em>{$file_name} {$n} rivi&auml; luettu</em></p>";
+    echo "<p><em>{$n_indi} henkilö&auml;, {$n_fam} perhett&auml;,";
+    echo "{$n_sour} l&auml;hdett&auml; ja {$n_repo} repoa tallennettu</em></p>";
   }
   else {
     print_r($errors);
