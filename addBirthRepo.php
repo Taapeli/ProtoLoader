@@ -39,7 +39,7 @@
 
       // Neo4j parameters {id}, {repo_id}, {repo_source_id} and
       // {page} are used to avoid hacking injection
-      $query_string = "MATCH (n:Person {id:{id}}), (r:Repo {id:{repo_id}})-[:REPO_SOURCE]-(s:Repo_source {id:{repo_source_id}}) MERGE (n)-[p:BIRTH_REPO]-(s) SET p.page={page}";
+      $query_string = "MATCH (n:Person {id:{id}}), (r:Repo {id:{repo_id}})-[:REPO_SOURCE]-(s:Source {id:{repo_source_id}}) MERGE (n)-[p:BIRTH_SOURCE]-(s) SET p.page={page}";
 
       $query_array = array('id' => $input_id, 'repo_source_id' => $input_repo_source_id, 'repo_id' => $input_repo_id, 'page' => $input_page);
 
@@ -94,7 +94,7 @@
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
-    $query_string = "MATCH (n:Person)-[p:BIRTH_REPO]-(s:Repo_source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s,p";
+    $query_string = "MATCH (n:Person)-[p:BIRTH_SOURCE]-(s:Source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s,p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -102,7 +102,7 @@
     foreach ($result as $rows)
     {
       $repo_name[] = $rows[0]->getProperty('name');
-      $repo_source[] = $rows[1]->getProperty('name');
+      $repo_source[] = $rows[1]->getProperty('title');
       $repo_page[] = $rows[2]->getProperty('page');
     }
 

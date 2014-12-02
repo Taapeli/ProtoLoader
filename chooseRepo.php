@@ -37,14 +37,14 @@
       <a href='addBirthRepo.php?id=$id&repo=$repo_id&page=$page'>" . $repo_name . "</a>";
       echo "<ul>";
       $query_string2 = "MATCH (n:Repo)-[:REPO_SOURCE]->(s) WHERE n.name='" .
-        $repo_name . "' RETURN s ORDER BY s.name";
+        $repo_name . "' RETURN s ORDER BY s.title";
       $query2 = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string2);
       $result2 = $query2->getResultSet();
 
       foreach ($result2 as $rows2)
       {
         $repo_source_id = $rows2[0]->getProperty('id');
-        $repo_source = $rows2[0]->getProperty('name');
+        $repo_source = $rows2[0]->getProperty('title');
         echo "<li><a href='addBirthRepo.php?id=$id&repo=$repo_id&source=$repo_source_id&page=$page'>" . $repo_source . "</a></li>";
       }
       echo "</ul>";

@@ -29,7 +29,7 @@
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     // Neo4j parameter {id} is used to avoid hacking injection
-    $query_string = "MATCH (n:Person) WHERE n.id='" . $id . "' RETURN n";
+    $query_string = "MATCH (n:Person) WHERE n.id={id} RETURN n";
 
     $query_array = array('id' => $input_id);
 
@@ -65,7 +65,7 @@
       $later_names = $rows[0]->getProperty('later_name(s)');
     }
 
-    $query_string = "MATCH (n:Person)-[p:BIRTH_REPO]-(s:Repo_source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . 
+    $query_string = "MATCH (n:Person)-[p:BIRTH_SOURCE]->(s:Source)<-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . 
       "' RETURN r, s, p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -76,7 +76,7 @@
       $repo_id[] = $rows[0]->getProperty('id');
       $repo_name[] = $rows[0]->getProperty('name');
       $repo_source_id[] = $rows[1]->getProperty('id');
-      $repo_source[] = $rows[1]->getProperty('name');
+      $repo_source[] = $rows[1]->getProperty('title');
       $repo_page[] = $rows[2]->getProperty('page');
     }
 
