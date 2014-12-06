@@ -55,34 +55,5 @@ siellä jo olevien tietojen lisäksi.</p>
 </form>
 </div>
 
-<div class="form">
-<form action="placeLoader.php" method="POST" enctype="multipart/form-data"></p>
-<h2>Lataa paikka-tiedosto</h2>
-<p>Sy&ouml;tteen&auml; annettu paikka-tiedosto luetaan kantaan 
-siellä jo olevien tietojen lisäksi.</p>
-<p>Ohjelma ei talleta tuplia tietokantaan. Jos jokin paikka on jo olemassa tietokannassa, niin uutta tallennusta ei silloin suoriteta.</p>
-<p> Luettava rivi on muotoa: 2 PLAC Paikka.</p>
-<p><span class="tit">Sy&ouml;te:</span> 
-<input type="file" name="image" required/>
-<input class="subm" type="submit"/></p>
-</form>
-</div>
-
-<div class="form">
-<form action="repoLoader.php" method="POST" enctype="multipart/form-data"></p>
-<h2>Lataa repo-tiedosto</h2>
-<p>Sy&ouml;tteen&auml; annettu repo-tiedosto luetaan kantaan 
-siellä jo olevien tietojen lisäksi.</p>
-<p>Ohjelma ei talleta tuplia tietokantaan. Jos jokin repo tai repon source on jo olemassa tietokannassa, niin uutta tallennusta ei silloin suoriteta.</p>
-<p>Luettavat rivit ovat muotoa:</p>
-<p>0 @R123@ REPO<br>
-   1 NAME Repository<br>
-   1 SOUR Source</p>
-<p><span class="tit">Sy&ouml;te:</span> 
-<input type="file" name="image" required/>
-<input class="subm" type="submit"/></p>
-</form>
-</div>
-
 </body>
 </html>

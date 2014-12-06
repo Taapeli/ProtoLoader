@@ -130,9 +130,23 @@
 <form action="chooseRepo.php" method="POST" enctype="multipart/form-data"></p>
 <table class="form">
 <tr><td>
-<h2>Lis&auml;&auml; uusi repo:</h2>
+<h2>Lis&auml;&auml; uusi repo tietokannassa olevista:</h2>
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
 Anna repon sivunumero: <input type="text" name="page" />
+</td><td style="vertical-align: bottom"> 
+<input type="submit"/>
+</td></tr>
+</table>
+</form>
+
+<form action="addRepoData.php" method="POST" enctype="multipart/form-data"></p>
+<table class="form">
+<tr><td>
+<h2>Lis&auml;&auml; uusi repo antamalla kaikki tiedot:</h2>
+<input type="hidden" name="id" value="<?php echo $id; ?>" />
+Anna repon nimi: <input type="text" value="Hangon seurakunnan arkisto" size="60" name="repo" /><br>
+Anna l&auml;hteen otsikko: <input type="text" value="Hanko syntyneiden ja kastettujen luettelo 1800-1806" size="60" name="source" /><br>
+Anna repon sivunumero: <input type="text" size="6" name="page" />
 </td><td style="vertical-align: bottom"> 
 <input type="submit"/>
 </td></tr>
