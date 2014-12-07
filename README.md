@@ -4,6 +4,7 @@ Taapelin prototyyppi
 Prototyyppi sisältää nyt seuraavat ohjelmat:
 
 * gedLoader:		Gedcom-tiedoston lukeminen kantaan
+* gedLoaderWithLabel:	Gedcom-tiedoston lukeminen kantaan käyttäjä-label'illa
 
 * listToDoData		Tulostus tarkistusajossa havaituista korjausta vaativista seikoista
 

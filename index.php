@@ -55,5 +55,16 @@ siellä jo olevien tietojen lisäksi.</p>
 </form>
 </div>
 
+<div class="form">
+<form action="gedLoaderWithLabel.php" method="POST" enctype="multipart/form-data"></p>
+<h2>Lataa gedcom-tiedosto ja tallenna k&auml;ytt&auml;j&auml;-label'in kanssa</h2>
+<p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan
+siellä jo olevien tietojen lisäksi käyttäen k&auml;ytt&auml;j&auml;tunnusta.</p>
+<p><span class="tit">Sy&ouml;te:</span> 
+<input type="file" name="image" required/>
+<input class="subm" type="submit"/></p>
+</form>
+</div>
+
 </body>
 </html>
