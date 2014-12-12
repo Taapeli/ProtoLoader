@@ -21,7 +21,7 @@
 <p><a href="listNoHiskiLinks.php" target="_blank">Hiski-linkki&auml;</a></p>
 <div class="form">
 <form action="listBirths.php" method="POST" enctype="multipart/form-data"></p>
-<h2>Haku syntymäajalla</h2>
+<h2>Haku syntym&auml;ajalla</h2>
 <p>Anna haettava syntym&auml;aika muodossa "1837.09.02"</p>
 <p><span class="tit">Sy&ouml;te:</span> 
 <input type="text" name="birth" required/>
@@ -47,8 +47,21 @@ vapaahaku-kentt&auml;n mukaan.</p>
 <div class="form">
 <form action="gedLoader.php" method="POST" enctype="multipart/form-data"></p>
 <h2>Lataa gedcom-tiedosto</h2>
+<p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan
+   siell&auml; jo olevien tietojen lis&auml;ksi k&auml;ytt&auml;en 
+   neo4jphp- ja cypher-komentoja.</p>
+<p><span class="tit">Sy&ouml;te:</span> 
+<input type="file" name="image" required/>
+<input class="subm" type="submit"/></p>
+</form>
+</div>
+
+<div class="form">
+<form action="gedLoader2.php" method="POST" enctype="multipart/form-data"></p>
+<h2>Lataa gedcom-tiedosto</h2>
 <p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan 
-siellä jo olevien tietojen lisäksi.</p>
+   siell&auml; jo olevien tietojen lis&auml;ksi k&auml;ytt&auml;en 
+   vain cypher-komentoja.</p>
 <p><span class="tit">Sy&ouml;te:</span> 
 <input type="file" name="image" required/>
 <input class="subm" type="submit"/></p>
@@ -59,7 +72,7 @@ siellä jo olevien tietojen lisäksi.</p>
 <form action="gedLoaderWithLabel.php" method="POST" enctype="multipart/form-data"></p>
 <h2>Lataa gedcom-tiedosto ja tallenna k&auml;ytt&auml;j&auml;-label'in kanssa</h2>
 <p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan
-siellä jo olevien tietojen lisäksi käyttäen k&auml;ytt&auml;j&auml;tunnusta.</p>
+siell&auml; jo olevien tietojen lis&auml;ksi k&auml;ytt&auml;en k&auml;ytt&auml;j&auml;tunnusta.</p>
 <p><span class="tit">Sy&ouml;te:</span> 
 <input type="file" name="image" required/>
 <input class="subm" type="submit"/></p>
