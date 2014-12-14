@@ -319,6 +319,10 @@
                 case "RESI":
                   $event = "RESI";
                   break;
+                case "SOUR":
+                  $event = "SOUR";
+                  // Genus Senior SOUR tag
+                  break;
                 case "FAMC":
                 case "FAMS":
                 case "LANG":
@@ -687,6 +691,9 @@
                       $result = $query->getResultSet();
 
                       break;
+                    case "SOUR":
+                      // Genus Senior SOUR tag
+                      break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
                       $event = "";
@@ -716,6 +723,9 @@
                       $result = $query->getResultSet();
 
                      break;
+                    case "SOUR":
+                      // Genus Senior SOUR tag
+                      break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
                       $event = "";
@@ -797,14 +807,14 @@
                   switch ($event) {
                     case "MARR":
                       if (sizeof($date) == 3) {
-                        $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                        $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
                           "'}) SET n.married_date='" . $date_str . "'";
 
                         $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
                         $result = $query->getResultSet();
                      }
                       else {
-                        $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                        $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
                           "'}) SET n.married_status='" . $arg0 . "'";
 
                         $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -813,7 +823,7 @@
                       break;
                     case "DIV":
                       if (sizeof($date) == 3) {
-                        $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                        $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
                           "'}) SET n.divoced_date='" . $date_str . "'";
 
                         $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -828,7 +838,7 @@
                 case "PLAC":
                   switch ($event) {
                     case "MARR":
-                      $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                      $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
                         "'}) MERGE (p:Place:" . $user_label . " {name:'" . $arg0 . 
                         "'}) MERGE (n)-[:MARRIAGE_PLACE]->(p)";
 
@@ -844,7 +854,7 @@
                   switch ($event) {
                     case "MARR":
                       $note_prev = $arg0; // CONC/CONT possible
-                      $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                      $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
                         "'}) CREATE (p:Note {note:{note}}) MERGE (n)-[:NOTE]->(p)";
 
                       $query_array = array('note' => $arg0);
@@ -859,7 +869,7 @@
                     case "MARR":
                       $todo_prev = $arg0; // CONC/CONT possible
 
-                      $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                      $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
                         "'}) CREATE (m:Todo {description:{description}}) MERGE (n)-[:TODO]->(m)";
 
                       $query_array = array('description' => $todo_prev);
@@ -994,6 +1004,9 @@
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
                       $result = $query->getResultSet();
                       break;
+                    case "MARR":
+                      // Genus Senior SOUR tag
+                      break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
                       $event = "";
@@ -1020,6 +1033,9 @@
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
                       $result = $query->getResultSet();
+                      break;
+                    case "MARR":
+                      // Genus Senior SOUR tag
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
