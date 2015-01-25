@@ -28,7 +28,7 @@
     $birth_date[] = $row[0]->getProperty('birth_date');
     $first_name[] = $row[1]->getProperty('first_name');
     $last_name[] = $row[1]->getProperty('last_name');
-    $later_names[] = $row[1]->getProperty('later_name(s)');
+    $later_names[] = $row[1]->getProperty('later_names');
     $todo_description[] = $row[2]->getProperty('description');
   }
 
@@ -79,7 +79,7 @@
     $marr_birth_date[] = $row[0]->getProperty('birth_date');
     $marr_first_name[] = $row[1]->getProperty('first_name');
     $marr_last_name[] = $row[1]->getProperty('last_name');
-    $marr_later_names[] = $row[1]->getProperty('later_name(s)');
+    $marr_later_names[] = $row[1]->getProperty('later_names');
     $marr_todo_description[] = $row[2]->getProperty('description');
   }
 

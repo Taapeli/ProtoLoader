@@ -24,13 +24,13 @@
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     if ($input_name != '') {
-      // Neo4j parameter {name} used to avoid hacking injection
+      // Neo4j parameter {name} is used to avoid hacking injection
       $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name={name} RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('name' => $input_name);
     }
     else {
-      // Neo4j parameter {wildcard} used to avoid hacking injection
+      // Neo4j parameter {wildcard} is used to avoid hacking injection
       $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name=~{wildcard} RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('wildcard' => $input_wildcard);
@@ -44,7 +44,7 @@
       $birth_date[] = $rows[0]->getProperty('birth_date');
       $first_name[] = $rows[1]->getProperty('first_name');
       $last_name[] = $rows[1]->getProperty('last_name');
-      $later_names[] = $rows[1]->getProperty('later_name(s)');
+      $later_names[] = $rows[1]->getProperty('later_names');
     }
 
     for ($i=0; $i<sizeof($id); $i++) {

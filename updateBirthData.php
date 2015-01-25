@@ -63,7 +63,7 @@
     {
       $first_name = $rows[0]->getProperty('first_name');
       $last_name = $rows[0]->getProperty('last_name');
-      $later_names = $rows[0]->getProperty('later_name(s)');
+      $later_names = $rows[0]->getProperty('later_names');
     }
 
     echo '<table  cellpadding="0" cellspacing="1" border="1">';

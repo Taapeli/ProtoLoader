@@ -22,6 +22,7 @@
 
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
+    // Neo4j parameter {birth} is used to avoid hacking injection
     $query_string = "MATCH (n:Person) WHERE n.birth_date={birth} RETURN n";
 
     $query_array = array('birth' => $input_birth);
@@ -45,7 +46,7 @@
       {
         $first_name[] = $row[0]->getProperty('first_name');
         $last_name[] = $row[0]->getProperty('last_name');
-        $later_names[] = $row[0]->getProperty('later_name(s)');
+        $later_names[] = $row[0]->getProperty('later_names');
       }
     }
 

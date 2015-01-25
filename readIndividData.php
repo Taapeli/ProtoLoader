@@ -70,7 +70,7 @@
     {
       $first_name = $rows[0]->getProperty('first_name');
       $last_name = $rows[0]->getProperty('last_name');
-      $later_names = $rows[0]->getProperty('later_name(s)');
+      $later_names = $rows[0]->getProperty('later_names');
     }
 
     $query_string = "MATCH (n:Person)-[:TODO]->(t) WHERE n.id='" . $id . "' RETURN t";
@@ -124,7 +124,7 @@
     {
       $father_first_name = $rows[0]->getProperty('first_name');
       $father_last_name = $rows[0]->getProperty('last_name');
-      $father_later_names = $rows[0]->getProperty('later_name(s)');
+      $father_later_names = $rows[0]->getProperty('later_names');
     }
 
     $query_string = "MATCH (n:Person)-[:MOTHER]->(id) WHERE n.id='" . $id . "' RETURN id";
@@ -168,7 +168,7 @@
     {
       $mother_first_name = $rows[0]->getProperty('first_name');
       $mother_last_name = $rows[0]->getProperty('last_name');
-      $mother_later_names = $rows[0]->getProperty('later_name(s)');
+      $mother_later_names = $rows[0]->getProperty('later_names');
     }
 
     $query_string = "MATCH (n:Person)-[:MARRIED]->(m)<-[:MARRIED]-(s:Person) WHERE n.id='" . $id . "' RETURN m, s ORDER BY m.married_date";
@@ -225,7 +225,7 @@
       {
         $spouse_first_name[] = $rows[0]->getProperty('first_name');
         $spouse_last_name[] = $rows[0]->getProperty('last_name');
-        $spouse_later_names[] = $rows[0]->getProperty('later_name(s)');
+        $spouse_later_names[] = $rows[0]->getProperty('later_names');
       }
     }
 
@@ -300,7 +300,7 @@
       {
         $child_first_name[$i] = $rows[0]->getProperty('first_name');
         $child_last_name[$i] = $rows[0]->getProperty('last_name');
-        $child_later_names[$i] = $rows[0]->getProperty('later_name(s)');
+        $child_later_names[$i] = $rows[0]->getProperty('later_names');
       } 
     }
 

@@ -85,7 +85,7 @@
     {
       $first_name = $rows[0]->getProperty('first_name');
       $last_name = $rows[0]->getProperty('last_name');
-      $later_names = $rows[0]->getProperty('later_name(s)');
+      $later_names = $rows[0]->getProperty('later_names');
     }
 
     $query_string = "MATCH (n:Person)-[p:BIRTH_SOURCE]-(s:Source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s,p";

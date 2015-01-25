@@ -210,13 +210,13 @@
                   }
                   else { // later names with another NAME tag
                     $later_name = $name
-                      ->setProperty('later_name(s)', $names[1])
+                      ->setProperty('later_names', $names[1])
                     ->save();
                   }
                   break;
                 case "ALIA":
                   $names = nametrim($arg0);
-                  $alia = $name->setProperty('later_name(s)', $names)
+                  $alia = $name->setProperty('later_names', $names)
                     ->save();
                   break;
                 case "BIRT":
@@ -305,8 +305,8 @@
                   break;
                 case "WIFE":
                   $wife = idtrim($arg0);
-                  $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
-                  $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
+                  $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED_HUSBAND')->save();
+                  $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED_WIFE')->save();
                   break;
                 case "CHIL":
                   $chil = idtrim($arg0);
@@ -818,7 +818,7 @@
                   } // $event
                   break;
                 default;
-                  echo "Unknown tag " . $key . " event: " . $event . " on line: " . $n . "\n";
+                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
                   $event = "";
               } // $key
               break;

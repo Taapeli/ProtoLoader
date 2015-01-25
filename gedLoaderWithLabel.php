@@ -218,13 +218,13 @@
                   }
                   else { // later names with another NAME tag
                     $later_name = $name
-                      ->setProperty('later_name(s)', $names[1])
+                      ->setProperty('later_names', $names[1])
                     ->save();
                   }
                   break;
                 case "ALIA":
                   $names = nametrim($arg0);
-                  $alia = $name->setProperty('later_name(s)', $names)
+                  $alia = $name->setProperty('later_names', $names)
                     ->save();
                   break;
                 case "BIRT":
