@@ -19,6 +19,18 @@
 <p>Listaa sellaiset henkil&ouml;t, joilla ei ole:</p> 
 <p><a href="listNotSetBirthdays.php" target="_blank">Syntym&auml;aikaa</a></p>
 <p><a href="listNoHiskiLinks.php" target="_blank">Hiski-linkki&auml;</a></p>
+<p>Yhdist&auml; sellaiset henkil&ouml;t, joilla on sama:</p> 
+<p><a href="connectSameBirthDates.php" target="_blank">Syntym&auml;aika</a></p>
+<p><a href="connectSameNames.php" target="_blank">Etu- ja sukunimi</a></p>
+<p>Katkaise mahdollinen yhteys henkil&ouml;ilt&auml;, joilla on sama:</p> 
+<p><a href="disconnectSameBirthDates.php" target="_blank">Syntym&auml;aika</a></p>
+<p><a href="disconnectSameNames.php" target="_blank">Etu- ja sukunimi</a></p>
+<p>Listaa sellaiset henkil&ouml;t, joilla on:</p> 
+<p><a href="listMayBeSame.php" target="_blank">Sama syntym&auml;aika sek&auml;
+      sama etu- ja sukunimi</a></p>
+</form>
+</div>
+
 <div class="form">
 <form action="listBirths.php" method="POST" enctype="multipart/form-data"></p>
 <h2>Haku syntym&auml;ajalla</h2>
