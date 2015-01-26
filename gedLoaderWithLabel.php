@@ -314,8 +314,8 @@
                   break;
                 case "WIFE":
                   $wife = idtrim($arg0);
-                  $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED_HUSBAND')->save();
-                  $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED_WIFE')->save();
+                  $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
+                  $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
                   break;
                 case "CHIL":
                   $chil = idtrim($arg0);
