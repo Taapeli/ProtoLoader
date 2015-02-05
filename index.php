@@ -85,7 +85,7 @@ vapaahaku-kentt&auml;n mukaan.</p>
 
 <div class="indent">
 	<form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">
-	<h3>c) Lataa gedcom-tiedosto ja tallenna k&auml;ytt&auml;j&auml;-label'in kanssa</h3>
+	<h3>c) Tallennetaan myös käyttäjä-labelin kanssa</h3>
 	<p><span class="tit">Sy&ouml;te:</span> 
 	<input type="file" name="image" required="required" />
 	<input class="subm" type="submit" value="Lataa" /></p>
