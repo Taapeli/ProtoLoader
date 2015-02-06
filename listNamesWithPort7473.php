@@ -12,7 +12,7 @@
 <h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
   echo "Haku alkaa";
-  require('vendor/autoload.php');
+//  require('vendor/autoload.php');
 
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
