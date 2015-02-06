@@ -91,5 +91,16 @@ siell&auml; jo olevien tietojen lis&auml;ksi k&auml;ytt&auml;en k&auml;ytt&auml;
 </form>
 </div>
 
+<div class="form">
+<form action="gedLoaderWithPort7473.php" method="POST" enctype="multipart/form-data"></p>
+<h2>Lataa gedcom-tiedosto (k&auml;ytt&auml;en porttia 7473) ja tallenna k&auml;ytt&auml;j&auml;-label'in kanssa</h2>
+<p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan
+siell&auml; jo olevien tietojen lis&auml;ksi k&auml;ytt&auml;en k&auml;ytt&auml;j&auml;tunnusta.</p>
+<p><span class="tit">Sy&ouml;te:</span> 
+<input type="file" name="image" required/>
+<input class="subm" type="submit"/></p>
+</form>
+</div>
+
 </body>
 </html>
