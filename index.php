@@ -91,17 +91,15 @@ vapaahaku-kentt&auml;n mukaan.</p>
 	<input class="subm" type="submit" value="Lataa" /></p>
 	</form>
 </div>
-</div>
 
-<div class="form">
-<form action="gedLoaderWithPort7473.php" method="POST" enctype="multipart/form-data"></p>
-<h2>Lataa gedcom-tiedosto (k&auml;ytt&auml;en porttia 7473) ja tallenna k&auml;ytt&auml;j&auml;-label'in kanssa</h2>
-<p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan
-siell&auml; jo olevien tietojen lis&auml;ksi k&auml;ytt&auml;en k&auml;ytt&auml;j&auml;tunnusta.</p>
-<p><span class="tit">Sy&ouml;te:</span> 
-<input type="file" name="image" required/>
-<input class="subm" type="submit"/></p>
-</form>
+<div class="indent">
+	<form action="gedLoaderWithPort7473.php" method="post" enctype="multipart/form-data">
+	<h3>c) Tallennetaan (k&auml;ytt&auml;en porttia: 7473) myös käyttäjä-labelin kanssa</h3>
+	<p><span class="tit">Sy&ouml;te:</span> 
+	<input type="file" name="image" required="required" />
+	<input class="subm" type="submit" value="Lataa" /></p>
+	</form>
+</div>
 </div>
 
 </body>
