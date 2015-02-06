@@ -115,7 +115,7 @@
         return $month_num;
       }
 
-      $sukudb = new Everyman\Neo4j\Client('localhost', 7473);
+      $sukudb = new Everyman\Neo4j\Client('neo4j35029-Taademo2.jelastic.elastx.net', 7473);
 
       $idLabel = $sukudb->makeLabel('Person');
       $nameLabel = $sukudb->makeLabel('Name');
