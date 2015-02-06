@@ -47,7 +47,7 @@
 </div>
 
 <div class="form">
-<form action="listNamesWithPath7473.php" method="post" enctype="multipart/form-data">
+<form action="listNamesWithPort7473.php" method="post" enctype="multipart/form-data">
 <h2>Nimihaku</h2>
 <p>Anna haettava sukunimi sukunimi-kentt&auml;&auml;n tai sukunimen alku 
 vapaahaku-kentt&auml;&auml;n (k&auml;ytt&auml;en porttia: 7473). </p>
