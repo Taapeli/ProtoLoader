@@ -47,6 +47,21 @@
 </div>
 
 <div class="form">
+<form action="listNamesWithPath7473.php" method="post" enctype="multipart/form-data">
+<h2>Nimihaku</h2>
+<p>Anna haettava sukunimi sukunimi-kentt&auml;&auml;n tai sukunimen alku 
+vapaahaku-kentt&auml;&auml;n (k&auml;ytt&auml;en porttia: 7473). </p>
+<p>Haku tapahtuu Sukunimen mukaan, jos annettu, muuten haetaan 
+vapaahaku-kentt&auml;n mukaan.</p>
+<p><span class="tit">Sukunimi:</span> 
+<input type="text" name="name"/> (esim. Saarikunnas)</p>
+<p><span class="tit">Vapaahaku:</span> 
+<input type="text" name="wildcard"/> (esim. Saarik)
+<input class="subm" type="submit" value="Etsi"/></p>
+</form>
+</div>
+
+<div class="form">
 <form action="listNames.php" method="post" enctype="multipart/form-data">
 <h2>Nimihaku</h2>
 <p>Anna haettava sukunimi sukunimi-kentt&auml;&auml;n tai sukunimen alku 
