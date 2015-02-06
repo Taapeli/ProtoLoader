@@ -21,7 +21,7 @@
     echo "<p>Poiminta nimi = '$input_name''$input_wildcard'</p>";
     $input_wildcard = $input_wildcard . ".*";
 
-    $sukudb = new Everyman\Neo4j\Client('neo4j35029-Taademo2.jelastic.elastx.net', 7473);
+    $sukudb = new Everyman\Neo4j\Client('localhost', 7473);
 
     if ($input_name != '') {
       // Neo4j parameter {name} is used to avoid hacking injection
