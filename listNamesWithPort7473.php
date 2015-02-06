@@ -11,7 +11,8 @@
   <a href="index.php">Paluu</a></div>
 <h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
-  require('etc/php.ini');
+//  require('etc/php.ini');
+  echo "Start the query";
 
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
