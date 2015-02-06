@@ -11,7 +11,6 @@
   <a href="index.php">Paluu</a></div>
 <h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
-  echo "Haku alkaa";
   require('etc/php.ini');
 
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
@@ -21,13 +20,14 @@
     echo "<p>Poiminta nimi = '$input_name''$input_wildcard'</p>";
     $input_wildcard = $input_wildcard . ".*";
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7473);
+    $sukudb = new Everyman\Neo4j\Client('neo4j35029-Taademo2.jelastic.elastx.net', 7473);
 
     if ($input_name != '') {
       // Neo4j parameter {name} is used to avoid hacking injection
       $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name={name} RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('name' => $input_name);
+      echo "After setting the Neo4j command";
     }
     else {
       // Neo4j parameter {wildcard} is used to avoid hacking injection
@@ -35,8 +35,10 @@
 
       $query_array = array('wildcard' => $input_wildcard);
     }
+    echo "Before query";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
+    echo "After query";
 
     foreach ($result as $rows)
     {
