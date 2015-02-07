@@ -18,17 +18,17 @@
 <ul>
 <li>Gedcom-tiedoston tarkistuksessa l&ouml;ydetyt 
    <a href="listToDoData.php" target="_blank">korjausta vaativat seikat</a></li>
-<li>Lista henkilöistä, joilla ei ole 
+<li>Lista henkilöist&auml;, joilla ei ole 
    <a href="listNotSetBirthdays.php" target="_blank">syntym&auml;aikaa</a> tai 
    <a href="listNoHiskiLinks.php" target="_blank">Hiski-linkki&auml;</a></li>
-<li>Lista henkilöistä, joilla on 
-   <a href="listMayBeSame.php" target="_blank">sama syntymäaika sekä
+<li>Lista henkilöist&auml;, joilla on 
+   <a href="listMayBeSame.php" target="_blank">sama syntym&auml;aika sek&auml;
       sama etu- ja sukunimi</a></li>
 </ul>
 <h2>Taapelin korjausohjelmat</h2>
 <ul>
 <li>Yhdist&auml; sellaiset henkil&ouml;t, joilla on  
-   <a href="connectSameBirthDates.php" target="_blank">sama syntymäaika</a> tai 
+   <a href="connectSameBirthDates.php" target="_blank">sama syntym&auml;aika</a> tai 
    <a href="connectSameNames.php" target="_blank">samat etu- ja sukunimet</a></li>
 <li>Katkaise mahdollinen yhteys henkil&ouml;ilt&auml;, joilla on  
    <a href="disconnectSameBirthDates.php" target="_blank">sama syntym&auml;aika</a> tai
@@ -40,13 +40,13 @@
 <form action="listBirths.php" method="post" enctype="multipart/form-data">
 <h2>Haku syntym&auml;ajalla</h2>
 <p>Anna haettava syntym&auml;aika muodossa "1837-09-02"</p>
-<p><span class="tit">Päivämäärä:</span> 
+<p><span class="tit">P&auml;iv&auml;m&auml;&auml;r&auml;:</span> 
 <input type="text" name="birth" required="required" />
 <input class="subm" type="submit" value="Etsi" /></p>
 </form>
 </div>
 
-<div class="form">
+<!-- div class="form">
 <form action="listNamesWithPort7473.php" method="post" enctype="multipart/form-data">
 <h2>Nimihaku</h2>
 <p>Anna haettava sukunimi sukunimi-kentt&auml;&auml;n tai sukunimen alku 
@@ -59,7 +59,7 @@ vapaahaku-kentt&auml;n mukaan.</p>
 <input type="text" name="wildcard"/> (esim. Saarik)
 <input class="subm" type="submit" value="Etsi"/></p>
 </form>
-</div>
+</div -->
 
 <div class="form">
 <form action="listNames.php" method="post" enctype="multipart/form-data">
@@ -80,8 +80,8 @@ vapaahaku-kentt&auml;n mukaan.</p>
 <h2>Lataa gedcom-tiedosto</h2>
 <p>Sy&ouml;tteen&auml; annettu gedcom-tiedosto luetaan kantaan
    siell&auml; jo olevien tietojen lis&auml;ksi.</p>
-<div class="indent">
-	<h3>a) Käytetään neo4jphp- ja cypher-komentoja</h3>
+<!-- div class="indent">
+	<h3>a) K&auml;ytet&auml;&auml;n neo4jphp- ja cypher-komentoja</h3>
 	<form action="gedLoader.php" method="post" enctype="multipart/form-data">
 	<p><span class="tit">Sy&ouml;te:</span> 
 	<input type="file" name="image" required="required" />
@@ -91,30 +91,30 @@ vapaahaku-kentt&auml;n mukaan.</p>
 
 <div class="indent">
 	<form action="gedLoader2.php" method="post" enctype="multipart/form-data">
-	<h3>b) Käytetään vain cypher-komentoja</h3>
+	<h3>b) K&auml;ytet&auml;&auml;n vain cypher-komentoja</h3>
 	<p><span class="tit">Sy&ouml;te:</span> 
 	<input type="file" name="image" required="required" />
 	<input class="subm" type="submit" value="Lataa" /></p>
 	</form>
-</div>
+</div -->
 
 <div class="indent">
 	<form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">
-	<h3>c) Tallennetaan myös käyttäjä-labelin kanssa</h3>
+	<h3>a) Tallennetaan k&auml;ytt&auml;j&auml;-labelin kanssa</h3>
 	<p><span class="tit">Sy&ouml;te:</span> 
 	<input type="file" name="image" required="required" />
 	<input class="subm" type="submit" value="Lataa" /></p>
 	</form>
 </div>
 
-<div class="indent">
+<!-- div class="indent">
 	<form action="gedLoaderWithPort7473.php" method="post" enctype="multipart/form-data">
-	<h3>c) Tallennetaan (k&auml;ytt&auml;en porttia: 7473) myös käyttäjä-labelin kanssa</h3>
+	<h3>d) Tallennetaan (k&auml;ytt&auml;en porttia: 7473) myös k&auml;ytt&auml;j&auml;-labelin kanssa</h3>
 	<p><span class="tit">Sy&ouml;te:</span> 
 	<input type="file" name="image" required="required" />
 	<input class="subm" type="submit" value="Lataa" /></p>
 	</form>
-</div>
+</div -->
 </div>
 
 </body>
