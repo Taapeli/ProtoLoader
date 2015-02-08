@@ -8,8 +8,8 @@
 
 <body>
 <h1>Noe4j-kannan avaaminen</h1>
-<p>Valittu palvelin ja portti</p>
-<p>
+<p>Avataan valittu palvelin ja portti ...</p>
+<pre>
 <?php
 	  require('vendor/autoload.php');
 	  
@@ -18,7 +18,8 @@
 
 	  print_r($client->getServerInfo()); 
 ?>
-</p>
+</pre>
+<p>... avattu!</p>
 <p>Lähde: <a href="http://stackoverflow.com/questions/26576871/neo4jphp-cannot-instantiate-abstract-class-everyman-neo4j-transport">Stackoverflow</p>
 </body>
 </html>
