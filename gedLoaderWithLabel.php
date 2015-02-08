@@ -120,6 +120,11 @@
       $idLabel = $sukudb->makeLabel('Person');
       $nameLabel = $sukudb->makeLabel('Name');
       $marriageLabel = $sukudb->makeLabel('Marriage');
+      $birthLabel = $sukudb->makeLabel('Birth');
+      $christienLabel = $sukudb->makeLabel('Christien');
+      $confirmationLabel = $sukudb->makeLabel('Confirmation');
+      $deathLabel = $sukudb->makeLabel('Death');
+      $buriedLabel = $sukudb->makeLabel('Buried');
       $sourceLabel = $sukudb->makeLabel('Source');
       $repoLabel = $sukudb->makeLabel('Repo');
 
@@ -432,24 +437,54 @@
                   }
                   switch ($event) {
                     case "BIRT":
-                      $person[$id]->setProperty('birth_date', $date_str)
+                      $even = $sukudb->makeNode()
+                        ->setProperty('type', 'Birth')
+                        ->setProperty('birth_date', $date_str)
                         ->save();
+                      $rel = $person[$id]->relateTo($even, 'BIRTH')->save();
+
+                      $birthLabels = $even->addLabels(array($birthLabel));
+                      $userLabels = $even->addLabels(array($userLabel));
                       break;
                     case "CHR":
-                      $person[$id]->setProperty('christen_date', $date_str)
+                      $even = $sukudb->makeNode()
+                        ->setProperty('type', 'Christen')
+                        ->setProperty('christen_date', $date_str)
                         ->save();
+                      $rel = $person[$id]->relateTo($even, 'CHRISTEN')->save();
+
+                      $christenLabels = $even->addLabels(array($christenLabel));
+                      $userLabels = $even->addLabels(array($userLabel));
                       break;
                     case "CONF":
-                      $person[$id]->setProperty('confirmation_date', $date_str)
+                      $even = $sukudb->makeNode()
+                        ->setProperty('type', 'Confirmation')
+                        ->setProperty('confirmation_date', $date_str)
                         ->save();
+                      $rel = $person[$id]->relateTo($even, 'CONFIRMATION')->save();
+
+                      $confirmationLabels = $even->addLabels(array($confirmationLabel));
+                      $userLabels = $even->addLabels(array($userLabel));
                       break;
                     case "DEAT":
-                      $person[$id]->setProperty('death_date', $date_str)
+                      $even = $sukudb->makeNode()
+                        ->setProperty('type', 'Death')
+                        ->setProperty('death_date', $date_str)
                         ->save();
+                      $rel = $person[$id]->relateTo($even, 'DEATH')->save();
+
+                      $deathLabels = $even->addLabels(array($deathLabel));
+                      $userLabels = $even->addLabels(array($userLabel));
                       break;
                     case "BURI":
-                      $person[$id]->setProperty('buried_date', $date_str)
+                      $even = $sukudb->makeNode()
+                        ->setProperty('type', 'Buried')
+                        ->setProperty('buried_date', $date_str)
                         ->save();
+                      $rel = $person[$id]->relateTo($even, 'BURIED')->save();
+
+                      $buriedLabels = $even->addLabels(array($buriedLabel));
+                      $userLabels = $even->addLabels(array($userLabel));
                       break;
                     case "CHAN":
                       break;
@@ -462,8 +497,8 @@
                   switch ($event) {
                     case "BIRT":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place {name:'" . $arg0 . 
-                        "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
+                        "'})-[:BIRTH]->(e) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (e)-[:BIRTH_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -471,8 +506,8 @@
                       break;
                     case "CHR":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place {name:'" . $arg0 . 
-                        "'}) MERGE (n)-[:CHRISTEN_PLACE]->(p)";
+                        "'})-[:CHRISTEN]->(e) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (e)-[:CHRISTEN_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -480,8 +515,8 @@
                       break;
                     case "CONF":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place {name:'" . $arg0 . 
-                        "'}) MERGE (n)-[:CONFIRMATION_PLACE]->(p)";
+                        "'})-[:CONFIRMATION]->(e) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (e)-[:CONFIRMATION_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -489,8 +524,8 @@
                       break;
                     case "DEAT":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place {name:'" . $arg0 . 
-                        "'}) MERGE (n)-[:DEATH_PLACE]->(p)";
+                        "'})-[:DEATH]->(e) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (e)-[:DEATH_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -498,8 +533,8 @@
                       break;
                     case "BURI":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place {name:'" . $arg0 . 
-                        "'}) MERGE (n)-[:BURIED_PLACE]->(p)";
+                        "'})-[:BURIED]->(e) MERGE (p:Place {name:'" . $arg0 . 
+                        "'}) MERGE (e)-[:BURIED_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -529,8 +564,8 @@
                     case "BIRT":
                       $sour_id = idtrim($arg0);
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Source {id:'" . $sour_id . 
-                        "'}) MERGE (n)-[:BIRTH_SOURCE]->(p)";
+                        "'})-[:BIRTH]->(e) MERGE (p:Source {id:'" . $sour_id . 
+                        "'}) MERGE (e)-[:BIRTH_SOURCE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
                       $result = $query->getResultSet();
@@ -538,8 +573,8 @@
                     case "CONF":
                       $sour_id = idtrim($arg0);
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Source {id:'" . $sour_id . 
-                        "'}) MERGE (n)-[:CONFIRMATION_SOURCE]->(p)";
+                        "'})-[:CONFIRMATION]->(e) MERGE (p:Source {id:'" . $sour_id . 
+                        "'}) MERGE (e)-[:CONFIRMATION_SOURCE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
                       $result = $query->getResultSet();
@@ -547,8 +582,8 @@
                     case "DEAT":
                       $sour_id = idtrim($arg0);
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Source {id:'" . $sour_id . 
-                        "'}) MERGE (n)-[:DEATH_SOURCE]->(p)";
+                        "'})-[:DEATH]->(e) MERGE (p:Source {id:'" . $sour_id . 
+                        "'}) MERGE (e)-[:DEATH_SOURCE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
                       $result = $query->getResultSet();
@@ -556,8 +591,8 @@
                     case "BURI":
                       $sour_id = idtrim($arg0);
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Source {id:'" . $sour_id . 
-                        "'}) MERGE (n)-[:BURIED_SOURCE]->(p)";
+                        "'})-[:BURIED]->(e) MERGE (p:Source {id:'" . $sour_id . 
+                        "'}) MERGE (e)-[:BURIED_SOURCE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
                       $result = $query->getResultSet();
@@ -763,7 +798,7 @@
                   switch ($event) {
                     case "BIRT":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[r:BIRTH_SOURCE]->(p:Source {id:'" . $sour_id . 
+                        "'})-[:BIRTH]->()-[r:BIRTH_SOURCE]->(p:Source {id:'" . $sour_id . 
                         "'}) SET r.page='" . $arg0 . "'";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -771,7 +806,7 @@
                       break;
                     case "CONF":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[r:CONFIRMATION_SOURCE]->(p:Source {id:'" . $sour_id . 
+                        "'})-[:CONFIRMATION]->()-[r:CONFIRMATION_SOURCE]->(p:Source {id:'" . $sour_id . 
                         "'}) SET r.page='" . $arg0 . "'";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -779,7 +814,7 @@
                       break;
                     case "DEAT":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[r:DEATH_SOURCE]->(p:Source {id:'" . $sour_id . 
+                        "'})-[:DEATH]->()-[r:DEATH_SOURCE]->(p:Source {id:'" . $sour_id . 
                         "'}) SET r.page='" . $arg0 . "'";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -787,7 +822,7 @@
                       break;
                     case "BURI":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[r:BURIED_SOURCE]->(p:Source {id:'" . $sour_id . 
+                        "'})-[:BURIED]->()-[r:BURIED_SOURCE]->(p:Source {id:'" . $sour_id . 
                         "'}) SET r.page='" . $arg0 . "'";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
