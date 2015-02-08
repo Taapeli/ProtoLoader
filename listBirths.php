@@ -23,7 +23,7 @@
     $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
 
     // Neo4j parameter {birth} is used to avoid hacking injection
-    $query_string = "MATCH (n:Person) WHERE n.birth_date={birth} RETURN n";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b:Birth) WHERE b.birth_date={birth} RETURN n, b";
 
     $query_array = array('birth' => $input_birth);
 
@@ -33,7 +33,7 @@
     foreach ($result as $row)
     {
       $id[] = $row[0]->getProperty('id');
-      $birth_date[] = $row[0]->getProperty('birth_date');
+      $birth_date[] = $row[1]->getProperty('birth_date');
     }
 
     for ($i=0; $i<sizeof($id); $i++) {
@@ -51,7 +51,7 @@
     }
 
     for ($i=0; $i<sizeof($id); $i++) {
-      $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . "' RETURN p";
+      $query_string = "MATCH (n:Person)-[:BIRTH]->(b:Birth)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . "' RETURN p";
 
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
@@ -76,12 +76,6 @@
          "</td><td> " . $birth_date[$i] .
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";
-/*
-         "</a></td><td>" . $first_name[$i] .
-         "</td><td> " . $last_name[$i] .
-         "</td><td> " . $later_names[$i] .
-         "</td><td> " . $birth_date[$i] .
-         "</td><td> " . $birth_place[$i] . */
   }
   echo "</table>";
 ?>

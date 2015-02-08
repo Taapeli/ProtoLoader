@@ -41,14 +41,25 @@
     foreach ($result as $rows)
     {
       $id[] = $rows[0]->getProperty('id');
-      $birth_date[] = $rows[0]->getProperty('birth_date');
       $first_name[] = $rows[1]->getProperty('first_name');
       $last_name[] = $rows[1]->getProperty('last_name');
       $later_names[] = $rows[1]->getProperty('later_names');
     }
 
     for ($i=0; $i<sizeof($id); $i++) {
-      $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" .
+      $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" .
+        $id[$i] . "' RETURN b";
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $result = $query->getResultSet();
+
+      foreach ($result as $rows)
+      {
+        $birth_date[] = $rows[0]->getProperty('birth_date');
+      }
+    }
+
+    for ($i=0; $i<sizeof($id); $i++) {
+      $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" .
         $id[$i] . "' RETURN p";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
