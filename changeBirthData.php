@@ -33,7 +33,7 @@
     if ($input_birth) {
       // Neo4j parameter {birth} is used to avoid hacking injection
       $query_string = "MATCH (n:Person) WHERE n.id='" . $id . 
-        "' SET n.birth_date={birth} RETURN n";
+        "' MERGE (n)-[:BIRTH]->(b:Birth) SET b.birth_date={birth} RETURN n";
 
       $query_array = array('birth' => $input_birth);
 
@@ -44,7 +44,7 @@
     if ($input_place && ($prev_place <> $input_place)) {
       
       // Neo4j parameter {place} is used to avoid hacking injection
-      $query_string = "MATCH (p:Place) WHERE p.name={place} RETURN p";
+      $query_string = "MERGE (p:Place {name: {place}}) RETURN p";
 
       $query_array = array('place' => $input_place);
 
@@ -56,32 +56,21 @@
         $birth_place = $rows[0]->getProperty('name');
       }
 
-      if (!$birth_place) {
-?>
-  <script type="text/javascript">
-    alert("Syntymäpaikkaa ei muutettu. Tarkista kirjoitusasu!");
-    history.back();
-  </script>
-<?php
-      }
-      else {
-        $query_string = "MATCH (n:Person)-[r:BIRTH_PLACE]-() WHERE n.id='" . $id . 
-          "' DELETE r";
-        $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-        $result = $query->getResultSet();
+      $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[r:BIRTH_PLACE]-() WHERE n.id='" . $id . 
+        "' DELETE r";
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $result = $query->getResultSet();
 
-        $query_string = "MATCH (n:Person {id:'" . $id . 
-          "'}), (p:Place {name:'" . $birth_place . 
-          "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
+      $query_string = "MATCH (n:Person {id:'" . $id . 
+        "'})-[:BIRTH]->(b), (p:Place {name:'" . $birth_place . 
+        "'}) MERGE (b)-[:BIRTH_PLACE]->(p)";
 
-        $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-
-        $result = $query->getResultSet();
-      }
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $result = $query->getResultSet();
     }
 
-    $query_string = "MATCH (n:Person) WHERE n.id='" . $id . 
-      "' RETURN n";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $id . 
+      "' RETURN b";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -89,10 +78,10 @@
     foreach ($result as $rows)
     {
       $birth_date = $rows[0]->getProperty('birth_date');
-      $death_date = $rows[0]->getProperty('death_date');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id . "' RETURN p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id . 
+      "' RETURN p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();

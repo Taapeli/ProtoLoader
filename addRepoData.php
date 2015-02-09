@@ -60,7 +60,8 @@
           $source_id = $rows[0]->getProperty('id');
         }
 
-        $query_string = "MATCH (n:Person {id:{id}}), (s:Source {id:{source_id}}) MERGE (n)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
+        $query_string = "MATCH (n:Person {id:{id}}), (s:Source {id:{source_id}}) 
+          MERGE (n)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
 
         $query_array = array('id' => $input_id, 'source_id' => $source_id, 'page' => $input_page);
 
@@ -90,7 +91,10 @@
         $source_id_int++;
         $source_id = "S" . $source_id_int;
  
-        $query_string = "MATCH (n:Person {id:{id}}), (r:Repo {id:{repo_id}}) MERGE (s:Source {id:{source_id}, title:{source}}) MERGE (r)-[:REPO_SOURCE]->(s) MERGE (n)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
+        $query_string = "MATCH (n:Person {id:{id}}), (r:Repo {id:{repo_id}}) 
+          MERGE (s:Source {id:{source_id}, title:{source}}) 
+          MERGE (r)-[:REPO_SOURCE]->(s) 
+          MERGE (n)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
 
         $query_array = array('id' => $input_id, 'source_id' => $source_id, 'source' => $input_source, 'repo_id' => $repo_id, 'page' => $input_page);
 
@@ -118,7 +122,11 @@
       $repo_id = "R" . $repo_id_int;
       $source_id = "S0001";
  
-      $query_string = "MATCH (n:Person {id:{id}}) MERGE (r:Repo {id:{repo_id}, name:{repo}}) MERGE (s:Source {id:{source_id}, title:{source}}) MERGE (r)-[:REPO_SOURCE]->(s) MERGE (n)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
+      $query_string = "MATCH (n:Person {id:{id}}) 
+        MERGE (r:Repo {id:{repo_id}, name:{repo}}) 
+        MERGE (s:Source {id:{source_id}, title:{source}}) 
+        MERGE (r)-[:REPO_SOURCE]->(s) 
+        MERGE (n)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
 
       $query_array = array('id' => $input_id, 'source_id' => $source_id, 'source' => $input_source, 'repo_id' => $repo_id, 'repo' => $input_repo, 'page' => $input_page);
 
@@ -137,11 +145,20 @@
     foreach ($result as $rows)
     {
       $id = $rows[0]->getProperty('id'); // This variable is used for later MATCHs
-      $birth_date = $rows[0]->getProperty('birth_date');
-      $death_date = $rows[0]->getProperty('death_date');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id . "' RETURN p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $id . "' RETURN b";
+
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+    $result = $query->getResultSet();
+
+    foreach ($result as $rows)
+    {
+      $birth_date = $rows[0]->getProperty('birth_date');
+    }
+
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id . 
+      "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -163,7 +180,7 @@
       $later_names = $rows[0]->getProperty('later_names');
     }
 
-    $query_string = "MATCH (n:Person)-[p:BIRTH_SOURCE]-(s:Source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s,p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]-(s:Source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s,p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -175,7 +192,7 @@
       $repo_page[] = $rows[2]->getProperty('page');
     }
 
-    $query_string = "MATCH (n:Person)-[p:BIRTH_REPO]-(r:Repo) WHERE n.id='" . $id . "' RETURN r, p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_REPO]-(r:Repo) WHERE n.id='" . $id . "' RETURN r, p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();

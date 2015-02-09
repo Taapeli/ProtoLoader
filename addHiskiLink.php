@@ -37,7 +37,8 @@
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
 
-    $query_string = "MATCH (n:Person) WHERE n.id='" . $id . "' RETURN n";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $id . 
+      "' RETURN b";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
@@ -45,10 +46,10 @@
     foreach ($result as $rows)
     {
       $birth_date = $rows[0]->getProperty('birth_date');
-      $death_date = $rows[0]->getProperty('death_date');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id . "' RETURN p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id . 
+      "' RETURN p";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
     $result = $query->getResultSet();
