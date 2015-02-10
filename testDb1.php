@@ -14,9 +14,9 @@
 	  require('vendor/autoload.php');
 	  
 	  use everyman\Neo4j\Client;
-	  $client = new Client()			or die "Clientin luonti ei onnistunut";
+	  $client = new Client();
 
-	  print_r($client->getServerInfo())	or die "Ei onnistuttu saamaan ServerInfoa"; 
+	  print_r($client->getServerInfo()); 
 ?>
 </pre>
 <p>... avattu!</p>
