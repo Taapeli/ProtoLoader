@@ -46,7 +46,7 @@
 </form>
 </div>
 
-<!-- div class="form">
+<div class="form">
 <form action="listNamesWithPort7473.php" method="post" enctype="multipart/form-data">
 <h2>Nimihaku</h2>
 <p>Anna haettava sukunimi sukunimi-kentt&auml;&auml;n tai sukunimen alku 
@@ -59,7 +59,7 @@ vapaahaku-kentt&auml;n mukaan.</p>
 <input type="text" name="wildcard"/> (esim. Saarik)
 <input class="subm" type="submit" value="Etsi"/></p>
 </form>
-</div -->
+</div>
 
 <div class="form">
 <form action="listNames.php" method="post" enctype="multipart/form-data">

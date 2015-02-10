@@ -22,8 +22,8 @@
     echo "<p>Poiminta nimi = '$input_name''$input_wildcard'</p>";
     $input_wildcard = $input_wildcard . ".*";
 
-//    $sukudb = new data\Everyman\Neo4j\Client('taademo2.jelastic.elastx.net', 7473);
-    $sukudb = new vendor\everyman\neo4jphp\lib\Everyman\Neo4j\Client('localhost', 7473);
+//    $sukudb = new Everyman\Neo4j\Client('taademo2.jelastic.elastx.net', 7473);
+    $sukudb = new Everyman\Neo4j\Client('localhost', 7473);
 
     if ($input_name != '') {
       // Neo4j parameter {name} is used to avoid hacking injection
@@ -39,7 +39,7 @@
       $query_array = array('wildcard' => $input_wildcard);
     }
     echo "Before query";
-    $query = new vendor\everyman\neo4jphp\lib\Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
+    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
     echo "After query";
 
@@ -55,7 +55,7 @@
     for ($i=0; $i<sizeof($id); $i++) {
       $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" .
         $id[$i] . "' RETURN p";
-      $query = new vendor\everyman\neo4jphp\lib\Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
 
       foreach ($result as $rows)
