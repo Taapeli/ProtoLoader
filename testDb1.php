@@ -11,9 +11,9 @@
 <p>Avataan oletustiedoin ...</p>
 <pre>
 <?php
-	  require('vendor/autoload.php') 	or die "Autoload ei onnistunut";
+	  require('vendor/autoload.php');
 	  
-	  use everyman\Neo4j\Client			or die "use Client ei onnistunut";
+	  use everyman\Neo4j\Client;
 	  $client = new Client()			or die "Clientin luonti ei onnistunut";
 
 	  print_r($client->getServerInfo())	or die "Ei onnistuttu saamaan ServerInfoa"; 
