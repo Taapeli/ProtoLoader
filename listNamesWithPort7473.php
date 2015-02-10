@@ -13,6 +13,8 @@
 <?php
   echo "Start the query";
 
+  require('vendor/autoload.php');
+
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
     $input_name = $_POST['name'];
