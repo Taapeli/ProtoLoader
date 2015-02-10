@@ -13,8 +13,8 @@
 <?php
 	  require('vendor/autoload.php');
 	  
-	  use everyman\Neo4j\Client;
-	  $client = new Everyman\Neo4j\Client('localhost', 1337);
+	  use Everyman\Neo4j\Client;
+	  $client = new Client('localhost', 1337);
 
 	  print_r($client->getServerInfo()); 
 ?>
