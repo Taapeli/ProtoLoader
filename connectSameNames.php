@@ -14,7 +14,7 @@
 
   require('vendor/autoload.php');
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     $query_string = "MATCH (n:Person:user0498)-[:HAS_NAME]-(a), (m:Person:user6321)-[:HAS_NAME]-(b) WHERE ((a.first_name = b.first_name) AND (a.last_name = b.last_name)) RETURN n.id, m.id";
 

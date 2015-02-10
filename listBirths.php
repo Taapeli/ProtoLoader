@@ -20,7 +20,7 @@
     $input_birth = $_POST['birth'];
     echo "<p>Poiminta syntymäaika = '$input_birth'</p>";
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     // Neo4j parameter {birth} is used to avoid hacking injection
     $query_string = "MATCH (n:Person)-[:BIRTH]->(b:Birth) WHERE b.birth_date={birth} RETURN n, b";

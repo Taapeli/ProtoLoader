@@ -26,7 +26,7 @@
     $input_id = $_GET['id'];
     $input_repo_id = $_GET['repoid'];
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     if (isset($_GET['sourceid'])) {
       $input_repo_source_id = $_GET['sourceid'];

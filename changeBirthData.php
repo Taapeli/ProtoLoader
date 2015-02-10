@@ -28,7 +28,7 @@
     $input_birth = $_POST['birth'];
     $input_place = $_POST['place'];
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     if ($input_birth) {
       // Neo4j parameter {birth} is used to avoid hacking injection

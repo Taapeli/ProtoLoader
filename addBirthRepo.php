@@ -28,7 +28,8 @@
     $input_repo_source_id = "";
     $input_page = "";
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
+
 
     if (isset($_GET['page'])) {
       $input_page = $_GET['page'];

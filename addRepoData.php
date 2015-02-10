@@ -28,7 +28,8 @@
     $input_source = $_POST['source'];
     $input_page = "";
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
+
 
     if (isset($_POST['page'])) {
       $input_page = $_POST['page'];

@@ -14,7 +14,7 @@
 
   require('vendor/autoload.php');
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     $query_string = "MATCH (n:Person:user0498), (m:Person:user6321) WHERE m.birth_date = n.birth_date RETURN n.id, m.id";
 

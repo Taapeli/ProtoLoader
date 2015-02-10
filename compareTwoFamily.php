@@ -25,7 +25,7 @@
     $input_id = $_GET['id'];
     $input_id2 = $_GET['id2'];
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person:user0498) WHERE n.id={id} RETURN n";

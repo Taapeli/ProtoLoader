@@ -15,7 +15,7 @@
 
   require('vendor/autoload.php');
 
-  $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+  include("openSukudb.php");
 
   $query_string = "MATCH (n:Person:user0498)-[r:MAY_BE_SAME]-(m:Person:user6321) WHERE r.indication1=1 AND r.indication2=1 RETURN n,m,r";
 

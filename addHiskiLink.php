@@ -26,7 +26,7 @@
     $id = $_POST['id'];
     $input_hiski = $_POST['hiski'];
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     // Neo4j parameter {hiski} is used to avoid hacking injection
     $query_string = "MATCH (n:Person {id:'" . $id . 
