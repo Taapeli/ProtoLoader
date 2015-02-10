@@ -11,7 +11,6 @@
   <a href="index.php">Paluu</a></div>
 <h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
-//  require('etc/php.ini');
   echo "Start the query";
 
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
@@ -37,7 +36,7 @@
       $query_array = array('wildcard' => $input_wildcard);
     }
     echo "Before query";
-    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
+    $query = new vendor\everyman\neo4jphp\lib\Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
     echo "After query";
 
@@ -53,7 +52,7 @@
     for ($i=0; $i<sizeof($id); $i++) {
       $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" .
         $id[$i] . "' RETURN p";
-      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $query = new vendor\everyman\neo4jphp\lib\Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
 
       foreach ($result as $rows)
