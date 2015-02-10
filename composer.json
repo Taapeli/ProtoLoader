@@ -1,0 +1,5 @@
+{
+   "require": {
+      "everyman/Neo4j": "dev-master"
+    }
+}
