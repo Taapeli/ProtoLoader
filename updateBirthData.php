@@ -26,7 +26,7 @@
 
     require('vendor/autoload.php');
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person) WHERE n.id={id} RETURN n";

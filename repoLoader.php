@@ -58,7 +58,7 @@
         return substr(trim($id), 1, -1);
       }
 
-      $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+      include("openSukudb.php");
 
       $repoLabel = $sukudb->makeLabel('Repo');
       $soureLabel = $sukudb->makeLabel('Source');

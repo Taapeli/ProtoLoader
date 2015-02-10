@@ -16,7 +16,7 @@
 
   require('vendor/autoload.php');
 
-  $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+  include("openSukudb.php");
 
   $query_string = "MATCH (n:Person)-[:HAS_NAME]->(m) WHERE NOT HAS (n.birth_date) RETURN n, m ORDER BY m.last_name, m.first_name";
 

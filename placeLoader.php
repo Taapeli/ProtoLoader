@@ -53,7 +53,7 @@
 	// }
       echo "</em><p>\n";
 
-      $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+      include("openSukudb.php");
 
       $placeLabel = $sukudb->makeLabel('Place');
 

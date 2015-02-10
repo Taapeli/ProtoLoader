@@ -26,7 +26,7 @@
 
     require('vendor/autoload.php');
 
-    $sukudb = new Everyman\Neo4j\Client('localhost', 7474);
+    include("openSukudb.php");
 
     $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $id . "' RETURN b";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
