@@ -11,12 +11,12 @@
 <p>Avataan oletustiedoin ...</p>
 <pre>
 <?php
-	  require('vendor/autoload.php');
+	  require('vendor/autoload.php') 	or die "Autoload ei onnistunut";
 	  
-	  use everyman\Neo4j\Client;
-	  $client = new Client();
+	  use everyman\Neo4j\Client			or die "use Client ei onnistunut";
+	  $client = new Client()			or die "Clientin luonti ei onnistunut";
 
-	  print_r($client->getServerInfo()); 
+	  print_r($client->getServerInfo())	or die "Ei onnistuttu saamaan ServerInfoa"; 
 ?>
 </pre>
 <p>... avattu!</p>
