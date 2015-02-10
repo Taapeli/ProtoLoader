@@ -14,7 +14,7 @@
 	  require('vendor/autoload.php');
 	  
 	  use Everyman\Neo4j\Client;
-	  $client = new Client('10.50.8.204', 1337);
+	  $client = new Client('10.50.8.204', 7474);
 
 	  print_r($client->getServerInfo()); 
 ?>
