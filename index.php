@@ -33,6 +33,8 @@
 <li>Katkaise mahdollinen yhteys henkil&ouml;ilt&auml;, joilla on  
    <a href="disconnectSameBirthDates.php" target="_blank">sama syntym&auml;aika</a> tai
    <a href="disconnectSameNames.php" target="_blank">samat etu- ja sukunimet</a></li>
+<li>Keskener&auml;inen   
+   <a href="compareTwoFamilyForm.php" target="_blank">yhdistelyehdotuslomake</a> tai
 </ul>
 </div>
 
@@ -43,21 +45,6 @@
 <p><span class="tit">P&auml;iv&auml;m&auml;&auml;r&auml;:</span> 
 <input type="text" name="birth" required="required" />
 <input class="subm" type="submit" value="Etsi" /></p>
-</form>
-</div>
-
-<div class="form">
-<form action="listNamesWithPort7473.php" method="post" enctype="multipart/form-data">
-<h2>Nimihaku</h2>
-<p>Anna haettava sukunimi sukunimi-kentt&auml;&auml;n tai sukunimen alku 
-vapaahaku-kentt&auml;&auml;n (k&auml;ytt&auml;en porttia: 7473). </p>
-<p>Haku tapahtuu Sukunimen mukaan, jos annettu, muuten haetaan 
-vapaahaku-kentt&auml;n mukaan.</p>
-<p><span class="tit">Sukunimi:</span> 
-<input type="text" name="name"/> (esim. Saarikunnas)</p>
-<p><span class="tit">Vapaahaku:</span> 
-<input type="text" name="wildcard"/> (esim. Saarik)
-<input class="subm" type="submit" value="Etsi"/></p>
 </form>
 </div>
 
