@@ -11,11 +11,12 @@
 <p>Avataan valittu palvelin ja portti ...</p>
 <pre>
 <?php
-	  require('vendor/autoload.php');
-	  
-	  use Everyman\Neo4j\Client;
-	  $client = new Client('10.50.8.204', 8080);
-
+//	require('vendor/autoload.php');	  
+//	use Everyman\Neo4j\Client;
+//	$transport = new Transport('10.50.8.204', 8080);
+//	$client = new Client($transport.setAuth( $username, $password ), 0);
+	include('../../keys/dbconnect.inc');
+	
 	  print_r($client->getServerInfo()); 
 ?>
 </pre>
