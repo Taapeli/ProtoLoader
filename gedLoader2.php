@@ -13,7 +13,8 @@
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
 
-  require('vendor/autoload.php');
+//require('vendor/autoload.php');
+  include 'inc/dbconnect.php';
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -115,7 +116,7 @@
         return $month_num;
       }
 
-      include("openSukudb.php");
+//    include("openSukudb.php");
 
       $idLabel = $sukudb->makeLabel('Person');
       $nameLabel = $sukudb->makeLabel('Name');
