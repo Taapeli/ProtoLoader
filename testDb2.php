@@ -7,17 +7,31 @@
 </head>
 
 <body>
-<h1>Noe4j-kannan avaaminen</h1>
+<h1>Neo4j-kannan avaaminen</h1>
 <p>Avataan valittu palvelin ja portti ...</p>
 <pre>
 <?php
-//	require('vendor/autoload.php');	  
-//	use Everyman\Neo4j\Client;
-//	$transport = new Transport('10.50.8.204', 8080);
-//	$client = new Client($transport.setAuth( $username, $password ), 0);
-	include 'static/dbconnect.inc';
+	require('vendor/autoload.php');	  
+	use Everyman\Neo4j\Client;
+
+	$pwFile = '../../keys/dbinfo.dat';
+	echo "Tiedosto $myFile\n";
+	if (file_exists($pwFile)) { 
+	   $fh = fopen($pwFile, 'r');
+	   $username = trim(fgets($fh));
+	   $password = trim(fgets($fh));
+	   $host = trim(fgets($fh));
+	   $port = trim(fgets($fh));
+	   fclose($fh);
+	} else die("No password file");
+	echo "connect $host:$port setAuth($username, ...)\n";
+
+	$client = new Everyman\Neo4j\Client($host, $port);
+	$client->getTransport()
+	  ->setAuth($username, $password);
+	  // Ei käytetä https:ää ->useHttps()
 	
-	  print_r($client->getServerInfo()); 
+	print_r($client->getServerInfo()); 
 ?>
 </pre>
 <p>... avattu!</p>
