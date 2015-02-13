@@ -14,7 +14,6 @@
 <?php
 
   include "inc/dbconnect.php";
-  $sukudb = $client;	// Tilapäisratkaisu, kokeillaan näin
   
   if(isset($_POST['birth'])){
     // Tiedoston käsittelyn muuttujat

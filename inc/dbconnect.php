@@ -18,8 +18,8 @@
 	} else die("No password file");
 	//echo "connect $host:$port setAuth($username, ...)\n";
 
-	$client = new Everyman\Neo4j\Client($host, $port);
-	$client->getTransport()
+	$sukudb = new Everyman\Neo4j\Client($host, $port);
+	$sukudb->getTransport()
 	  ->setAuth($username, $password);
 	  // Ei käytetä https:ää ->useHttps()
 	
