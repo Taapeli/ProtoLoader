@@ -14,9 +14,9 @@
 <ul>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-  include("openSukudb.php");
+  
  
   if (isset($_POST['id'])) {
     $id = $_POST['id'];

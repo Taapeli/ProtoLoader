@@ -12,7 +12,7 @@
 <p>Luetaan neo4j-tietokannasta.</p>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -24,7 +24,7 @@
     // Tiedoston käsittelyn muuttujat
     $input_id = $_GET['id'];
 
-    include("openSukudb.php");
+    
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person) WHERE n.id={id} RETURN n";

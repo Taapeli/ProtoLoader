@@ -12,7 +12,7 @@
 <h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
@@ -21,7 +21,7 @@
     echo "<p>Poiminta nimi = '$input_name''$input_wildcard'</p>";
     $input_wildcard = $input_wildcard . ".*";
 
-    include("openSukudb.php");
+    
 
     if ($input_name != '') {
       // Neo4j parameter {name} is used to avoid hacking injection

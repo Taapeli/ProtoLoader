@@ -13,7 +13,7 @@
 
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -28,7 +28,7 @@
     $input_repo_source_id = "";
     $input_page = "";
 
-    include("openSukudb.php");
+    
 
 
     if (isset($_GET['page'])) {

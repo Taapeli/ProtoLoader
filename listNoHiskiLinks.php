@@ -14,9 +14,9 @@
 
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-  include("openSukudb.php");
+  
 
   $query_string = "MATCH (n:Person)-[:HAS_NAME]-(m) OPTIONAL MATCH (n)-[r:HISKI_LINK]->() WITH n,r,m WHERE r IS NULL RETURN n,m ORDER BY m.last_name, m.first_name";
 

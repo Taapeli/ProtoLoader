@@ -12,8 +12,6 @@
 <p>Muutetaan neo4j-tietokantaa.</p>
 <?php
 
-  require('vendor/autoload.php');
-
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
 * 	   Simple file Upload system with PHP by Tech Stream
@@ -24,9 +22,7 @@
     // Tiedoston käsittelyn muuttujat
     $id = $_POST['id'];
 
-    require('vendor/autoload.php');
-
-    include("openSukudb.php");
+    include "inc/dbconnect.php"; 
 
     $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $id . "' RETURN b";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);

@@ -12,9 +12,9 @@
 <h1>Kytket&auml;&auml;n kaikki saman nimen omaavat</h1>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-    include("openSukudb.php");
+    
 
     $query_string = "MATCH (n:Person:user0498)-[:HAS_NAME]-(a), (m:Person:user6321)-[:HAS_NAME]-(b) WHERE ((a.first_name = b.first_name) AND (a.last_name = b.last_name)) RETURN n.id, m.id";
 

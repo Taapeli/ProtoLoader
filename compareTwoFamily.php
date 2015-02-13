@@ -12,7 +12,7 @@
 <p>Luetaan neo4j-tietokannasta.</p>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -25,7 +25,7 @@
     $input_id = $_GET['id'];
     $input_id2 = $_GET['id2'];
 
-    include("openSukudb.php");
+    
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person:user0498) WHERE n.id={id} RETURN n";

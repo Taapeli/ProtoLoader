@@ -12,7 +12,7 @@
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -58,7 +58,7 @@
         return substr(trim($id), 1, -1);
       }
 
-      include("openSukudb.php");
+      
 
       $repoLabel = $sukudb->makeLabel('Repo');
       $soureLabel = $sukudb->makeLabel('Source');

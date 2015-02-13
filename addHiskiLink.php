@@ -13,7 +13,7 @@
 
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -26,7 +26,7 @@
     $id = $_POST['id'];
     $input_hiski = $_POST['hiski'];
 
-    include("openSukudb.php");
+    
 
     // Neo4j parameter {hiski} is used to avoid hacking injection
     $query_string = "MATCH (n:Person {id:'" . $id . 

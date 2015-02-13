@@ -13,14 +13,14 @@
 
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
   if(isset($_POST['birth'])){
     // Tiedoston käsittelyn muuttujat
     $input_birth = $_POST['birth'];
     echo "<p>Poiminta syntymäaika = '$input_birth'</p>";
 
-    include("openSukudb.php");
+    
 
     // Neo4j parameter {birth} is used to avoid hacking injection
     $query_string = "MATCH (n:Person)-[:BIRTH]->(b:Birth) WHERE b.birth_date={birth} RETURN n, b";
