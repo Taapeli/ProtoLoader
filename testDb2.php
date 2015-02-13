@@ -14,8 +14,8 @@
 	require('vendor/autoload.php');	  
 	use Everyman\Neo4j\Client;
 
-	$pwFile = '../../keys/dbinfo.dat';
-	echo "Tiedosto $myFile\n";
+	$pwFile = $_SERVER['DOCUMENT_ROOT'] + '../keys/dbinfo.dat';
+	echo "Tiedosto $pwFile\n";
 	if (file_exists($pwFile)) { 
 	   $fh = fopen($pwFile, 'r');
 	   $username = trim(fgets($fh));
