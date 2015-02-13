@@ -1,3 +1,4 @@
+<?
 // Neo4j-tietokannan avaaminen
 //
 // 13.2.2015 / JMä
@@ -23,3 +24,4 @@
 	  // Ei käytetä https:ää ->useHttps()
 	
 	unset($username, $password, $host, $port);
+?>
