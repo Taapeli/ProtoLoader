@@ -13,9 +13,9 @@
 
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-  include("openSukudb.php");
+  
 
   $query_string = "MATCH (n:Person)-[:HAS_NAME]-(m), (n)-[:TODO]->(t) RETURN n,m,t ORDER BY m.last_name, m.first_name";
 

@@ -13,7 +13,7 @@
 
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -28,7 +28,7 @@
     $input_birth = $_POST['birth'];
     $input_place = $_POST['place'];
 
-    include("openSukudb.php");
+    
 
     if ($input_birth) {
       // Neo4j parameter {birth} is used to avoid hacking injection

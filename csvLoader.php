@@ -1,8 +1,8 @@
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-  include("openSukudb.php");
+  
 
   $idLabel = $sukudb->makeLabel('Person');
   $nameLabel = $sukudb->makeLabel('Name');

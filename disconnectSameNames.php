@@ -12,9 +12,9 @@
 <h1>Irroitetaan kaikki saman nimen omaavat</h1>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-    include("openSukudb.php");
+    
 
     $query_string = "MATCH (n:Person:user0498)-[r:MAY_BE_SAME]-() WHERE r.indication2 = 1 SET r.indication2 = 0 RETURN count(r)";
 

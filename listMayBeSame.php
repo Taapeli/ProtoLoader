@@ -13,9 +13,9 @@
 
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-  include("openSukudb.php");
+  
 
   $query_string = "MATCH (n:Person:user0498)-[r:MAY_BE_SAME]-(m:Person:user6321) WHERE r.indication1=1 AND r.indication2=1 RETURN n,m,r";
 

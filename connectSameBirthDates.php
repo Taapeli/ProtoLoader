@@ -12,9 +12,9 @@
 <h1>Kytket&auml;&auml;n kaikki saman syntym&auml;p&auml;iv&auml;n omaavat</h1>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
-    include("openSukudb.php");
+    
 
     $query_string = "MATCH (n:Person:user0498), (m:Person:user6321) WHERE m.birth_date = n.birth_date RETURN n.id, m.id";
 

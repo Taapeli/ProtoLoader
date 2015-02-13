@@ -12,7 +12,7 @@
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
 
-  require('vendor/autoload.php');
+  include "inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -53,7 +53,7 @@
 	// }
       echo "</em><p>\n";
 
-      include("openSukudb.php");
+      
 
       $placeLabel = $sukudb->makeLabel('Place');
 
