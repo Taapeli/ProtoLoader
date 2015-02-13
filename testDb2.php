@@ -15,7 +15,7 @@
 //	use Everyman\Neo4j\Client;
 //	$transport = new Transport('10.50.8.204', 8080);
 //	$client = new Client($transport.setAuth( $username, $password ), 0);
-	include 'dbconnect.inc';
+	include 'static/dbconnect.inc';
 	
 	  print_r($client->getServerInfo()); 
 ?>
