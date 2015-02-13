@@ -13,7 +13,7 @@
 <?php
 	require('vendor/autoload.php');	  
 	use Everyman\Neo4j\Client;
-	$pwFile = $_SERVER['DOCUMENT_ROOT'] . '/../keys/dbinfo.dat';
+	$pwFile = $_SERVER['DOCUMENT_ROOT'] . '/../../keys/dbinfo.dat';
 	echo " Tiedosto $pwFile\n";
 	if (file_exists($pwFile)) { 
 	   $fh = fopen($pwFile, 'r');
