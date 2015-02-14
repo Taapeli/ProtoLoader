@@ -34,7 +34,7 @@
    <a href="disconnectSameBirthDates.php" target="_blank">sama syntym&auml;aika</a> tai
    <a href="disconnectSameNames.php" target="_blank">samat etu- ja sukunimet</a></li>
 <li>Keskener&auml;inen   
-   <a href="compareTwoFamilyForm.php" target="_blank">yhdistelyehdotuslomake</a> tai
+   <a href="compareTwoFamilyForm.php" target="_blank">yhdistelyehdotuslomake</a>
 </ul>
 </div>
 
