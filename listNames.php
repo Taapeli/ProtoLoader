@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 " />
 <title>Taapeli haku</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
@@ -18,20 +18,20 @@
     // Tiedoston käsittelyn muuttujat
     $input_name = $_POST['name'];
     $input_wildcard = $_POST['wildcard'];
-    echo "<p>Poiminta nimi = '$input_name''$input_wildcard'</p>";
+    echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
     $input_wildcard = $input_wildcard . ".*";
-
-    
 
     if ($input_name != '') {
       // Neo4j parameter {name} is used to avoid hacking injection
-      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name={name} RETURN id, n ORDER BY n.last_name, n.first_name";
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) " .
+              "WHERE n.last_name={name} RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('name' => $input_name);
     }
     else {
       // Neo4j parameter {wildcard} is used to avoid hacking injection
-      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name=~{wildcard} RETURN id, n ORDER BY n.last_name, n.first_name";
+      $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) " .
+              "WHERE n.last_name=~{wildcard} RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('wildcard' => $input_wildcard);
     }
@@ -71,13 +71,14 @@
     }
   }
 
-  echo '<table  cellpadding="0" cellspacing="1" border="1">';
-  echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
+  echo '<table class="tulos">';
+  echo '<tr><th>id</th><th>Etunimet</th><th>Sukunimi</th>' .
+       '<th>Myöh. sukunimi</th><th>Syntymäaika</th><th>Syntymäpaikka</th></tr>';
  
   for ($i=0; $i<sizeof($first_name); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" .
-         $id[$i] . "'>" . $id[$i] .
-         "</a></td><td> " . $first_name[$i] .
+         $id[$i] . "'>" . $id[$i] . "</a></td>";
+    echo "<td> " . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
          "</td><td> " . $later_names[$i] .
          "</td><td> " . $birth_date[$i] .
