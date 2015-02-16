@@ -20,8 +20,6 @@
     $input_birth = $_POST['birth'];
     echo "<p>Poiminta syntymäaika = '$input_birth'</p>";
 
-    
-
     // Neo4j parameter {birth} is used to avoid hacking injection
     $query_string = "MATCH (n:Person)-[:BIRTH]->(b:Birth) WHERE b.birth_date={birth} RETURN n, b";
 
@@ -64,8 +62,8 @@
   }
 
   echo '<table  cellpadding="0" cellspacing="1" border="1">';
-  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika
-            <th>Syntym&auml;paikka</tr>';
+  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>Myöh. sukunimi<th>Syntymäaika
+            <th>Syntymäpaikka</tr>';
  
   for ($i=0; $i<sizeof($id); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" .
