@@ -47,15 +47,19 @@
 
 <?php
 
-  $etunimi_tarjokas = "Johan Johanpoika1";
-  $etunimi_kannassa = "Johan Johanpoika2";
-
-  $sukunimi_tarjokas = "Sihvola1";
-  $sukunimi_kannassa = "Sihvola2";
-
+  require_once('nodeClasses');
+  
+  $tarjokas = new Person();
+  $tarjokas.setEtunimi("Johan Johanpoika1");
+  $tarjokas.setSukunimi("Sihvola1");
+  
+  $kannassa = new Person();
+  $kannassa.setEtunimi("Johan Johanpoika2");
+  $kannassa.setSukunimi("Sihvola2");
+  
   echo "<table  cellpadding='2pt' cellspacing='2pt' border='1'>";
   echo "<tr><th>Tietojen valinta<th>Tarjokas<th>Kannassa<th>Yhdistelyn tulos</tr>";
-  echo "<tr><td>Henkil&ouml;</td><td>id=I0127</td><td>id=DRG254378</td><td>id=DRG254378</td></tr>";
+  echo "<tr><td>Henkilö</td><td>id=I0127</td><td>id=DRG254378</td><td>id=DRG254378</td></tr>";
   echo "<tr><td>etunimi</td>
           <td><input type='radio' name='etunimi' id='etarjokas' value='etarjokas'
                onclick='change_e(this)'>
