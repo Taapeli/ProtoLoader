@@ -3,7 +3,7 @@ h1,h2,h3 { font-family:Georgia, serif; }
 h1 { font-size: 120%; }
 h2 { font-size: 110%; }
 h3 { font-size: 100%; }
-table {
+table  {
     border: 2pt outset gray;
     background-color: rgb(239, 237, 199);
     border-collapse: collapse;

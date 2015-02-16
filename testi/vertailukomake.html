@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 " />
+<title>Taapeli aineiston luku kantaan</title>
+<link rel="stylesheet" type="text/css" href="../style.css" />
+<script type="text/javascript">
+  window.onload = function() {
+
+  };
+
+  function change_etunimi(rad) {
+    var val_etunimi_tarjokas = [];
+    var val_etunimi_kannassa = [];
+
+    val_etunimi_tarjokas.push("Johan Johanpoika1");
+    val_etunimi_kannassa.push("Johan Johanpoika2");
+
+    var val=rad.value;
+    var choise1 = "etunimi_tarjokas";
+    var choise2 = "etunimi_kannassa";
+    if (val === choise1) {
+      document.getElementById('etunimi_tulos').innerHTML = val_etunimi_tarjokas[0];
+    }
+    else if (val === choise2) {
+      document.getElementById('etunimi_tulos').innerHTML = val_etunimi_kannassa[0];
+    }
+  }
+
+  function change_sukunimi(rad) {
+    var val_sukunimi_tarjokas = [];
+    var val_sukunimi_kannassa = [];
+
+    val_sukunimi_tarjokas.push("Sihvola1");
+    val_sukunimi_kannassa.push("Sihvola2");
+
+    var val=rad.value;
+    var choise1 = "sukunimi_tarjokas";
+    var choise2 = "sukunimi_kannassa";
+    if (val === choise1) {
+      document.getElementById('sukunimi_tulos').innerHTML = val_sukunimi_tarjokas[0];
+    }
+    else if (val === choise2) {
+      document.getElementById('sukunimi_tulos').innerHTML = val_sukunimi_kannassa[0];
+    }
+  }
+
+  function change_saika(rad) {
+    var val_saika_tarjokas = [];
+    var val_saika_kannassa = [];
+
+    val_saika_tarjokas.push("1888.03.01");
+    val_saika_kannassa.push("1888.11.01");
+
+    var val=rad.value;
+    var choise1 = "saika_tarjokas";
+    var choise2 = "saika_kannassa";
+    if (val === choise1) {
+      document.getElementById('saika_tulos').innerHTML = val_saika_tarjokas[0];
+    }
+    else if (val === choise2) {
+      document.getElementById('saika_tulos').innerHTML = val_saika_kannassa[0];
+    }
+  }
+
+  function change_spaikka(rad) {
+    var val_spaikka_tarjokas = [];
+    var val_spaikka_kannassa = [];
+
+    val_spaikka_tarjokas.push("Porvoo");
+    val_spaikka_kannassa.push("Porgå");
+
+    var val=rad.value;
+    var choise1 = "spaikka_tarjokas";
+    var choise2 = "spaikka_kannassa";
+    if (val === choise1) {
+      document.getElementById('spaikka_tulos').innerHTML = val_spaikka_tarjokas[0];
+    }
+    else if (val === choise2) {
+      document.getElementById('spaikka_tulos').innerHTML = val_spaikka_kannassa[0];
+    }
+  }
+
+  function change_kaika(rad) {
+    var val_kaika_tarjokas = [];
+    var val_kaika_kannassa = [];
+
+    val_kaika_tarjokas.push("1900.03.31");
+    val_kaika_kannassa.push("1900.05.01");
+
+    var val=rad.value;
+    var choise1 = "kaika_tarjokas";
+    var choise2 = "kaika_kannassa";
+    if (val === choise1) {
+      document.getElementById('kaika_tulos').innerHTML = val_kaika_tarjokas[0];
+    }
+    else if (val === choise2) {
+      document.getElementById('kaika_tulos').innerHTML = val_kaika_kannassa[0];
+    }
+  }
+
+  function change_kpaikka(rad) {
+    var val_kpaikka_tarjokas = [];
+    var val_kpaikka_kannassa = [];
+
+    val_kpaikka_tarjokas.push("Hanko");
+    val_kpaikka_kannassa.push("Hangö");
+
+    var val=rad.value;
+    var choise1 = "kpaikka_tarjokas";
+    var choise2 = "kpaikka_kannassa";
+    if (val === choise1) {
+      document.getElementById('kpaikka_tulos').innerHTML = val_kpaikka_tarjokas[0];
+    }
+    else if (val === choise2) {
+      document.getElementById('kpaikka_tulos').innerHTML = val_kpaikka_kannassa[0];
+    }
+  }
+
+</script>
+</head>
+<body>
+  <h1>Verrataan kahta henkilöä toisiinsa</h1>
+  <p>Luetaan neo4j-tietokannasta.</p>
+
+<table class="tulos">
+    <tr><th>Tietojen valinta</th><th>Tarjokas</th><th>Kannassa</th><th>Yhdistelyn tulos</th></tr>
+    <tr><td>Henkilö</td><td>id=I0127</td><td>id=DRG254378</td><td>id=DRG254378</td></tr><tr><td>etunimi</td>
+          <td><input type='radio' name='etunimi' id='etunimi_tarjokas' value='etunimi_tarjokas'
+               onclick='change_etunimi(this)' />
+                  <label for='etunimi_tarjokas'>Johan Johanpoika1</label></td>
+          <td><input type='radio' name='etunimi' id='etunimi_kannassa' value='etunimi_kannassa' 
+               onclick='change_etunimi(this)' />
+                  <label for='etunimi_kannassa'>Johan Johanpoika2</label></td>
+          <td><div id='etunimi_tulos'> </div></td>
+        </tr><tr><td>sukunimi</td>
+          <td><input type='radio' name='sukunimi' id='starjokas' value='sukunimi_tarjokas' 
+               onclick='change_sukunimi(this)' />
+                  <label for='starjokas'>Sihvola1</label></td>
+          <td><input type='radio' name='sukunimi' id='sukunimi_kannassa' value='sukunimi_kannassa' 
+               onclick='change_sukunimi(this)' />
+                  <label for='sukunimi_kannassa'>Sihvola2</label></td>
+          <td><div id='sukunimi_tulos'> </div></td>
+        </tr>
+    <tr><td>Henkilön tapahtumat</td><td colspan='3'></td></tr>
+    <tr><td>syntynyt</td>
+          <td><input type='radio' name='syntyma_aika' id='saika_tarjokas' value='saika_tarjokas'
+               onclick='change_saika(this)' />
+                  <label for='saika_tarjokas'>1888.03.01</label></td>
+          <td><input type='radio' name='syntyma_aika' id='saika_kannassa' value='saika_kannassa' 
+               onclick='change_saika(this)' />
+                  <label for='saika_kannassa'>1888.11.01</label></td>
+          <td><div id='saika_tulos'> </div></td>
+        </tr>
+    <tr><td> </td>
+          <td><input type='radio' name='syntyma_paikka' id='spaikka_tarjokas' value='spaikka_tarjokas'
+               onclick='change_spaikka(this)' />
+                  <label for='spaikka_tarjokas'>Porvoo</label></td>
+          <td><input type='radio' name='syntyma_paikka' id='spaikka_kannassa' value='spaikka_kannassa' 
+               onclick='change_spaikka(this)' />
+                  <label for='spaikka_kannassa'>Porgå</label></td>
+          <td><div id='spaikka_tulos'> </div></td>
+        </tr>
+    <tr><td>kuollut</td>
+          <td><input type='radio' name='kuolin_aika' id='kaika_tarjokas' value='kaika_tarjokas' 
+               onclick='change_kaika(this)' />
+                  <label for='kaika_tarjokas'>1900.03.31</label></td>
+          <td><input type='radio' name='kuolin_aika' id='kaika_kannassa' value='kaika_kannassa' 
+               onclick='change_kaika(this)' />
+                  <label for='kaika_kannassa'>1900.05.01</label></td>
+          <td><div id='kaika_tulos'> </div></td>
+        </tr>
+    <tr><td> </td>
+          <td><input type='radio' name='kuolin_paikka' id='kpaikka_tarjokas' value='kpaikka_tarjokas' 
+               onclick='change_kpaikka(this)' />
+                  <label for='kpaikka_tarjokas'>Hanko</label></td>
+          <td><input type='radio' name='kuolin_paikka' id='kpaikka_kannassa' value='kpaikka_kannassa' 
+               onclick='change_kpaikka(this)' />
+                  <label for='kpaikka_kannassa'>Hangö</label></td>
+          <td><div id='kpaikka_tulos'> </div></td>
+        </tr>
+</table></body>
+</html>
+
