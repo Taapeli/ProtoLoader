@@ -21,7 +21,7 @@
   $kpaikka_kannassa = "Hangö";
 ?>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Henkilön sulauttaminen Taapeli-kantaan</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script type="text/javascript">
