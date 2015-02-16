@@ -12,7 +12,7 @@
   $saika_kannassa = "1888.11.01";
 
   $spaikka_tarjokas = "Porvoo";
-  $spaikka_kannassa = "Porgå";
+  $spaikka_kannassa = "Borgå";
 
   $kaika_tarjokas = "1900.03.31";
   $kaika_kannassa = "1900.05.01";
@@ -140,71 +140,71 @@
 </script>
 </head>
 <body>
-  <h1>Verrataan kahta henkil&ouml;&auml; toisiinsa</h1>
+  <h1>Verrataan kahta henkilöitä toisiinsa</h1>
   <p>Luetaan neo4j-tietokannasta.</p>
 
 <?php
 
-  echo "<table  cellpadding='2pt' cellspacing='2pt' border='1'>";
-  echo "<tr><th>Tietojen valinta<th>Tarjokas<th>Kannassa<th>Yhdistelyn tulos</tr>";
-  echo "<tr><th>Henkil&ouml;</td><td>id=I0127</td><td>id=DRG254378</td><td>id=DRG254378</td></tr>";
+  echo "<table class='tulos'>";
+  echo "<tr><th>Tietojen valinta</th><th>Tarjokas</th><th>Kannassa</th><th>Yhdistelyn tulos</th></tr>";
+  echo "<tr><td>Henkilö</td><td>id=I0127</td><td>id=DRG254378</td><td>id=DRG254378</td></tr>";
   echo "<tr><td>etunimi</td>
           <td><input type='radio' name='etunimi' id='etunimi_tarjokas' value='etunimi_tarjokas'
-               onclick='change_etunimi(this)'>
+               onclick='change_etunimi(this)' />
               <label for='etunimi_tarjokas'>" .  $etunimi_tarjokas . "</td>
           <td><input type='radio' name='etunimi' id='etunimi_kannassa' value='etunimi_kannassa' 
-               onclick='change_etunimi(this)'>
+               onclick='change_etunimi(this)' />
               <label for='etunimi_kannassa'>" .  $etunimi_kannassa . "</td>
           <td><div id='etunimi_tulos'> </div></td>
         </tr>";
 
   echo "<tr><td>sukunimi</td>
-          <td><input type='radio' name='sukunimi' id='starjokas' value='sukunimi_tarjokas' 
-               onclick='change_sukunimi(this)'>
+          <td><input type='radio' name='sukunimi' id='sukunimi_tarjokas' value='sukunimi_tarjokas' 
+               onclick='change_sukunimi(this)' />
               <label for='sukunimi_tarjokas'>" .  $sukunimi_tarjokas . "</td>
           <td><input type='radio' name='sukunimi' id='sukunimi_kannassa' value='sukunimi_kannassa' 
-               onclick='change_sukunimi(this)'>
+               onclick='change_sukunimi(this)' />
               <label for='sukunimi_kannassa'>" .  $sukunimi_kannassa . "</td>
           <td><div id='sukunimi_tulos'> </div></td>
         </tr>";
 
-  echo "<tr><th>Henkil&ouml;n tapahtumat</td><td colspan='4'></td></tr>";
+  echo "<tr><td colspan='4'>Henkilön tapahtumat</td></tr>";
   echo "<tr><td>syntynyt</td>
           <td><input type='radio' name='syntyma_aika' id='saika_tarjokas' value='saika_tarjokas'
-               onclick='change_saika(this)'>
+               onclick='change_saika(this)' />
               <label for='saika_tarjokas'>" .  $saika_tarjokas . "</td>
           <td><input type='radio' name='syntyma_aika' id='saika_kannassa' value='saika_kannassa' 
-               onclick='change_saika(this)'>
+               onclick='change_saika(this)' />
               <label for='saika_kannassa'>" .  $saika_kannassa . "</td>
           <td><div id='saika_tulos'> </div></td>
         </tr>";
 
   echo "<tr><td> </td>
           <td><input type='radio' name='syntyma_paikka' id='spaikka_tarjokas' value='spaikka_tarjokas'
-               onclick='change_spaikka(this)'>
+               onclick='change_spaikka(this)' />
               <label for='spaikka_tarjokas'>" .  $spaikka_tarjokas . "</td>
           <td><input type='radio' name='syntyma_paikka' id='spaikka_kannassa' value='spaikka_kannassa' 
-               onclick='change_spaikka(this)'>
+               onclick='change_spaikka(this)' />
               <label for='spaikka_kannassa'>" .  $spaikka_kannassa . "</td>
           <td><div id='spaikka_tulos'> </div></td>
         </tr>";
 
   echo "<tr><td>kuollut</td>
           <td><input type='radio' name='kuolin_aika' id='kaika_tarjokas' value='kaika_tarjokas' 
-               onclick='change_kaika(this)'>
+               onclick='change_kaika(this)' />
               <label for='kaika_tarjokas'>" .  $kaika_tarjokas . "</td>
           <td><input type='radio' name='kuolin_aika' id='kaika_kannassa' value='kaika_kannassa' 
-               onclick='change_kaika(this)'>
+               onclick='change_kaika(this)' />
               <label for='kaika_kannassa'>" .  $kaika_kannassa . "</td>
           <td><div id='kaika_tulos'> </div></td>
         </tr>";
 
   echo "<tr><td> </td>
           <td><input type='radio' name='kuolin_paikka' id='kpaikka_tarjokas' value='kpaikka_tarjokas' 
-               onclick='change_kpaikka(this)'>
+               onclick='change_kpaikka(this)' />
               <label for='kpaikka_tarjokas'>" .  $kpaikka_tarjokas . "</td>
           <td><input type='radio' name='kuolin_paikka' id='kpaikka_kannassa' value='kpaikka_kannassa' 
-               onclick='change_kpaikka(this)'>
+               onclick='change_kpaikka(this)' />
               <label for='kpaikka_kannassa'>" .  $kpaikka_kannassa . "</td>
           <td><div id='kpaikka_tulos'> </div></td>
         </tr>";
