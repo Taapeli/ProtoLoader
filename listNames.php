@@ -76,8 +76,8 @@
        '<th>Myöh. sukunimi</th><th>Syntymäaika</th><th>Syntymäpaikka</th></tr>';
  
   for ($i=0; $i<sizeof($first_name); $i++) {
-    echo "<tr><td><a href='readIndividData.php?id=" .
-         $id[$i] . "'>" . $id[$i] . "</a></td>";
+    echo "<tr><td><a href='readIndividData.php?id=" . $id[$i] . "'>" 
+         . $id[$i] . "</a></td>";
     echo "<td> " . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
          "</td><td> " . $later_names[$i] .
