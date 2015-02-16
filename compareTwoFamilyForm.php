@@ -22,7 +22,7 @@
 ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ">
-<title>Taapeli aineiston luku kantaan</title>
+<title>Henkilön sulauttaminen Taapeli-kantaan</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script type="text/javascript">
   window.onload = function() {
