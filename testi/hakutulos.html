@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8 " />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Taapeli haku</title>
-        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="../style.css" />
     </head>
 
     <body>
@@ -27,5 +27,14 @@
                 <td>1910.04.15<br/> Sievi</td>
             </tr>
         </table>
+        
+        <form action="updateRepoData.php" method="GET" enctype="multipart/form-data"></p>
+<div class="form">
+<p>Ylläpidä repository-tietoa
+<input type="hidden" name="id" value="<?php echo $id; ?>" />
+<input type="submit"  value="Repository-tietoon" /></p>
+</div>
+</form>
+
     </body>
 </html>

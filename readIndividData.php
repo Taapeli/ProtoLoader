@@ -477,8 +477,8 @@
     }
 
 
-    echo '<tr><th>Puoliso(t):<th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
-          <th>Syntym&auml;aika<th>Syntym&auml;paikka
+    echo '<tr><th>Puoliso(t):<th>id<th>Etunimet<th>Sukunimi<th>Myöh. sukunimi
+          <th>Syntymäaika<th>Syntymäpaikka
           <th>Kuolinaika<th>Kuolinpaikka</tr>';
     for ($i=0; $i<sizeof($spouse_id); $i++) {
       echo "<tr><td></td><td><a href='readIndividData.php?id=" .
@@ -494,8 +494,8 @@
     }
 
 
-    echo '<tr><th>Lapset:<th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
-          <th>Syntym&auml;aika<th>Syntym&auml;paikka
+    echo '<tr><th>Lapset:<th>id<th>Etunimet<th>Sukunimi<th>Myöh. sukunimi
+          <th>Syntymäaika<th>Syntymäpaikka
           <th>Kuolinaika<th>Kuolinpaikka</tr>';
     for ($i=0; $i<sizeof($child_id); $i++) {
       echo "<tr><td></td><td><a href='readIndividData.php?id=" .
@@ -515,36 +515,27 @@
 ?>
 
 <form action="readHiskiLink.php" method="POST" enctype="multipart/form-data"></p>
-<table class="form">
-<tr><td>
-<p>Katso/yll&auml;pid&auml; Hiski-linkki.</p>
+<div class="form">
+<p>Katso/ylläpidä Hiski-linkkiä
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-</td><td style="vertical-align: bottom"> 
-<input type="submit"/>
-</td></tr>
-</table>
+<input type="submit" value="Siirry Hiski-tietoon"/></p>
+</div>
 </form>
 
 <form action="updateBirthData.php" method="GET" enctype="multipart/form-data"></p>
-<table class="form">
-<tr><td>
-<p>Yll&auml;pid&auml; syntym&auml;tietoa.</p>
+<div class="form">
+<p>Ylläpidä syntymätietoa
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-</td><td style="vertical-align: bottom"> 
-<input type="submit"/>
-</td></tr>
-</table>
+<input type="submit"  value="Siirry syntymätietoon" /></p>
+</div>
 </form>
 
 <form action="updateRepoData.php" method="GET" enctype="multipart/form-data"></p>
-<table class="form">
-<tr><td>
-<p>Yll&auml;pid&auml; repo-tietoa.</p>
+<div class="form">
+<p>Ylläpidä repository-tietoa
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
-</td><td style="vertical-align: bottom"> 
-<input type="submit"/>
-</td></tr>
-</table>
+<input type="submit" value="Siirry repository-tietoon" /></p>
+</div>
 </form>
 
 </body>
