@@ -6,29 +6,48 @@
  * @author jm
  */
 class DateConv {
-    const DELIM = '.';
+    const DELIM = '.'; // In the db
     
-    static function fromGed($s) {
+    static function fromGed($gedDate) {
         /**
          *  Convert Gedcom Date "3 JAN 1918" to "1918-01-03"
-         * 
-         * @assert ("3 JAN 1918") == "1918-01-03"
-         * @assert ("24 JOU 1610") == "1610-12-24"
-         * @assert ("0 0 1889") == "1889-00-00"
          */
 
-        $date = explode(' ', $s, 3);
-        if ((sizeof($date) != 3) || (strlen($date[2]) != 4)) {
-            echo "Warning: DateConv: Invalid gedcom date \"$s\"";
-            return $s;
+        $date = explode(' ', $gedDate, 3);
+        $count = sizeof($date);
+        switch ($count) {
+            case 3:
+                $year = $date[2];
+                $month = $date[1];
+                $day = $date[0];
+                break;
+            case 2:
+                $year = $date[1];
+                $month = $date[0];
+                $day = '00';
+                break;
+            case 1:
+                $year = $date[0];
+                $month = 'XXX';
+                $day = '00';
+                break;
+            default:
+                $year = $gedDate;
+                $month = 'XXX';
+                $day = '00';
+                break;
+        }
+         if (strlen($year) != 4) {
+            echo "Warning: DateConv: Invalid gedcom date \"$gedDate\"";
+            return '';
         }
         // Day, always 2 numbers
-        $day_num = $date[0];
-        if (strlen($day_num) == 1) {
-            $day_num = '0' . $day_num;
+        $day = $day;
+        if (strlen($day) == 1) {
+            $day = '0' . $day;
         }
         // Month as number
-        switch ($date[1]) {
+        switch ($month) {
             case "JAN":
             case "TAM":
                 $month_num = "01";
@@ -78,18 +97,20 @@ class DateConv {
             default;
                 $month_num = "00";
         }
-        $year_num = $date[2];
-        return $year_num . self::DELIM . $month_num . self::DELIM . $day_num;
+        return $year . self::DELIM . $month_num . self::DELIM . $day;
     }
 
     static function toDisplay($date) {
         /**
          * Convert Date "1918-01-03" to "3.1.1918"
-         */
-        if (strlen($date) < 10) {
-            return $date . "(!)"; // False data
+         */        
+        if (strstr($date, '-')) {
+            $a = explode('-', $date, 3);
+        } else {
+            $a = explode('.', $date, 3); 
+            /* @todo piste päivämäärässä poistettaneen */
         }
-        $a = explode('-', $date, 3);
+        
         if ($a[2] == 0) { // No day
             if ($a[1] == 0) { // No month
                 return $a[0];   // Year only 1918

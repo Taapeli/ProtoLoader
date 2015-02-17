@@ -22,14 +22,15 @@
         echo "<h2>DateConv-testit</h2>\n";
         echo "<h3>fromGed</h3>\n";
 
-        $geddates = [ "1 FEB 1900", "12 TOU 1901", "0 0 1913", "1914"];
+        $geddates = [ "1 FEB 1900", "12 TOU 1901", "0 0 1913", 
+            "1914", "FEB 2012", "Hauskaa pääsiäistä", "40 HEL 123" ];
         foreach ($geddates as $s) {
             echo "<p><b>" . DateConv::fromGed($s) . 
                     "</b> = DateConv::fromGed($s)</p>\n";
         }
         echo "<h3>toDisplay</h3>\n";
         $dates = [ "1900-02-01", "1901-05-12", "1913-00-00", "1914-08-00",
-            "815-02-31", "1640-00-40"];
+            "815-02-31", "1640-00-40", "1786.11.2", "1909.2.13", "1940.12.30"];
         foreach ($dates as $s) {
             echo "<p><b>" . DateConv::toDisplay($s) . 
                     "</b> = DateConv::toDisplay($s)</p>\n";
