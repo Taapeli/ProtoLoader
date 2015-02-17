@@ -108,7 +108,7 @@
       $father_id = $rows[0]->getProperty('id');
     }
 
-    if (defined($father_id)) {
+    if (isset($father_id)) {
         $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $father_id . "' RETURN b";
         $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -177,7 +177,7 @@
       $mother_id = $rows[0]->getProperty('id');
     }
 
-    if (defined($mother_id)) {
+    if (isset($mother_id)) {
         $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $mother_id . "' RETURN b";
         $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 
@@ -433,7 +433,7 @@
     echo "<tr><th>Huomautus:<td colspan='8'>" . $todo_description .
          "</td></tr>";
 
-    if (defined($father_id)) {
+    if (isset($father_id)) {
         echo "<tr><th>Isä:<td><a href='readIndividData.php?id=" .
                $father_id . "'>" . $father_id . 
              "</a></td><td>" . $father_first_name .
@@ -448,7 +448,7 @@
         echo "<tr><td colspan='9'>Ei tietoa isästä</td></tr>\n";
     }
  
-    if (defined($mother_id)) {
+    if (isset($mother_id)) {
         echo "<tr><th>&Auml;iti:<td><a href='readIndividData.php?id=" .
                $mother_id . "'>" . $mother_id . 
              "</a></td><td>" . $mother_first_name .
