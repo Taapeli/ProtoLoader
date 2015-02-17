@@ -13,7 +13,11 @@
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
 
-  include 'inc/dbconnect.php';
+include 'inc/dbconnect.php';
+
+function __autoload($class_name) {
+    include 'classes/' . $class_name . '.php';
+}
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -68,51 +72,6 @@
         else {
           return $id;
         }
-      }
-
-      function monthtrim($month) {
-        // Convert month from name to number
-        switch ($month) {
-          case "JAN":
-            $month_num = "01";
-            break;
-          case "FEB":
-            $month_num = "02";
-            break;
-          case "MAR":
-            $month_num = "03";
-            break;
-          case "APR":
-            $month_num = "04";
-            break;
-          case "MAY":
-            $month_num = "05";
-            break;
-          case "JUN":
-            $month_num = "06";
-            break;
-          case "JUL":
-            $month_num = "07";
-            break;
-          case "AUG":
-            $month_num = "08";
-            break;
-          case "SEP":
-            $month_num = "09";
-            break;
-          case "OCT":
-            $month_num = "10";
-            break;
-          case "NOV":
-            $month_num = "11";
-            break;
-          case "DEC":
-            $month_num = "12";
-            break;
-          default;
-            $month_num = "00";
-        }
-        return $month_num;
       }
 
       $idLabel = $sukudb->makeLabel('Person');
@@ -300,7 +259,7 @@
                 case "STAT":
                   break;
                 default;
-                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  echo "<p><b>Warning</b>: gedLoader line $n: Unknown tag $key </p>\n";
                   $event = "";
               } // switch $key
               break;
@@ -317,15 +276,27 @@
                   break;
                 case "WIFE":
                   $wife = idtrim($arg0);
-                  $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
+                    if (isset($husb)) {
+                        $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
+                    } else {
+                        echo "<p><b>Warning</b>: gedLoader line $n: No HUSB in the family $id</p>";
+                    }
                   $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
                   break;
                 case "CHIL":
                   $chil = idtrim($arg0);
-                  $rel = $person[$husb]->relateTo($person[$chil], 'CHILD')->save();
-                  $rel = $person[$wife]->relateTo($person[$chil], 'CHILD')->save();
-                  $rel = $person[$chil]->relateTo($person[$husb], 'FATHER')->save();
-                  $rel = $person[$chil]->relateTo($person[$wife], 'MOTHER')->save();
+                  if (isset($husb)) {
+                    $rel = $person[$husb]->relateTo($person[$chil], 'CHILD')->save();
+                    $rel = $person[$chil]->relateTo($person[$husb], 'FATHER')->save();
+                  } else {
+                    echo "<p><b>Warning</b>: gedLoader line $n: No father in the family $id</p>";
+                  }
+                  if (isset($wife)) {
+                    $rel = $person[$wife]->relateTo($person[$chil], 'CHILD')->save();
+                    $rel = $person[$chil]->relateTo($person[$wife], 'MOTHER')->save();
+                  } else {
+                    echo "<p><b>Warning</b>: gedLoader line $n: No mother in the family $id</p>";
+                  }
                   break;
                 case "MARR":
                   $event = "MARR";
@@ -425,14 +396,7 @@
                   $nsfx = $name->setProperty('partonymic', $arg0)->save();
                   break;
                 case "DATE":
-                  $date = explode(' ', $arg0, 3);
-                  if (sizeof($date) == 3) {
-                    $date[1] = monthtrim($date[1]);
-                    $date_str = $date[2] . "." . $date[1] . "." . $date[0];
-                  }
-                  else {
-                    $date_str = $arg0;
-                  }
+                  $date_str = DateConv::fromGed($arg0);
                   switch ($event) {
                     case "BIRT":
                       $even = $sukudb->makeNode()
@@ -710,14 +674,7 @@
             case "FAM":
               switch ($key)  {
                 case "DATE":
-                  $date = explode(' ', $arg0, 3);
-                  if (sizeof($date) == 3) {
-                    $date[1] = monthtrim($date[1]);
-                    $date_str = $date[2] . "." . $date[1] . "." . $date[0];
-                  }
-                  else {
-                    $date_str = $arg0;
-                  }
+                  $date_str = DateConv::fromGed($arg0);
                   switch ($event) {
                     case "MARR":
                       if (sizeof($date) == 3) {
