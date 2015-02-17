@@ -6,7 +6,8 @@
  * @author jm
  */
 class DateConv {
-
+    const DELIM = '.';
+    
     static function fromGed($s) {
         /**
          *  Convert Gedcom Date "3 JAN 1918" to "1918-01-03"
@@ -78,7 +79,7 @@ class DateConv {
                 $month_num = "00";
         }
         $year_num = $date[2];
-        return "${year_num}-${month_num}-${day_num}";
+        return $year_num . self::DELIM . $month_num . self::DELIM . $day_num;
     }
 
     static function toDisplay($date) {
