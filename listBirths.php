@@ -61,7 +61,7 @@
     } 
   }
 
-  echo '<table  cellpadding="0" cellspacing="1" border="1">';
+  echo '<table  class="tulos">';
   echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>Myöh. sukunimi<th>Syntymäaika
             <th>Syntymäpaikka</tr>';
  

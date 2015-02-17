@@ -67,7 +67,7 @@
       $hiski_link[] = $rows[0]->getProperty('hiski_link');
     }
 
-    echo '<table  cellpadding="0" cellspacing="1" border="1">';
+    echo '<table  class="tulos">';
     echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
 
     echo "<tr><td>" . $id .
