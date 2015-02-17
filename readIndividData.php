@@ -401,12 +401,12 @@
       } 
     }
 
-    echo '<table  cellpadding="0" cellspacing="1" border="1">';
-    echo '<tr><th> <th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi
-          <th>Syntym&auml;aika<th>Syntym&auml;paikka
-          <th>Kuolinaika<th>Kuolinpaikka</tr>';
+    echo '<table class="tulos">';
+    echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimi</th>
+          <th>Myöh. sukunimi</th><th>Syntymäaika</th><th>Syntymäpaikka</th>
+          <th>Kuolinaika</th><th>Kuolinpaikka</th></tr>';
  
-    echo "<tr><th>Henkil&ouml;:<td>" . $id . 
+    echo "<tr><th>Henkilö:<td>" . $id . 
          "</td><td>" . $first_name .
          "</td><td>" . $last_name .
          "</td><td>" . $later_names .
@@ -419,27 +419,35 @@
     echo "<tr><th>Huomautus:<td colspan='8'>" . $todo_description .
          "</td></tr>";
 
-    echo "<tr><th>Is&auml;:<td><a href='readIndividData.php?id=" .
-           $father_id . "'>" . $father_id . 
-         "</a></td><td>" . $father_first_name .
-         "</td><td>" . $father_last_name .
-         "</td><td>" . $father_later_names .
-         "</td><td>" . $father_birth_date .
-         "</td><td>" . $father_birth_place .
-         "</td><td>" . $father_death_date .
-         "</td><td>" . $father_death_place .
-         "</td></tr>";
+    if (defined($father_id)) {
+        echo "<tr><th>Isä:<td><a href='readIndividData.php?id=" .
+               $father_id . "'>" . $father_id . 
+             "</a></td><td>" . $father_first_name .
+             "</td><td>" . $father_last_name .
+             "</td><td>" . $father_later_names .
+             "</td><td>" . $father_birth_date .
+             "</td><td>" . $father_birth_place .
+             "</td><td>" . $father_death_date .
+             "</td><td>" . $father_death_place .
+             "</td></tr>";
+    } else {
+        echo "<tr><td colspan='9'>Ei tietoa isästä</td></tr>\n";
+    }
  
-    echo "<tr><th>&Auml;iti:<td><a href='readIndividData.php?id=" .
-           $mother_id . "'>" . $mother_id . 
-         "</a></td><td>" . $mother_first_name .
-         "</td><td>" . $mother_last_name .
-         "</td><td>" . $mother_later_names .
-         "</td><td>" . $mother_birth_date .
-         "</td><td>" . $mother_birth_place .
-         "</td><td>" . $mother_death_date .
-         "</td><td>" . $mother_death_place .
-         "</td></tr>";
+    if (defined($mother_id)) {
+        echo "<tr><th>&Auml;iti:<td><a href='readIndividData.php?id=" .
+               $mother_id . "'>" . $mother_id . 
+             "</a></td><td>" . $mother_first_name .
+             "</td><td>" . $mother_last_name .
+             "</td><td>" . $mother_later_names .
+             "</td><td>" . $mother_birth_date .
+             "</td><td>" . $mother_birth_place .
+             "</td><td>" . $mother_death_date .
+             "</td><td>" . $mother_death_place .
+             "</td></tr>";
+        } else {
+        echo "<tr><td colspan='9'>Ei tietoa äidistä</td></tr>\n";
+    }
 
     echo '<tr><th>Avioliitot:<th><th>Vihitty<th>Vihkiaika<th>Vihkipaikka
           <th><th>Eronnut<th>Eroaika<th></tr>';
