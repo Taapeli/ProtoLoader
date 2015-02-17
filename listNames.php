@@ -17,9 +17,10 @@
     // Tiedoston käsittelyn muuttujat
     $input_name = $_POST['name'];
     $input_wildcard = $_POST['wildcard'];
+    if ($input_wildcard != '') $input_wildcard = $input_wildcard . ".*";
+    
     echo "<h1>Haku nimellä '$input_name$input_wildcard' Taapeli-kannasta</h1>";
     //echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
-    $input_wildcard = $input_wildcard . ".*";
 
     if ($input_name != '') {
       // Neo4j parameter {name} is used to avoid hacking injection
