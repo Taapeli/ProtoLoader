@@ -9,7 +9,6 @@
 <body>
 <div  class="goback">
   <a href="index.php">Paluu</a></div>
-<h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
 
   include "inc/dbconnect.php";
@@ -18,7 +17,8 @@
     // Tiedoston käsittelyn muuttujat
     $input_name = $_POST['name'];
     $input_wildcard = $_POST['wildcard'];
-    echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
+    echo "<h1>Haku nimellä '$input_name$input_wildcard' Taapeli-kannasta</h1>";
+    //echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
     $input_wildcard = $input_wildcard . ".*";
 
     if ($input_name != '') {
