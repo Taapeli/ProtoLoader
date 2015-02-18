@@ -14,10 +14,11 @@
 <?php
 
 include 'inc/dbconnect.php';
+use classes/DateConv;
 
-function __autoload($class_name) {
-    include 'classes/' . $class_name . '.php';
-}
+//function __autoload($class_name) {
+//    include 'classes/' . $class_name . '.php';
+//}
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -31,7 +32,7 @@ function __autoload($class_name) {
     $file_name = $_FILES['image']['name'];
     $file_size =$_FILES['image']['size'];
     $file_tmp =$_FILES['image']['tmp_name'];
-    $max_lines = $_POST["maxlines"];
+  //$max_lines = $_POST["maxlines"];
     $x=explode('.',$file_name);
     $x=end($x);
     $file_ext = strtolower($x);	
@@ -154,7 +155,7 @@ function __autoload($class_name) {
             }
           }
           // echo "id = " . $id . "\n";
-        }
+        } // if level = 0
         else if ($level == 1) {
           switch ($load_type) {
             case "INDI":
@@ -264,7 +265,7 @@ function __autoload($class_name) {
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                           . "Unknown tag $key $event <p>\n";
                   $event = "";
-              } // switch $key
+              } // INDI switch $key
               break;
 
             case "FAM":
@@ -341,7 +342,7 @@ function __autoload($class_name) {
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                           . "Unknown tag $key $event <p>\n";
                   $event = "";
-              } // switch $key
+              } // FAM switch $key
               break;
 
             case "SOUR":
@@ -398,8 +399,8 @@ function __autoload($class_name) {
                 default;
               }
             default;
-          }
-        }
+          } // load_type
+        } // if level = 1
         else if ($level == 2) {
           switch ($load_type) {
             case "INDI":
@@ -466,7 +467,7 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  } // $event
+                  } // INDI DATE $event
                   break;
                 case "PLAC":
                   switch ($event) {
@@ -533,7 +534,7 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  } // $event
+                  } // PLAC $event
                   break;
                 case "SOUR":
                   switch ($event) {
@@ -577,7 +578,7 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  }
+                  } // SOUR event
                   break;
                 case "CONC":
                   switch ($event) {
@@ -607,7 +608,7 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  } // $event
+                  } // CONC $event
                   break;
                 case "CONT":
                   switch ($event) {
@@ -631,7 +632,7 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  } // $event
+                  } // CONT $event
                   break;
                 case "CAUS":
                   switch ($event) {
@@ -644,7 +645,7 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  } // $event
+                  } // CAUS $event
                   break;
                 case "TYPE":
                   switch ($event) {
@@ -667,7 +668,7 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  } // $event
+                  } 
                   break;
                 case "CITY":
                   switch ($event) {
@@ -687,11 +688,11 @@ function __autoload($class_name) {
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                               . "Unknown tag $key $event <p>\n";
                       $event = "";
-                  } // $event
+                  }
                   break;
                 default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $key.<p>\n";
                   $event = "";
               } // switch $key
               break;
@@ -767,7 +768,7 @@ function __autoload($class_name) {
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key $event <p>\n";
+                          . "Unknown tag $key.<p>\n";
                   $event = "";
               } // $key
             default;
@@ -859,7 +860,7 @@ function __autoload($class_name) {
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key $event <p>\n";
+                          . "Unknown tag $key.<p>\n";
                   $event = "";
               } // $key
               break;
@@ -908,14 +909,14 @@ function __autoload($class_name) {
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key $event <p>\n";
+                          . "Unknown tag $key.<p>\n";
                   $event = "";
               } // $key
               default;
-          }
-        }
+          } // $load_type
+        } // if $level = 3
       } // while feof
-    }
+    } // if empty errors
     echo "</p>\n";
 			
     fclose($file_handle);
