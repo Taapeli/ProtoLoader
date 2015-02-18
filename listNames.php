@@ -11,11 +11,8 @@
   <a href="index.php">Paluu</a></div>
 <?php
 
+include 'classes/DateConv.php';
 include "inc/dbconnect.php";
-
-function __autoload($class_name) {
-  include 'classes/' . $class_name . '.php';
-}
 
 if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat

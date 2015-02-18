@@ -9,16 +9,17 @@
 <body>
 <div  class="goback">
   <a href="index.php">Paluu</a></div>
-<h1>Kaikki henkil&ouml;t, joilla ei ole syntym&auml;aikaa</h1>
-<h2>Lis&auml;&auml; syntym&auml;aika klikkaamalla henkil&ouml;n id:t&auml;</h2>
+<h1>Kaikki henkilöt, joilla ei ole syntymäaikaa</h1>
+<h2>Lisää syntymäaika klikkaamalla henkilön id:tä</h2>
 
 <?php
 
+  include 'classes/DateConv.php';
   include "inc/dbconnect.php";
 
-  
-
-  $query_string = "MATCH (n:Person)-[:HAS_NAME]->(m) WHERE NOT HAS (n.birth_date) RETURN n, m ORDER BY m.last_name, m.first_name";
+  $query_string = "MATCH (n:Person)-[:HAS_NAME]->(m) "
+          . "WHERE NOT HAS (n.birth_date) "
+          . "RETURN n, m ORDER BY m.last_name, m.first_name";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
@@ -33,7 +34,8 @@
   }
 
   for ($i=0; $i<sizeof($id); $i++) {
-    $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . "' RETURN p";
+    $query_string = "MATCH (n:Person)-[:BIRTH_PLACE]->(p) "
+            . "WHERE n.id='" . $id[$i] . "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -45,20 +47,28 @@
   } 
 
   echo '<table  class="tulos">';
-  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika
-            <th>Syntym&auml;paikka</tr>';
+  echo '<tr><th>Id</th><th>Etunimet</th><th>Sukunimi</th><th>Myöh. sukunimi</th>
+    <th>Syntymäaika</th><th>Syntymäpaikka</th></tr>';
  
-  for ($i=0; $i<sizeof($id); $i++) {
-    echo "<tr><td><a href='updateBirthData.php?id=" .
-         $id[$i] . "'>" . $id[$i] .
-         "</a></td><td>" . $first_name[$i] .
-         "</td><td> " . $last_name[$i] .
-         "</td><td> " . $later_names[$i] .
-         "</td><td> " . $birth_date[$i] .
-         "</td><td> " . $birth_place[$i] .
-         "</td></tr>";
+  for ($i = 0; $i < sizeof($id); $i++) {
+    echo "<tr><td><a href='updateBirthData.php?id=" . $id[$i] . "'>" 
+            . $id[$i] . '</a></td><td>' 
+            . $first_name[$i] . '</td><td> ' 
+            . $last_name[$i] . '</td><td> ';
+    if (isset($later_names[$i])) {
+      echo $later_names[$i];
+    }
+    echo '</td><td> ';
+    if (isset($birth_date[$i])) {
+      echo DateConv::toDisplay($birth_date[$i]);
+    }
+    echo '</td><td> ';
+    if (isset($birth_place[i])) {
+      echo $birth_place[$i];
+    }
+    echo '</td></tr>\n';
   }
-  echo "</table>";
+echo '</table>';
 ?>
 
 </body>
