@@ -11,15 +11,21 @@
   <a href="index.php">Paluu</a></div>
 <?php
 
-  include "inc/dbconnect.php";
+include "inc/dbconnect.php";
 
-  if(isset($_POST['name']) || isset($_POST['wildcard'])){
+function __autoload($class_name) {
+  include 'classes/' . $class_name . '.php';
+}
+
+if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
     $input_name = $_POST['name'];
     $input_wildcard = $_POST['wildcard'];
-    if ($input_wildcard != '') $input_wildcard = $input_wildcard . ".*";
-    
-    echo "<h1>Haku nimellä '$input_name$input_wildcard' Taapeli-kannasta</h1>";
+    if ($input_wildcard != '') {
+      $input_wildcard = $input_wildcard . ".*";
+    }
+
+  echo "<h1>Haku nimellä '$input_name$input_wildcard' Taapeli-kannasta</h1>";
     //echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
 
     if ($input_name != '') {
@@ -82,7 +88,7 @@
     echo "<td> " . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
          "</td><td> " . $later_names[$i] .
-         "</td><td> " . $birth_date[$i] .
+         "</td><td> " . DateConv::toDisplay($birth_date[$i]) .
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";
   }
