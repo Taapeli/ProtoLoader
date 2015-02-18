@@ -17,24 +17,24 @@
             <h2>Taapelin tarkistusohjelmat</h2>
             <ul>
                 <li>Gedcom-tiedoston tarkistuksessa löydetyt 
-                    <a href="listToDoData.php" target="_blank">korjausta vaativat seikat</a></li>
+                    <a href="listToDoData.php" target="muokkaus">korjausta vaativat seikat</a></li>
                 <li>Lista henkilöistä, joilla ei ole 
-                    <a href="listNotSetBirthdays.php" target="_blank">syntymäaikaa</a> tai 
-                    <a href="listNoHiskiLinks.php" target="_blank">Hiski-linkkiä</a></li>
+                    <a href="listNotSetBirthdays.php" target="muokkaus">syntymäaikaa</a> tai 
+                    <a href="listNoHiskiLinks.php" target="muokkaus">Hiski-linkkiä</a></li>
                 <li>Lista henkilöistä, joilla on 
-                    <a href="listMayBeSame.php" target="_blank">sama syntymäaika sekä
+                    <a href="listMayBeSame.php" target="muokkaus">sama syntymäaika sekä
                         sama etu- ja sukunimi</a></li>
             </ul>
             <h2>Taapelin korjausohjelmat</h2>
             <ul>
                 <li>Yhdistä sellaiset henkilöt, joilla on  
-                    <a href="connectSameBirthDates.php" target="_blank">sama syntymäaika</a> tai 
-                    <a href="connectSameNames.php" target="_blank">samat etu- ja sukunimet</a></li>
+                    <a href="connectSameBirthDates.php" target="muokkaus">sama syntymäaika</a> tai 
+                    <a href="connectSameNames.php" target="muokkaus">samat etu- ja sukunimet</a></li>
                 <li>Katkaise mahdollinen yhteys henkilöiltä, joilla on  
-                    <a href="disconnectSameBirthDates.php" target="_blank">sama syntymäaika</a> tai
-                    <a href="disconnectSameNames.php" target="_blank">samat etu- ja sukunimet</a></li>
+                    <a href="disconnectSameBirthDates.php" target="muokkaus">sama syntymäaika</a> tai
+                    <a href="disconnectSameNames.php" target="muokkaus">samat etu- ja sukunimet</a></li>
                 <li>Keskeneräinen   
-                    <a href="compareTwoFamilyForm.php" target="_blank">yhdistelyehdotuslomake</a> tai
+                    <a href="compareTwoFamilyForm.php" target="muokkaus">yhdistelyehdotuslomake</a> tai
             </ul>
         </div>
 
@@ -87,7 +87,7 @@
 
             <div class="indent">
                 <form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">
-                    <h3>a) Tallennetaan käyttäjä-labelin kanssa</h3>
+                    <h3>Tallennetaan käyttäjä-labelin kanssa</h3>
                     <p><span class="tit">Syöte:</span> 
                         <input type="file" name="image" required="required" />
                         <input class="subm" type="submit" value="Lataa" /></p>
