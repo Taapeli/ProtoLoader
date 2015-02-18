@@ -147,7 +147,8 @@ function __autoload($class_name) {
                 $load_type = "SUBM";
                 break;
               default;
-                echo "Unknown tag " . $arg0 . " on line: " . $n . "\n";
+                echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                        . "Unknown tag $key $event <p>\n";
                 $event = "";
                 $load_type = "";
             }
@@ -235,7 +236,8 @@ function __autoload($class_name) {
                   break;
                 case "SOUR":
                   $event = "SOUR";
-                  echo "1 SOUR is ignored (syntax error) on line " . $n . "\n";
+                  echo "<p><b>Warning</b> gedloader:$__LINE__ line $n:"
+                          . " 1 SOUR is ignored (syntax error)</p>";
                   break;
                 case "CHAN":
                   $event = "CHAN";
@@ -259,7 +261,8 @@ function __autoload($class_name) {
                 case "STAT":
                   break;
                 default;
-                  echo "<p><b>Warning</b>: gedLoader line $n: Unknown tag $key </p>\n";
+                  echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                          . "Unknown tag $key $event <p>\n";
                   $event = "";
               } // switch $key
               break;
@@ -279,7 +282,8 @@ function __autoload($class_name) {
                     if (isset($husb)) {
                         $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
                     } else {
-                        echo "<p><b>Warning</b>: gedLoader line $n: No HUSB in the family $id</p>";
+                        echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                                . "No HUSB in the family $id</p>";
                     }
                   $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
                   break;
@@ -289,13 +293,15 @@ function __autoload($class_name) {
                     $rel = $person[$husb]->relateTo($person[$chil], 'CHILD')->save();
                     $rel = $person[$chil]->relateTo($person[$husb], 'FATHER')->save();
                   } else {
-                    echo "<p><b>Warning</b>: gedLoader line $n: No father in the family $id</p>";
+                    echo "<p><b>Warning</b>: gedloader:$__LINE__ line $n: "
+                            . "No father in the family $id</p>";
                   }
                   if (isset($wife)) {
                     $rel = $person[$wife]->relateTo($person[$chil], 'CHILD')->save();
                     $rel = $person[$chil]->relateTo($person[$wife], 'MOTHER')->save();
                   } else {
-                    echo "<p><b>Warning</b>: gedLoader line $n: No mother in the family $id</p>";
+                    echo "<p><b>Warning</b>: gedloader:$__LINE__ line $n: "
+                            . "No mother in the family $id</p>";
                   }
                   break;
                 case "MARR":
@@ -315,8 +321,10 @@ function __autoload($class_name) {
                   $note = $sukudb->makeNode()
                     ->setProperty('note', $arg0)
                     ->save();
-                  $rel_husb = $person[$husb]->relateTo($note, 'NOTE')->save();
-                  $rel_wife = $person[$wife]->relateTo($note, 'NOTE')->save();
+                  if (isset($husb))
+                    $rel_husb = $person[$husb]->relateTo($note, 'NOTE')->save();
+                  if (isset($wife))
+                    $rel_wife = $person[$wife]->relateTo($note, 'NOTE')->save();
                   break;
                 case "_TODO":
                   $event = "TODO";
@@ -324,11 +332,14 @@ function __autoload($class_name) {
                   $todo = $sukudb->makeNode()
                     ->setProperty('description', $arg0)
                     ->save();
-                  $rel_husb = $person[$husb]->relateTo($todo, 'TODO')->save();
-                  $rel_wife = $person[$wife]->relateTo($todo, 'TODO')->save();
+                  if (isset($husb))
+                    $rel_husb = $person[$husb]->relateTo($todo, 'TODO')->save();
+                  if (isset($wife))
+                    $rel_wife = $person[$wife]->relateTo($todo, 'TODO')->save();
                   break;
                 default;
-                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                          . "Unknown tag $key $event <p>\n";
                   $event = "";
               } // switch $key
               break;
@@ -371,7 +382,8 @@ function __autoload($class_name) {
                   $result = $query->getResultSet();
                   break;
                 default;
-                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                          . "Unknown tag $key $event <p>\n";
                   $event = "";
               }
               break;
@@ -451,7 +463,8 @@ function __autoload($class_name) {
                     case "CHAN":
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -517,7 +530,8 @@ function __autoload($class_name) {
                     case "RESI":
                        break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -560,7 +574,8 @@ function __autoload($class_name) {
                       $result = $query->getResultSet();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   }
                   break;
@@ -579,7 +594,8 @@ function __autoload($class_name) {
                         ->save();
                      break;
                     case "SOUR":
-                      echo "2 CONC is ignored (syntax error) on line " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n:"
+                            . " 2 CONC is ignored (syntax error)</p>";
                      break;
                     case "TODO":
                       $todo_prev = $todo_prev . " " . $arg0;
@@ -588,7 +604,8 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -601,7 +618,8 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     case "SOUR":
-                      echo "2 CONT is ignored (syntax error) on line " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                            . "2 CONT is ignored (syntax error)</p>\n";
                      break;
                     case "TODO":
                       $todo_prev = $todo_prev . " " . $arg0;
@@ -610,7 +628,8 @@ function __autoload($class_name) {
                         ->save();
                      break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -622,7 +641,8 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -634,7 +654,8 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -643,7 +664,8 @@ function __autoload($class_name) {
                     case "ADDR":
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -652,7 +674,8 @@ function __autoload($class_name) {
                     case "ADDR":
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -661,12 +684,14 @@ function __autoload($class_name) {
                     case "ADDR":
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
                 default;
-                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                   $event = "";
               } // switch $key
               break;
@@ -696,7 +721,8 @@ function __autoload($class_name) {
                       }
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -712,7 +738,8 @@ function __autoload($class_name) {
                       $result = $query->getResultSet();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -739,7 +766,8 @@ function __autoload($class_name) {
                   } // $event
                   break;
                 default;
-                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                          . "Unknown tag $key $event <p>\n";
                   $event = "";
               } // $key
             default;
@@ -784,7 +812,8 @@ function __autoload($class_name) {
                       $result = $query->getResultSet();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -803,7 +832,8 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -822,12 +852,14 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
                 default;
-                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                          . "Unknown tag $key $event <p>\n";
                   $event = "";
               } // $key
               break;
@@ -849,7 +881,8 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -868,12 +901,14 @@ function __autoload($class_name) {
                         ->save();
                       break;
                     default;
-                      echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                      echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                              . "Unknown tag $key $event <p>\n";
                       $event = "";
                   } // $event
                   break;
                 default;
-                  echo "Unknown tag " . $key . " on line: " . $n . "\n";
+                  echo "<p><b>Warning</b> gedloader:$__LINE__ line $n: "
+                          . "Unknown tag $key $event <p>\n";
                   $event = "";
               } // $key
               default;
