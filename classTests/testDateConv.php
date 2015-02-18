@@ -22,7 +22,7 @@
         echo "<h2>DateConv-testit</h2>\n";
         echo "<h3>fromGed</h3>\n";
 
-        $geddates = [ "1 FEB 1900", "12 TOU 1901", "0 0 1913", 
+        $geddates = [ "1 FEB 1900", "12 TOU 1901", "0 0 1913", "n. 1778",
             "1914", "FEB 2012", "Hauskaa pääsiäistä", "40 HEL 123" ];
         foreach ($geddates as $s) {
             echo "<p><b>" . DateConv::fromGed($s) . 
