@@ -21,9 +21,11 @@ div.form { background-color: #dde;
            width: 40em;
 }
 div.indent { margin-left: 4em; }
+div.right { float: right; }
 
 .tit { width: 6em; float: left; }
 input.subm { position: float; right: 40em; }
+input { font-size: 90% }
 
 .goback {display: block; width: 100px; position: fixed;
          top: 1em; right: 1em; color: #FFF;

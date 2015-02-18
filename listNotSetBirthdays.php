@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli haku</title>
+<title>Taapeli-aineiston ylläpito</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
 <body>
 <div  class="goback">
-  <a href="index.php">Paluu</a></div>
-<h1>Kaikki henkilöt, joilla ei ole syntymäaikaa</h1>
-<h2>Lisää syntymäaika klikkaamalla henkilön id:tä</h2>
+  <a href="#" onclick="history.go(-1)">Paluu</a></div>
+<h1>Henkilöt, joilla ei ole syntymäaikaa</h1>
+<h2>Lisää syntymäaika osoittamalla henkilön id:tä</h2>
 
 <?php
 
@@ -63,7 +63,7 @@
       echo DateConv::toDisplay($birth_date[$i]);
     }
     echo '</td><td> ';
-    if (isset($birth_place[i])) {
+    if (isset($birth_place[$i])) {
       echo $birth_place[$i];
     }
     echo '</td></tr>\n';
