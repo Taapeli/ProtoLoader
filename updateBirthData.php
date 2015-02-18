@@ -68,18 +68,12 @@
                 <tr><th>id</th><th>Etunimet</th><th>Sukunimi</th><th>Myöh. sukunimi</th>
                     <th>Syntymäaika</th><th>Syntymäpaikka</th></tr>
 <?php
-        echo "<tr><td>" . $id .
-        "</td><td> " . $first_name .
-        "</td><td> " . $last_name .
-        "</td><td> " . $later_names .
-        "</td><td> " . DateConv::toDisplay($birth_date) .
-        "</td><td> " . $birth_place .
-        "</td></tr>";
         echo "<tr><td rowspan='2'>$id</td><td>$first_name</td><td>$last_name</td>";
-        echo "<td>$later_names</td><td>$birth_date</td><td>$birth_place</td></tr>";
+        echo "<td>$later_names</td><td>" . DateConv::toDisplay($birth_date) 
+                . "</td><td>$birth_place</td></tr>";
         echo '<tr><td colspan="3"><div  class="right">Uudet tiedot:</div></td>';
-        echo '<td><input type="text" name="birth" value="$birth_date" /></td>';
-        echo '<td><input type="text" name="place" value="$birth_place" /></td></tr>';
+        echo '<td><input type="text" name="birth" value="' .$birth_date. '" /></td>';
+        echo '<td><input type="text" name="place" value="' . $birth_place . '" /></td></tr>';
 ?>
                 <tr>
                     <td colspan="6" >
