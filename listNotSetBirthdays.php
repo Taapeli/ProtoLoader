@@ -66,7 +66,7 @@
     if (isset($birth_place[$i])) {
       echo $birth_place[$i];
     }
-    echo '</td></tr>\n';
+    echo "</td></tr>\n";
   }
 echo '</table>';
 ?>
