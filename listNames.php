@@ -20,9 +20,12 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
     $input_wildcard = $_POST['wildcard'];
     if ($input_wildcard != '') {
       $input_wildcard = $input_wildcard . ".*";
+      $showkey = $input_wildcard . '*';
+    } else {
+      $showkey = $input_name;
     }
 
-  echo "<h1>Haku nimellä '$input_name$input_wildcard' Taapeli-kannasta</h1>";
+  echo "<h1>Haku nimellä '$showkey' Taapeli-kannasta</h1>";
     //echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
 
     if ($input_name != '') {
