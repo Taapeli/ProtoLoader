@@ -1,27 +1,16 @@
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Taapelin prototyyppi</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <style>
-        div.top {
-            background-color: #82ac92;
-        }
-    </style>
-</head>
-
-<body>
     <?php ?>
-    <div class="top">
+    <div id="top">
         <span>&nbsp;<img src="images/Vaakuna_v65px.png" alt="" /></span>
         <span class="toptitle">
             Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
         </span>
     </div>
 
-    <div class="menu">
-        <ul>
+    <div id="wrap">
+    <div id="menu">
+        <ul class="menu">
             <li>Tietojen tarkistus
-                <ul>
+                <ul class="menu">
                     <li><a href="listToDoData.php">Löydetty korjattavaa</a></li>
                     <li><a href="listNotSetBirthdays.php">Ei syntymäaikaa</a></li>
                     <li><a href="listNoHiskiLinks.php">Ei Hiski-linkkiä</a></li>
@@ -29,29 +18,30 @@
                 </ul>
             </li>
             <li>Henkilöiden yhdistely
-                <ul>
+                <ul class="menu">
                     <li><a href="connectSameBirthDates.php">Sama syntymäaika</a></li> 
                     <li><a href="connectSameNames.php">Samat etu- ja sukunimet</a></li>
                 </ul></li>
             <li>Katkaise henkilöyhteys
-                <ul><li><a href="disconnectSameBirthDates.php">Sama syntymäaika</a></li><li>
-                        <a href="disconnectSameNames.php">samat etu- ja sukunimet</a></li>
+                <ul class="menu">
+                    <li><a href="disconnectSameBirthDates.php">Sama syntymäaika</a></li>
+                    <li><a href="disconnectSameNames.php">samat etu- ja sukunimet</a></li>
                     <li>Keskeneräinen   
                         <a href="compareTwoFamilyForm.php">yhdistelyehdotus</a></li>
                 </ul></li>
 
-            <li><form action="listBirths.php" method="post" enctype="multipart/form-data">
-                    Haku syntymäajalla 
+            <li>Haku syntymäajalla
+                <form action="listBirths.php" method="post" enctype="multipart/form-data">
                     <input type="text" name="birth" />
                     <input class="subm" type="submit" value="Etsi" />
                 </form></li>
-            <li><form action="listNames.php" method="post" enctype="multipart/form-data">
-                    Haku koko sukunimellä 
+            <li>Haku koko sukunimellä
+                <form action="listNames.php" method="post" enctype="multipart/form-data">
                     <input type="text" name="name"/>
                     <input class="subm" type="submit" value="Etsi"/>
                 </form></li>
-            <li><form action="listNames.php" method="post" enctype="multipart/form-data">
-                    Haku nimen alkuosalla 
+            <li>Haku sukunimen alkuosalla
+                <form action="listNames.php" method="post" enctype="multipart/form-data">
                     <input type="text" name="wildcard"/>
                     <input class="subm" type="submit" value="Etsi"/>
                 </form></li>

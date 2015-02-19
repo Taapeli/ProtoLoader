@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Taapelin prototyyppi</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <style>
+        <style type="text/css">
             div.top {
                 background-color: #82ac92;
             }

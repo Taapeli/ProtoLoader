@@ -5,12 +5,19 @@
         <title>Taapelin prototyyppi</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <style type="text/css">
-            div.top { background-color: #82ac92; }
+            #top { background-color: #82ac92; }
         </style>
     </head>
     <body>
-<?php include "inc/start.php"; ?>
+        <?php include "inc/start.php"; ?>
+        <div id="content">
+            <h1>Taapeli-projekti</h1>
+            <p>
+                Projektissa suunnitellaan ja toteutetaan keskitetty tietojärjestelmä, 
+                johon sukututkijat voivat helposti ladata lähtein 
+                varmennettuja sukututkimustietoja. </p>
+            <p>  Järjestelmään tehdään selainkäyttöliittymät tietojen lataamiseen, 
+                validointiin ja selaamiseen. </p>
+        </div>
 
-        <div class="content">TODO Sijoita tähän sisältö</div>
-        
-<?php include "inc/stop.php"; ?> 
+        <?php include "inc/stop.php"; ?> 
