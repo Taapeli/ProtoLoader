@@ -1,0 +1,69 @@
+// Taapelin tyylit
+
+body { font-family:Helvetica, sans-serif; 
+       font-size: 11pt;
+}
+h1,h2,h3 { font-family:Georgia, serif; color: #144d2a; }
+h1 { font-size: 120%; }
+h2 { font-size: 110%; }
+h3 { font-size: 100%; }
+table.tulos {
+    border: 2pt outset gray;
+    background-color: rgb(239, 237, 199);
+    border-collapse: collapse;
+}
+th,td {
+    padding: 4px;
+    border-width:1px;	
+    border-style:dotted;
+    background-color: beige;
+}
+div.right { float: right; }
+
+// start-sivun tyylit
+
+div.top {
+    background-color: #82ac92;
+    border-width: 0px;
+    padding: 0px;
+}
+span.toptitle {
+    font-family:Georgia, serif;
+    font-style: italic;
+    color: #144d2a;
+    font-size: 18pt;
+    vertical-align: 18pt;
+
+}
+div.bottom {
+    border-width: 0px;
+    padding: 5px;
+    background-color: #144d2a;
+    font-size: 75%;
+    color: white;
+}
+div.menu {
+    border-width: 0px;
+    display: inline-block;
+    background-color: #82ac92;
+    padding: 10px;
+    vertical-align: top;
+    width: 15em;
+}
+div.content {
+    border-width: 0px;
+    display: inline-block;
+    padding: 10px;
+    vertical-align: top;
+}
+ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 2em;
+    text-indent: -2em;
+}
+div.note { font-size: 9pt; }
+
+// Vanhoja tyylejä
+
+input { font-size: 90% }
