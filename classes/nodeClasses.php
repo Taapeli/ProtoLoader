@@ -1,4 +1,11 @@
-// Luokat henkilöiden ja perheiden tietoja varten
+<?php
+/**
+ * Luokat henkilöiden ja perheiden tietoja varten
+ * Joku vanha - Kovasti kesken!
+ * 
+ * @author JMä 2015
+ * 
+ */
 
 class Person {
 	private $id;

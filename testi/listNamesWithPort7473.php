@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli haku</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
 </head>
 
 <body>
 <div  class="goback">
-  <a href="index.php">Paluu</a></div>
+  <a href="../index.php">Paluu</a></div>
 <h1>Haku nimellä Taapeli-kannasta</h1>
 <?php
   echo "Start the query";
 
-  include "inc/dbconnect.php";
+  include "../inc/dbconnect.php";
 
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat

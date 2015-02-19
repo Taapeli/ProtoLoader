@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli aineiston luku kantaan</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
 
-  include "inc/dbconnect.php";
+  include "../inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -115,7 +115,7 @@
         return $month_num;
       }
 
-      $sukudb = new Everyman\Neo4j\Client('neo4j35029-Taademo2.jelastic.elastx.net', 7473);
+      
 
       $idLabel = $sukudb->makeLabel('Person');
       $nameLabel = $sukudb->makeLabel('Name');
@@ -124,7 +124,6 @@
       $repoLabel = $sukudb->makeLabel('Repo');
 
       $n = 0;
-      $phon_found = false; // If phonenumber exists it will be used as an userid
       $n = $n_indi = $n_fam = $n_sour = $n_repo = 0; // How many lines were read
       $load_type = ""; // values: INDI, FAM, SOUR, REPO 
 
@@ -155,11 +154,6 @@
           if (sizeof($a) > 2) {
             switch ($arg0)  {
               case "INDI":
-                if (!$phon_found) {
-                  echo "Tiedostoa ei voitu tallentaa tietokantaan gedcom-tiedostosta puuttuvan puhelinnumeron vuoksi!\n\n";
-                  echo "Lisää puhelinnumero käyttäjätietoihin, esim. 1 PHON 040 123 4567\n";
-                  exit;
-                }
                 $n_indi++;
                 $load_type = "INDI";
                 $name_cnt = 0;
@@ -167,7 +161,6 @@
                    ->setProperty('id', $id)
                    ->save();
                 $idLabels = $person[$id]->addLabels(array($idLabel));
-                $userLabels = $person[$id]->addLabels(array($userLabel));
                 break;
               case "FAM":
                 $n_fam++;
@@ -212,7 +205,6 @@
                       ->setProperty('last_name', $names[1])
                       ->save();
                     $nameLabels = $name->addLabels(array($nameLabel));
-                    $userLabels = $name->addLabels(array($userLabel));
 
                     $rel = $person[$id]->relateTo($name, 'HAS_NAME')->save();
                   }
@@ -310,7 +302,6 @@
                     ->setProperty('id', $id)
                     ->save();
                     $marriageLabels = $marr->addLabels(array($marriageLabel));
-                    $userLabels = $marr->addLabels(array($userLabel));
                   break;
                 case "WIFE":
                   $wife = idtrim($arg0);
@@ -401,16 +392,6 @@
                   $event = "";
               }
               break;
-            case "SUBM":
-              switch ($key)  {
-                case "PHON":
-                  $userid = substr($arg0, -4);
-                  $user_label = "user" . $userid;
-                  $phon_found = true;
-                  $userLabel = $sukudb->makeLabel($user_label);
-                  break;
-                default;
-              }
             default;
           }
         }

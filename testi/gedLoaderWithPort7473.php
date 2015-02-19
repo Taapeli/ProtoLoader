@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli aineiston luku kantaan</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
 </head>
 
 <body>
@@ -13,8 +13,7 @@
 <p>Luetaan gedcom-tiedostoa.</p>
 <?php
 
-//include "inc/dbconnect.php";
-  include 'inc/dbconnect.php';
+  include "../inc/dbconnect.php";
 
 /*-------------------------- Tiedoston luku ----------------------------*/
 /*
@@ -116,7 +115,7 @@
         return $month_num;
       }
 
-//    
+      $sukudb = new Everyman\Neo4j\Client('neo4j35029-Taademo2.jelastic.elastx.net', 7473);
 
       $idLabel = $sukudb->makeLabel('Person');
       $nameLabel = $sukudb->makeLabel('Name');
@@ -125,6 +124,7 @@
       $repoLabel = $sukudb->makeLabel('Repo');
 
       $n = 0;
+      $phon_found = false; // If phonenumber exists it will be used as an userid
       $n = $n_indi = $n_fam = $n_sour = $n_repo = 0; // How many lines were read
       $load_type = ""; // values: INDI, FAM, SOUR, REPO 
 
@@ -132,28 +132,28 @@
 ** Avataan tiedosto
 */
       $file_handle = fopen($file_tmp, "r");
-  while (!feof($file_handle)) {
-    $n++;
-    $line = fgets($file_handle);
-    $a = explode(' ', $line, 3);
-    $level = $a[0];
+      while (!feof($file_handle)) {
+        $line = fgets($file_handle);
+        $n++;
+        $a = explode(' ', $line, 3);
+        $level = $a[0];
 
-    if (sizeof($a) > 1) {
-      $key = trim($a[1]);
-    }
-    else {
-      echo "\n\nOnly one argument on line: " . $n . "\n";
-      $key = "";
-    }
+        if (sizeof($a) > 1) {
+          $key = trim($a[1]);
+        }
+        else {
+          // echo "\n\nOnly one argument on line: " . $n . "\n";
+          $key = "";
+        }
 
-    if (sizeof($a) > 2) {
-      $arg = $arg0 = trim($a[2]);
-    }
+        if (sizeof($a) > 2) {
+          $arg = $arg0 = trim($a[2]);
+        }
 
         if ($level == 0) {
           $id = idtrim($key);
           if (sizeof($a) > 2) {
-            switch ($arg0) {
+            switch ($arg0)  {
               case "INDI":
                 if (!$phon_found) {
                   echo "Tiedostoa ei voitu tallentaa tietokantaan gedcom-tiedostosta puuttuvan puhelinnumeron vuoksi!\n\n";
@@ -163,31 +163,23 @@
                 $n_indi++;
                 $load_type = "INDI";
                 $name_cnt = 0;
-                $query_string = "CREATE (n:Person {id:'" . $id . 
-                        "'})";
-
-                $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                $result = $query->getResultSet();
-
+                $person[$id] = $sukudb->makeNode()
+                   ->setProperty('id', $id)
+                   ->save();
+                $idLabels = $person[$id]->addLabels(array($idLabel));
+                $userLabels = $person[$id]->addLabels(array($userLabel));
                 break;
               case "FAM":
                 $n_fam++;
                 $load_type = "FAM";
-                $fam_id = $id;
-                $query_string = "CREATE (n:Marriage {id:'" . $fam_id . "'})";
-
-                $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                $result = $query->getResultSet();
                 break;
               case "SOUR":
                 $n_sour++;
                 $load_type = "SOUR";
-                $sour_id = $id;
                 break;
               case "REPO":
                 $n_repo++;
                 $load_type = "REPO";
-                $repo_id = $id;
                 break;
               case "SUBM":
                 $load_type = "SUBM";
@@ -205,11 +197,8 @@
             case "INDI":
               switch ($key)  {
                 case "SEX":
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                          "'}) SET n.sex ='" . $arg0 . "'";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
+                  $person[$id]->setProperty('sex', $arg0)
+                    ->save();
                   break;
                 case "NAME":
                   $names = explode('/', $arg0, 3);
@@ -218,29 +207,25 @@
                   }
   
                   if ($name_cnt++ == 0) {
-                    $query_string = "MATCH (n:Person {id:'" . $id . 
-                          "'}) CREATE (m:Name {first_name:'" . $names[0] . 
-                          "', last_name:'" . $names[1] . "'}) MERGE (n)-[:HAS_NAME]->(m)";
+                    $name = $sukudb->makeNode()
+                      ->setProperty('first_name', $names[0])
+                      ->setProperty('last_name', $names[1])
+                      ->save();
+                    $nameLabels = $name->addLabels(array($nameLabel));
+                    $userLabels = $name->addLabels(array($userLabel));
 
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                    $result = $query->getResultSet();
+                    $rel = $person[$id]->relateTo($name, 'HAS_NAME')->save();
                   }
                   else { // later names with another NAME tag
-                    $query_string = "MATCH (n:Person {id:'" . $id . 
-                          "'})-[:HAS_NAME]->(m) SET m.later_names='" . $names[1] . "'";
-
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                    $result = $query->getResultSet();
+                    $later_name = $name
+                      ->setProperty('later_names', $names[1])
+                    ->save();
                   }
                   break;
                 case "ALIA":
                   $names = nametrim($arg0);
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:HAS_NAME]->(m) SET m.later_names='" . $names . "'";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
+                  $alia = $name->setProperty('later_names', $names)
+                    ->save();
                   break;
                 case "BIRT":
                   $event = "BIRT";
@@ -259,70 +244,52 @@
                   break;
                 case "EMIG":
                   $event = "EMIG";
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) CREATE (m:Emig) MERGE (n)-[:MOVED_TO]->(m)";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
+                  $emig = $sukudb->makeNode()->save();
+                  $rel = $person[$id]->relateTo($emig, 'MOVED_TO')->save();
                   break;
                 case "OCCU":
                   $event = "OCCU";
                   $occu_prev = $arg0; // CONC/CONT possible
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) CREATE (m:Occu {occupation:'" . $arg0 .
-                        "'}) MERGE (n)-[:OCCUPATION]->(m)";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
+                  $occu = $sukudb->makeNode()
+                    ->setProperty('occupation', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($occu, 'OCCUPATION')->save();
                   break;
                 case "NOTE":
                   $event = "NOTE";
                   $note_prev = $arg0; // CONC/CONT possible
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) CREATE (m:Note {note:{note}}) MERGE (n)-[:NOTE]->(m)";
-
-                  $query_array = array('note' => $arg0);
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                  $result = $query->getResultSet();
-
+                  $note = $sukudb->makeNode()
+                    ->setProperty('note', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($note, 'NOTE')->save();
                   break;
                 case "_TODO":
                   $event = "TODO";
                   $todo_prev = $arg0; // CONC/CONT possible
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) CREATE (m:Todo {description:{description}}) MERGE (n)-[:TODO]->(m)";
-
-                  $query_array = array('description' => $arg0);
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                  $result = $query->getResultSet();
-
+                  $todo = $sukudb->makeNode()
+                    ->setProperty('description', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($todo, 'TODO')->save();
+                  break;
+                case "SOUR":
+                  $event = "SOUR";
+                  echo "1 SOUR is ignored (syntax error) on line " . $n . "\n";
                   break;
                 case "CHAN":
                   $event = "CHAN";
                   break;
                 case "EVEN":
                   $event = "EVEN";
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) CREATE (m:Event {event:'" . $arg0 .
-                        "'}) MERGE (n)-[:EVENT]->(m)";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
+                  $even = $sukudb->makeNode()
+                    ->setProperty('event', $arg0)
+                    ->save();
+                  $rel = $person[$id]->relateTo($even, 'EVENT')->save();
                   break;
                 case "ADDR":
                   $event = "ADDR";
                   break;
                 case "RESI":
                   $event = "RESI";
-                  break;
-                case "SOUR":
-                  $event = "SOUR";
-                  // Genus Senior SOUR tag
                   break;
                 case "FAMC":
                 case "FAMS":
@@ -339,40 +306,23 @@
               switch ($key)  {
                 case "HUSB":
                   $husb = idtrim($arg0);
-                  $query_string = "MATCH (m:Marriage {id:'" . $fam_id . 
-                        "'}), (h:Person {id:'" . $husb . 
-                        "'}) MERGE (h)-[:MARRIED]->(m)";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
+                  $marr = $sukudb->makeNode()
+                    ->setProperty('id', $id)
+                    ->save();
+                    $marriageLabels = $marr->addLabels(array($marriageLabel));
+                    $userLabels = $marr->addLabels(array($userLabel));
                   break;
                 case "WIFE":
                   $wife = idtrim($arg0);
-                  $query_string = "MATCH (m:Marriage {id:'" . $fam_id . 
-                        "'}), (w:Person {id:'" . $wife .
-                        "'}) MERGE (w)-[:MARRIED]->(m)";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
+                  $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
+                  $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
                   break;
                 case "CHIL":
                   $chil = idtrim($arg0);
-                  $query_string = "MATCH (c:Person {id:'" . $chil . 
-                        "'}), (h:Person {id:'" . $husb . 
-                        "'}) MERGE (h)-[:CHILD]->(c) MERGE (c)-[:FATHER]->(h)";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
-                  $query_string = "MATCH (c:Person {id:'" . $chil . 
-                        "'}), (w:Person {id:'" . $wife .
-                        "'}) MERGE (w)-[:CHILD]->(c) MERGE (c)-[:MOTHER]->(w)";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
-
+                  $rel = $person[$husb]->relateTo($person[$chil], 'CHILD')->save();
+                  $rel = $person[$wife]->relateTo($person[$chil], 'CHILD')->save();
+                  $rel = $person[$chil]->relateTo($person[$husb], 'FATHER')->save();
+                  $rel = $person[$chil]->relateTo($person[$wife], 'MOTHER')->save();
                   break;
                 case "MARR":
                   $event = "MARR";
@@ -380,39 +330,28 @@
                 case "DIV":
                   $event = "DIV";
                   if  (sizeof($a) > 2) {
-                    $query_string = "MATCH (m:Marriage {id:'" . $fam_id . 
-                        "'}) SET m.divoced_status ='" . $arg0 . "'";
-
-                    $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                    $result = $query->getResultSet();
+                    $div_date = $marr
+                      ->setProperty('divoced_status', $arg0)
+                      ->save();
                   }
                   break;
                 case "NOTE":
                   $event = "NOTE";
                   $note_prev = $arg0; // CONC/CONT possible
-                  $query_string = "MATCH (h:Person {id:'" . $husb . 
-                        "'}), (w:Person {id:'" . $wife . 
-                        "'}) CREATE (n:Note {note:{note}}) MERGE (h)-[:NOTE]->(n) MERGE (w)-[:NOTE]->(n)";
-
-                  $query_array = array('note' => $arg0);
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                  $result = $query->getResultSet();
-
+                  $note = $sukudb->makeNode()
+                    ->setProperty('note', $arg0)
+                    ->save();
+                  $rel_husb = $person[$husb]->relateTo($note, 'NOTE')->save();
+                  $rel_wife = $person[$wife]->relateTo($note, 'NOTE')->save();
                   break;
                 case "_TODO":
                   $event = "TODO";
                   $todo_prev = $arg0; // CONC/CONT possible
-                  $query_string = "MATCH (h:Person {id:'" . $husb . 
-                        "'}), (w:Person {id:'" . $wife . 
-                        "'}) CREATE (n:Todo {description:{description}}) MERGE (h)-[:TODO]->(n) MERGE (w)-[:TODO]->(n)";
-
-                  $query_array = array('description' => $arg0);
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-
-                  $result = $query->getResultSet();
-
+                  $todo = $sukudb->makeNode()
+                    ->setProperty('description', $arg0)
+                    ->save();
+                  $rel_husb = $person[$husb]->relateTo($todo, 'TODO')->save();
+                  $rel_wife = $person[$wife]->relateTo($todo, 'TODO')->save();
                   break;
                 default;
                   echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -462,7 +401,6 @@
                   $event = "";
               }
               break;
-
             case "SUBM":
               switch ($key)  {
                 case "PHON":
@@ -481,11 +419,7 @@
             case "INDI":
               switch ($key)  {
                 case "NSFX":
-                  $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:HAS_NAME]->(m) SET m.partonymic='" . $arg0 . "'";
-
-                  $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                  $result = $query->getResultSet();
+                  $nsfx = $name->setProperty('partonymic', $arg0)->save();
                   break;
                 case "DATE":
                   $date = explode(' ', $arg0, 3);
@@ -498,44 +432,24 @@
                   }
                   switch ($event) {
                     case "BIRT":
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) SET n.birth_date='" . $date_str . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $person[$id]->setProperty('birth_date', $date_str)
+                        ->save();
                       break;
                     case "CHR":
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) SET n.christen_date='" . $date_str . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $person[$id]->setProperty('christen_date', $date_str)
+                        ->save();
                       break;
                     case "CONF":
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) SET n.confirmation_date='" . $date_str . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $person[$id]->setProperty('confirmation_date', $date_str)
+                        ->save();
                       break;
                     case "DEAT":
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) SET n.death_date='" . $date_str . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $person[$id]->setProperty('death_date', $date_str)
+                        ->save();
                       break;
                     case "BURI":
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) SET n.buried_date='" . $date_str . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $person[$id]->setProperty('buried_date', $date_str)
+                        ->save();
                       break;
                     case "CHAN":
                       break;
@@ -548,7 +462,7 @@
                   switch ($event) {
                     case "BIRT":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place:" . $user_label . " {name:'" . $arg0 . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
                         "'}) MERGE (n)-[:BIRTH_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -557,7 +471,7 @@
                       break;
                     case "CHR":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place:" . $user_label . " {name:'" . $arg0 . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
                         "'}) MERGE (n)-[:CHRISTEN_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -566,7 +480,7 @@
                       break;
                     case "CONF":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place:" . $user_label . " {name:'" . $arg0 . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
                         "'}) MERGE (n)-[:CONFIRMATION_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -575,7 +489,7 @@
                       break;
                     case "DEAT":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place:" . $user_label . " {name:'" . $arg0 . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
                         "'}) MERGE (n)-[:DEATH_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -584,33 +498,28 @@
                       break;
                     case "BURI":
                       $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'}) MERGE (p:Place:" . $user_label . " {name:'" . $arg0 . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
                         "'}) MERGE (n)-[:BURIED_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
                       $result = $query->getResultSet();
                       break;
                     case "EMIG":
                       $emig_prev = $arg0; // CONC/CONT possible
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:MOVED_TO]->(m) SET m.moved_to='" . $arg0 . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $emig_plac = $emig
+                        ->setProperty('moved_to', $arg0)
+                        ->save();
                       break;
                     case "EVEN":
                       $even_prev = $arg0; // CONC/CONT possible
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:EVEN]->(m) SET m.data='" . $arg0 . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $even_plac = $even
+                        ->setProperty('data', $arg0)
+                        ->save();
                       break;
                     case "RESI":
                        break;
-                   default;
+                    default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
                       $event = "";
                   } // $event
@@ -652,7 +561,6 @@
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
                       $result = $query->getResultSet();
-
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -663,37 +571,24 @@
                   switch ($event) {
                     case "OCCU":
                       $occu_prev = $occu_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:OCCUPATION]->(o) SET o.occupation='" . $occu_prev . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $occu_conc = $occu
+                        ->setProperty('occupation', $occu_prev)
+                        ->save();
                     break;
                     case "NOTE":
                       $note_prev = $note_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:NOTE]->(o) SET o.note={note}";
-
-                      $query_array = array('note' => $note_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
-
+                      $note_conc = $note
+                        ->setProperty('note', $note_prev)
+                        ->save();
+                     break;
+                    case "SOUR":
+                      echo "2 CONC is ignored (syntax error) on line " . $n . "\n";
                      break;
                     case "TODO":
                       $todo_prev = $todo_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:TODO]->(o) SET o.description={description}";
-
-                      $query_array = array('description' => $todo_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
-
-                      break;
-                    case "SOUR":
-                      // Genus Senior SOUR tag
+                      $todo_conc = $source
+                        ->setProperty('description', $todo_prev)
+                        ->save();
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -704,29 +599,19 @@
                   switch ($event) {
                     case "NOTE":
                       $note_prev = $note_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:NOTE]->(o) SET o.note={note}";
-
-                      $query_array = array('note' => $note_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
-
+                      $note_cont = $note
+                        ->setProperty('note', $note_prev)
+                        ->save();
+                      break;
+                    case "SOUR":
+                      echo "2 CONT is ignored (syntax error) on line " . $n . "\n";
                      break;
                     case "TODO":
                       $todo_prev = $todo_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:TODO]->(o) SET o.description={description}";
-
-                      $query_array = array('description' => $todo_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
-
+                      $todo_cont = $source
+                        ->setProperty('description', $todo_prev)
+                        ->save();
                      break;
-                    case "SOUR":
-                      // Genus Senior SOUR tag
-                      break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
                       $event = "";
@@ -735,12 +620,9 @@
                 case "CAUS":
                   switch ($event) {
                     case "DEAT":
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:EVEN]->(o) SET o.death_cause='" . $arg0 . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $deat_cause = $even
+                        ->setProperty('death_cause', $arg0)
+                        ->save();
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -750,12 +632,9 @@
                 case "TYPE":
                   switch ($event) {
                     case "EVEN":
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:EVEN]->(o) SET o.type='" . $arg0 . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
-
+                      $even_type = $even
+                        ->setProperty('type', $arg0)
+                        ->save();
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -794,6 +673,7 @@
                   $event = "";
               } // switch $key
               break;
+
             case "FAM":
               switch ($key)  {
                 case "DATE":
@@ -808,27 +688,21 @@
                   switch ($event) {
                     case "MARR":
                       if (sizeof($date) == 3) {
-                        $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
-                          "'}) SET n.married_date='" . $date_str . "'";
-
-                        $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                        $result = $query->getResultSet();
-                     }
+                        $marr_date = $marr
+                          ->setProperty('married_date', $date_str)
+                          ->save();
+                      }
                       else {
-                        $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
-                          "'}) SET n.married_status='" . $arg0 . "'";
-
-                        $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                        $result = $query->getResultSet();
+                        $marr = $marr
+                          ->setProperty('married_status', $arg0)
+                          ->save();
                       }
                       break;
                     case "DIV":
                       if (sizeof($date) == 3) {
-                        $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
-                          "'}) SET n.divoced_date='" . $date_str . "'";
-
-                        $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                        $result = $query->getResultSet();
+                        $div_date = $marr
+                          ->setProperty('divoced_date', $date_str)
+                          ->save();
                       }
                       break;
                     default;
@@ -839,11 +713,12 @@
                 case "PLAC":
                   switch ($event) {
                     case "MARR":
-                      $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
-                        "'}) MERGE (p:Place:" . $user_label . " {name:'" . $arg0 . 
+                      $query_string = "MATCH (n:Marriage {id:'" . $id . 
+                        "'}) MERGE (p:Place {name:'" . $arg0 . 
                         "'}) MERGE (n)-[:MARRIAGE_PLACE]->(p)";
 
                       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+
                       $result = $query->getResultSet();
                       break;
                     default;
@@ -855,28 +730,21 @@
                   switch ($event) {
                     case "MARR":
                       $note_prev = $arg0; // CONC/CONT possible
-                      $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
-                        "'}) CREATE (p:Note {note:{note}}) MERGE (n)-[:NOTE]->(p)";
-
-                      $query_array = array('note' => $arg0);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
-                      break;
+                      $note = $sukudb->makeNode()
+                        ->setProperty('note', $arg0)
+                        ->save();
+                      $rel_marr = $marr->relateTo($note, 'NOTE')->save();
+                    break;
                   } // $event
                   break;
                 case "_TODO":
                   switch ($event) {
                     case "MARR":
                       $todo_prev = $arg0; // CONC/CONT possible
-
-                      $query_string = "MATCH (n:Marriage {id:'" . $fam_id . 
-                        "'}) CREATE (m:Todo {description:{description}}) MERGE (n)-[:TODO]->(m)";
-
-                      $query_array = array('description' => $todo_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
+                      $todo = $sukudb->makeNode()
+                        ->setProperty('description', $arg0)
+                        ->save();
+                      $rel_marr = $marr->relateTo($todo, 'TODO')->save();
                     break;
                   } // $event
                   break;
@@ -934,19 +802,15 @@
                   switch ($event) {
                     case "EMIG":
                       $emig_prev = $emig_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:MOVED_TO]->(m) SET m.moved_to='" . $emig_prev . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
+                      $emig_conc = $emig
+                        ->setProperty('moved_to', $emig_prev)
+                        ->save();
                       break;
                     case "EVEN":
                       $even_prev = $even_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:EVEN]->(m) SET m.data='" . $even_prev . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
+                      $even_conc = $even
+                        ->setProperty('data', $even_prev)
+                        ->save();
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -957,19 +821,15 @@
                   switch ($event) {
                     case "EMIG":
                       $emig_prev = $emig_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:MOVED_TO]->(m) SET m.moved_to='" . $emig_prev . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
+                      $emig_cont = $emig
+                        ->setProperty('moved_to', $emig_prev)
+                        ->save();
                       break;
                     case "EVEN":
                       $even_prev = $even_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:EVEN]->(m) SET m.data='" . $even_prev . "'";
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
-                      $result = $query->getResultSet();
+                      $even_cont = $even
+                        ->setProperty('data', $even_prev)
+                        ->save();
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -981,32 +841,22 @@
                   $event = "";
               } // $key
               break;
+
             case "FAM":
               switch ($key)  {
                 case "CONC":
                   switch ($event) {
                     case "NOTE":
                       $note_prev = $note_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:NOTE]->(m) SET m.note={note}";
-
-                      $query_array = array('note' => $note_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
+                      $note_conc = $note
+                        ->setProperty('note', $note_prev)
+                        ->save();
                       break;
                     case "TODO":
                       $todo_prev = $todo_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:TODO]->(m) SET m.description={description}}";
-
-                      $query_array = array('description' => $todo_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
-                      break;
-                    case "MARR":
-                      // Genus Senior SOUR tag
+                      $todo_conc = $todo
+                        ->setProperty('description', $todo_prev)
+                        ->save();
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -1017,26 +867,15 @@
                   switch ($event) {
                     case "NOTE":
                       $note_prev = $note_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:NOTE]->(m) SET m.note={note}";
-
-                      $query_array = array('note' => $note_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
+                      $note_cont = $note
+                        ->setProperty('note', $note_prev)
+                        ->save();
                       break;
                     case "TODO":
                       $todo_prev = $todo_prev . " " . $arg0;
-                      $query_string = "MATCH (n:Person {id:'" . $id . 
-                        "'})-[:TODO]->(m) SET m.description={description}}";
-
-                      $query_array = array('description' => $todo_prev);
-
-                      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
-                      $result = $query->getResultSet();
-                      break;
-                    case "MARR":
-                      // Genus Senior SOUR tag
+                      $todo_cont = $todo
+                        ->setProperty('description', $todo_prev)
+                        ->save();
                       break;
                     default;
                       echo "Unknown tag " . $key . " on line: " . $n . "\n";
@@ -1047,7 +886,7 @@
                   echo "Unknown tag " . $key . " on line: " . $n . "\n";
                   $event = "";
               } // $key
-            default;
+              default;
           }
         }
       } // while feof
