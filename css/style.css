@@ -30,7 +30,7 @@ div.right { float: right; }
     border-width: 0px;
     padding: 0px;
 }
-span.toptitle {
+#toptitle {
     font-family:Georgia, serif;
     font-style: italic;
     color: #144d2a;

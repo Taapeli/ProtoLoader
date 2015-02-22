@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Taapelin prototyypin etusivu</title>
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    </head>
+    <body>
+        <div id="top">
+            <span>&nbsp;<img src="../images/Vaakuna_v65px.png" alt="" /></span>
+            <span id="toptitle">
+                Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
+            </span>
+        </div>
+
+        <div id="wrap">
+            <div id="menu">
+                <ul class="menu">
+                    <li>Tietojen tarkistus
+                        <ul class="menu">
+                            <li><a href="listToDoData.php">Löydetty korjattavaa</a></li>
+                            <li><a href="listNotSetBirthdays.php">Ei syntymäaikaa</a></li>
+                            <li><a href="listNoHiskiLinks.php">Ei Hiski-linkkiä</a></li>
+                            <li><a href="listMayBeSame.php">Sama syntymäaika, etu- ja sukunimi</a></li>
+                        </ul>
+                    </li>
+                    <li>Henkilöiden yhdistely
+                        <ul class="menu">
+                            <li><a href="connectSameBirthDates.php">Sama syntymäaika</a></li> 
+                            <li><a href="connectSameNames.php">Samat etu- ja sukunimet</a></li>
+                        </ul></li>
+                    <li>Katkaise henkilöyhteys
+                        <ul class="menu">
+                            <li><a href="disconnectSameBirthDates.php">Sama syntymäaika</a></li>
+                            <li><a href="disconnectSameNames.php">samat etu- ja sukunimet</a></li>
+                            <li>Keskeneräinen   
+                                <a href="compareTwoFamilyForm.php">yhdistelyehdotus</a></li>
+                        </ul></li>
+
+                    <li>Haku syntymäajalla
+                        <form action="listBirths.php" method="post" enctype="multipart/form-data">
+                            <input type="text" name="birth" />
+                            <input type="submit" value="Etsi" />
+                        </form></li>
+                    <li>Haku koko sukunimellä
+                        <form action="listNames.php" method="post" enctype="multipart/form-data">
+                            <input type="text" name="name"/>
+                            <input type="submit" value="Etsi"/>
+                        </form></li>
+                    <li>Haku sukunimen alkuosalla
+                        <form action="listNames.php" method="post" enctype="multipart/form-data">
+                            <input type="text" name="wildcard"/>
+                            <input type="submit" value="Etsi"/>
+                        </form></li>
+
+                    <li>Lataa gedcom-tiedosto
+                        <form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="image" />
+                            <input type="submit" value="Lataa" />
+                        </form>
+                    </li>
+                </ul>
+                <div class="note">Gedcom-tiedoston latauksessa tiedot luetaan kantaan
+                    siellä jo olevien tietojen lisäksi.</div>
+            </div>
+            <div id="content">
+                <h1>Taapeli-projekti</h1>
+                <p>
+                    Projektissa suunnitellaan ja toteutetaan keskitetty tietojärjestelmä, 
+                    johon sukututkijat voivat helposti ladata lähtein 
+                    varmennettuja sukututkimustietoja. </p>
+                <p>  Järjestelmään tehdään selainkäyttöliittymät tietojen lataamiseen, 
+                    validointiin ja selaamiseen. </p>
+            </div>
+
+        </div>
+        <div id="bottom">&copy; Suomen sukututkimusseura ry 2015</div>
+    </body>
+</html>
+
+

@@ -4,17 +4,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Taapelin prototyypin etusivu</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-     </head>
+    </head>
     <body>
         <?php include "inc/start.php"; ?>
-        <div id="content">
-            <h1>Taapeli-projekti</h1>
-            <p>
-                Projektissa suunnitellaan ja toteutetaan keskitetty tietojärjestelmä, 
-                johon sukututkijat voivat helposti ladata lähtein 
-                varmennettuja sukututkimustietoja. </p>
-            <p>  Järjestelmään tehdään selainkäyttöliittymät tietojen lataamiseen, 
-                validointiin ja selaamiseen. </p>
-        </div>
+
+        <!-- Content page starts here -->
+
+        <h1>Taapeli-projekti</h1>
+        <p>
+            Projektissa suunnitellaan ja toteutetaan keskitetty tietojärjestelmä, 
+            johon sukututkijat voivat helposti ladata lähtein 
+            varmennettuja sukututkimustietoja. </p>
+        <p>  Järjestelmään tehdään selainkäyttöliittymät tietojen lataamiseen, 
+            validointiin ja selaamiseen. </p>
+
+        <!-- End of content page -->
 
         <?php include "inc/stop.php"; ?> 

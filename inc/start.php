@@ -33,26 +33,27 @@
             <li>Haku syntymäajalla
                 <form action="listBirths.php" method="post" enctype="multipart/form-data">
                     <input type="text" name="birth" />
-                    <input class="subm" type="submit" value="Etsi" />
+                    <input type="submit" value="Etsi" />
                 </form></li>
             <li>Haku koko sukunimellä
                 <form action="listNames.php" method="post" enctype="multipart/form-data">
                     <input type="text" name="name"/>
-                    <input class="subm" type="submit" value="Etsi"/>
+                    <input type="submit" value="Etsi"/>
                 </form></li>
             <li>Haku sukunimen alkuosalla
                 <form action="listNames.php" method="post" enctype="multipart/form-data">
                     <input type="text" name="wildcard"/>
-                    <input class="subm" type="submit" value="Etsi"/>
+                    <input type="submit" value="Etsi"/>
                 </form></li>
 
             <li>Lataa gedcom-tiedosto
                 <form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">
                     <input type="file" name="image" />
-                    <input class="subm" type="submit" value="Lataa" />
+                    <input type="submit" value="Lataa" />
                 </form>
             </li>
         </ul>
-        <div class="note">Gedcom-tiedoston latauksessa tiedot luetaan kantaan
+        <div class="note">Gedcom-tiedoston latauksessa uudet tiedot luetaan kantaan
             siellä jo olevien tietojen lisäksi.</div>
     </div>
+    <div id="content">
