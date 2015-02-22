@@ -3,6 +3,7 @@
 
   if(isset($_POST['userid'])){
     $_SESSION['userid'] = $_POST['userid'];
+    $_SESSION['taapeli'] = 'on';
   }
 
   echo "K&auml;ytt&auml;j&auml;tunnus: " . $_SESSION['userid'] . " asetettu.<br><br>";

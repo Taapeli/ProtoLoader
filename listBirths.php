@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
+<?php include 'checkUserid.php'; ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli haku</title>
@@ -14,14 +15,17 @@
 <?php
 
   include "inc/dbconnect.php";
-  
+
+  echo "Käyttäjätunnus: " . $userid . "\n";
+
   if(isset($_POST['birth'])){
     // Tiedoston käsittelyn muuttujat
     $input_birth = $_POST['birth'];
     echo "<p>Poiminta syntymäaika = '$input_birth'</p>";
 
     // Neo4j parameter {birth} is used to avoid hacking injection
-    $query_string = "MATCH (n:Person)-[:BIRTH]->(b:Birth) WHERE b.birth_date={birth} RETURN n, b";
+    $query_string = "MATCH (n:Person:" . $userid . 
+      ")-[:BIRTH]->(b:Birth) WHERE b.birth_date={birth} RETURN n, b";
 
     $query_array = array('birth' => $input_birth);
 
@@ -35,7 +39,8 @@
     }
 
     for ($i=0; $i<sizeof($id); $i++) {
-      $query_string = "MATCH (n:Person)-[:HAS_NAME]->(m) WHERE n.id='" . $id[$i] . "'  RETURN m";
+      $query_string = "MATCH (n:Person:" . $userid . 
+        ")-[:HAS_NAME]->(m) WHERE n.id='" . $id[$i] . "'  RETURN m";
 
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
@@ -49,7 +54,8 @@
     }
 
     for ($i=0; $i<sizeof($id); $i++) {
-      $query_string = "MATCH (n:Person)-[:BIRTH]->(b:Birth)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . "' RETURN p";
+      $query_string = "MATCH (n:Person:" . $userid . 
+        ")-[:BIRTH]->(b:Birth)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . "' RETURN p";
 
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();

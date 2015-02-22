@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
+<?php include 'checkUserid.php'; ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli aineiston luku kantaan</title>
@@ -85,9 +86,9 @@ include 'classes/DateConv.php';
       $buriedLabel = $sukudb->makeLabel('Buried');
       $sourceLabel = $sukudb->makeLabel('Source');
       $repoLabel = $sukudb->makeLabel('Repo');
+      $userLabel = $sukudb->makeLabel($userid);
 
       $n = 0;
-      $phon_found = false; // If phonenumber exists it will be used as an userid
       $n = $n_indi = $n_fam = $n_sour = $n_repo = 0; // How many lines were read
       $load_type = ""; // values: INDI, FAM, SOUR, REPO 
 
@@ -118,11 +119,6 @@ include 'classes/DateConv.php';
           if (sizeof($a) > 2) {
             switch ($arg0)  {
               case "INDI":
-                if (!$phon_found) {
-                  echo "Tiedostoa ei voitu tallentaa tietokantaan gedcom-tiedostosta puuttuvan puhelinnumeron vuoksi!\n\n";
-                  echo "Lisää puhelinnumero käyttäjätietoihin, esim. 1 PHON 040 123 4567\n";
-                  exit;
-                }
                 $n_indi++;
                 $load_type = "INDI";
                 $name_cnt = 0;
@@ -388,16 +384,6 @@ include 'classes/DateConv.php';
                   $event = "";
               }
               break;
-            case "SUBM":
-              switch ($key)  {
-                case "PHON":
-                  $userid = substr($arg0, -4);
-                  $user_label = "user" . $userid;
-                  $phon_found = true;
-                  $userLabel = $sukudb->makeLabel($user_label);
-                  break;
-                default;
-              }
             default;
           } // load_type
         } // if level = 1
