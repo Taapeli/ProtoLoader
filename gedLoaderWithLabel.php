@@ -131,6 +131,11 @@ include 'classes/DateConv.php';
               case "FAM":
                 $n_fam++;
                 $load_type = "FAM";
+                $marr = $sukudb->makeNode()
+                  ->setProperty('id', $id)
+                  ->save();
+                $marriageLabels = $marr->addLabels(array($marriageLabel));
+                $userLabels = $marr->addLabels(array($userLabel));
                 break;
               case "SOUR":
                 $n_sour++;
@@ -268,11 +273,6 @@ include 'classes/DateConv.php';
               switch ($key)  {
                 case "HUSB":
                   $husb = idtrim($arg0);
-                  $marr = $sukudb->makeNode()
-                    ->setProperty('id', $id)
-                    ->save();
-                    $marriageLabels = $marr->addLabels(array($marriageLabel));
-                    $userLabels = $marr->addLabels(array($userLabel));
                   break;
                 case "WIFE":
                   $wife = idtrim($arg0);
