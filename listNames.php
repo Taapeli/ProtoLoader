@@ -1,13 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<?php
-  session_start();
-  if ($_SESSION['taapeli'] != 'on') {
-    $message = "Sinun tulee kirjautua Taapeliin ensin!";
-    echo "<script type='text/javascript'>alert('$message');</script>";
-  }
-  $userid = $_SESSION['userid'];
-?>
+<?php include 'checkUserid.php'; ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli haku</title>
@@ -47,7 +40,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
     }
     else {
       // Neo4j parameter {wildcard} is used to avoid hacking injection
-      $query_string = "MATCH (n:Name" . $userid . ")<-[:HAS_NAME]-(id:Person" . $userid . ") " .
+      $query_string = "MATCH (n:Name:" . $userid . ")<-[:HAS_NAME]-(id:Person:" . $userid . ") " .
               "WHERE n.last_name=~{wildcard} RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('wildcard' => $input_wildcard);
@@ -64,7 +57,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
     }
 
     for ($i=0; $i<sizeof($id); $i++) {
-      $query_string = "MATCH (n:Person" . $userid . ")-[:BIRTH]->(b) WHERE n.id='" .
+      $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b) WHERE n.id='" .
         $id[$i] . "' RETURN b";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
@@ -76,7 +69,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
     }
 
     for ($i=0; $i<sizeof($id); $i++) {
-      $query_string = "MATCH (n:Person" . $userid . ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" .
+      $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" .
         $id[$i] . "' RETURN p";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();

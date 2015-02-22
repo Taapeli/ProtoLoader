@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
+<?php include 'checkUserid.php'; ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli haku</title>
@@ -17,7 +18,8 @@
 
   
 
-  $query_string = "MATCH (n:Person)-[:HAS_NAME]-(m), (n)-[:TODO]->(t) RETURN n,m,t ORDER BY m.last_name, m.first_name";
+  $query_string = "MATCH (n:Person:" . $userid . 
+    ")-[:HAS_NAME]-(m), (n)-[:TODO]->(t) RETURN n,m,t ORDER BY m.last_name, m.first_name";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
@@ -32,7 +34,8 @@
   }
 
   for ($i=0; $i<sizeof($id); $i++) {
-    $query_string = "MATCH (n:Person)-[:BIRTH]->(b) WHERE n.id='" . $id[$i] . "' RETURN b";
+    $query_string = "MATCH (n:Person:" . $userid . 
+      ")-[:BIRTH]->(b) WHERE n.id='" . $id[$i] . "' RETURN b";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -42,7 +45,8 @@
       $birth_date[] = $row[0]->getProperty('birth_date');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . 
+    $query_string = "MATCH (n:Person:" . $userid . 
+      ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . 
       "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
