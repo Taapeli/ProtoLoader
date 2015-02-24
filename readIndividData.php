@@ -450,7 +450,7 @@
      */
     echo '<table class="tulos">';
       echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
-          <th>Syntynyt</th><th>Kuollut/th></tr>';
+          <th>Syntynyt</th><th>Kuollut</th></tr>';
       echo "<tr><th>Henkilö<td>" . $id . "</td>";
       echo "<td>$first_name</td><td>$last_name";
       if (isset($later_names)) {
@@ -537,12 +537,12 @@
       echo '<tr><th>Puoliso(t)</th><th>id</th><th>Etunimet</th><th>Sukunimet</th>
           <th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
-        echo "<tr><td></td><td><a href='readIndividData.php?id=" .
+        echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $spouse_id[$i] . "'>" . $spouse_id[$i] .
         "</a></td><td>" . $spouse_first_name[$i] .
         "</td><td>" . $spouse_last_name[$i];
-        if (isset($spouce_later_names)) {
-          echo "<br />myöh. $spouce_later_names";
+        if (isset($spouce_later_names[$i])) {
+          echo "<br />myöh. $spouce_later_names[$i]";
         }
         echo "</td><td>" . DateConv::toDisplay($spouse_birth_date[$i])
         . ' ' . $spouse_birth_place[$i] .
@@ -558,8 +558,8 @@
         $child_id[$i] . "'>" . $child_id[$i] .
         "</a></td><td>" . $child_first_name[$i] .
         "</td><td>" . $child_last_name[$i];
-        if (isset($child_later_names)) {
-          echo "<br />myöh. $child_later_names";
+        if (isset($child_later_names[$i])) {
+          echo "<br />myöh. $child_later_names[$i]";
         }
         echo "</td><td>" . DateConv::toDisplay($child_birth_date[$i])
         . ' ' . $child_birth_place[$i] .
