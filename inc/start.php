@@ -1,6 +1,6 @@
 <?php ?>
 <div id="top">
-    <span>&nbsp;<img src="images/Vaakuna_v65px.png" alt="" /></span>
+    <span>&nbsp;<img src=$_SERVER['DOCUMENT_ROOT']."images/Vaakuna_v65px.png" alt="" /></span>
     <span id="toptitle">
         Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
     </span>
