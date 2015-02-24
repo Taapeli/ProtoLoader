@@ -8,10 +8,8 @@
 </head>
 
 <body>
-<div  class="goback">
-  <a href="index.php">Paluu</a></div>
 <?php
-
+include "inc/start.php";
 include 'classes/DateConv.php';
 include "inc/dbconnect.php";
 
@@ -96,7 +94,5 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
          "</td></tr>";
   }
   echo "</table>";
-?>
-
-</body>
-</html>
+  
+include "inc/stop.php";
