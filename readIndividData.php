@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Sululaisuussuhteet</title>
+<title>Sukulaisuussuhteet</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
@@ -477,8 +477,9 @@
         if (isset($father_birth_place)) { echo $father_birth_place; }
         echo "</td><td>";
         if (isset($father_death_date)) { 
-          echo DateConv::toDisplay($father_death_date) . ' '; }
-        if (isset($father_death_date)) { echo $father_death_place; }
+          echo DateConv::toDisplay($father_death_date) . ' '; 
+        }
+        if (isset($father_death_place)) { echo $father_death_place; }
         echo "</tr>";
     } else {
         echo "<tr><td colspan='8'>Ei tietoa isästä</td></tr>\n";
