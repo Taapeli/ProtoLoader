@@ -66,8 +66,8 @@
   }
 
   echo '<table  class="tulos">';
-  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>Myöh. sukunimi<th>Syntymäaika
-            <th>Syntymäpaikka</tr>';
+  echo '<tr><th>Id</th><th>Etunimet</th><th>Sukunimi</th><th>Myöh. sukunimi</th>
+        <th>Syntymäaika</th><th>Syntymäpaikka</th></tr>';
  
   for ($i=0; $i<sizeof($id); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" .
@@ -75,7 +75,7 @@
          "</a></td><td>" . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
          "</td><td> " . $later_names[$i] .
-         "</td><td> " . $birth_date[$i] .
+         "</td><td> " . DateConv::toDisplay($birth_date[$i]) .
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";
   }

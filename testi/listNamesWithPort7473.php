@@ -18,9 +18,9 @@
   if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
     $input_name = $_POST['name'];
-    $input_wildcard = $_POST['wildcard'];
-    echo "<p>Poiminta nimi = '$input_name''$input_wildcard'</p>";
-    $input_wildcard = $input_wildcard . ".*";
+    $input_name = $_POST['wildcard'];
+    echo "<p>Poiminta nimi = '$input_name''$input_name'</p>";
+    $input_name = $input_name . ".*";
 
 //    $sukudb = new Everyman\Neo4j\Client('taademo2.jelastic.elastx.net', 7473);
     $sukudb = new Everyman\Neo4j\Client('localhost', 7473);
@@ -36,7 +36,7 @@
       // Neo4j parameter {wildcard} is used to avoid hacking injection
       $query_string = "MATCH (n:Name)<-[:HAS_NAME]-(id:Person) WHERE n.last_name=~{wildcard} RETURN id, n ORDER BY n.last_name, n.first_name";
 
-      $query_array = array('wildcard' => $input_wildcard);
+      $query_array = array('wildcard' => $input_name);
     }
     echo "Before query";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);

@@ -18,12 +18,13 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
     if ($_POST['wildcard'] != '') {
       $use_wildcard = true;
       // Protecting against exploits
-      $input_wildcard = htmlspecialchars($_POST['wildcard']) . ".*";
-      echo "<h1>Haku nimen alkuosalla <i>$_POST['wildcard']</i> Taapeli-kannasta</h1>";
+      $input_wildcard = htmlspecialchars($_POST['wildcard']);
+      echo "<h1>Haku nimen alkuosalla <i>${input_wildcard}...</i></h1>";
+      $input_wildcard .= ".*";
     } else {
       $use_wildcard = false;
       $input_name = htmlspecialchars($_POST['name']);
-      echo "<h1>Haku nimellä '$input_name' Taapeli-kannasta</h1>";
+      echo "<h1>Haku nimellä <i>$input_name</i> </h1>";
     }
 
     //echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";

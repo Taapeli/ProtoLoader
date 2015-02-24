@@ -43,7 +43,7 @@
                         <a href="compareTwoFamilyForm.php">yhdistelyehdotus</a></li>
                 </ul></li>
 
-            <li>Haku syntymäajalla
+                <li>Haku syntymäajalla <i>vvvv.kk.pp</i>
                 <form action="listBirths.php" method="post" enctype="multipart/form-data">
                     <input type="text" name="birth" />
                     <input type="submit" value="Etsi" />
