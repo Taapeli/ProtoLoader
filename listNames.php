@@ -14,18 +14,21 @@ include 'classes/DateConv.php';
 include "inc/dbconnect.php";
 
 if(isset($_POST['name']) || isset($_POST['wildcard'])){
-    // Tietojen poimintamuuttujat
+    // Check search variables
     if ($_POST['wildcard'] != '') {
-      $input_wildcard = $_POST['wildcard'] . ".*";
-      echo "<h1>Haku nimen alkuosalla '$input_wildcard' Taapeli-kannasta</h1>";
+      $use_wildcard = true;
+      // Protecting against exploits
+      $input_wildcard = htmlspecialchars($_POST['wildcard']) . ".*";
+      echo "<h1>Haku nimen alkuosalla <i>$_POST['wildcard']</i> Taapeli-kannasta</h1>";
     } else {
-      $input_name = $_POST['name'];
+      $use_wildcard = false;
+      $input_name = htmlspecialchars($_POST['name']);
       echo "<h1>Haku nimellä '$input_name' Taapeli-kannasta</h1>";
     }
 
     //echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
 
-    if ($input_name != '') {
+    if (! $use_wildcard) {
       // Neo4j parameter {name} is used to avoid hacking injection
       $query_string = "MATCH (n:Name:" . $userid . ")<-[:HAS_NAME]-(id:Person:" . $userid . ") " .
               "WHERE n.last_name={name} RETURN id, n ORDER BY n.last_name, n.first_name";
