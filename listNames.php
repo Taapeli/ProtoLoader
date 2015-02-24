@@ -12,8 +12,8 @@
   <a href="index.php">Paluu</a></div>
 <?php
 
-include '/classes/DateConv.php';
-include "/inc/dbconnect.php";
+include 'classes/DateConv.php';
+include "inc/dbconnect.php";
 
 echo "<p class='note'>Käyttäjätunnus: " . $userid . "</p>\n";
 
