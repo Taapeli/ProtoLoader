@@ -1,5 +1,5 @@
 <?php
-  session_start();
+  // session_start(); must be executed first in the <header> block!
   if ($_SESSION['taapeli'] != 'on') {
     $message = "Sinun tulee kirjautua Taapeliin ensin!";
     echo "<script type='text/javascript'>alert('$message');</script>";
