@@ -1,12 +1,25 @@
-    <?php ?>
-    <div id="top">
-        <span>&nbsp;<img src="images/Vaakuna_v65px.png" alt="" /></span>
-        <span class="toptitle">
-            Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
-        </span>
+<?php ?>
+<div id="top">
+    <span>&nbsp;<img src="images/Vaakuna_v65px.png" alt="" /></span>
+    <span id="toptitle">
+        Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
+    </span>
+    <div id="login">
+        <?php
+        if (isset($_SESSION['userid'])) { // Logged in
+          echo "Käyttäjä " . $_SESSION['userid']; 
+          //. ", kirjaudu <a href='inc/logout.php'>ulos</a>";
+        } else { // Do login
+          ?>
+          <form action="inc/setUserid.php" method="post" enctype="multipart/form-data">
+              <input type="text" name="userid" />
+              <input type="submit" name="button" value="Kirjaudu"  />
+          </form>           
+        <?php } ?>
     </div>
+</div>
 
-    <div id="wrap">
+<div id="wrap">
     <div id="menu">
         <ul class="menu">
             <li>Tietojen tarkistus

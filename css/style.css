@@ -1,7 +1,7 @@
 // Taapelin tyylit
 
 body { font-family:Helvetica, sans-serif; 
-       font-size: 11pt;
+    font-size: 11pt;
 }
 h1,h2,h3 { font-family:Georgia, serif; color: #144d2a; }
 h1 { font-size: 120%; }
@@ -36,6 +36,11 @@ div.right { float: right; }
     color: #144d2a;
     font-size: 18pt;
     vertical-align: 18pt;
+}
+#login {
+    display: inline-block;
+    vertical-align: 18pt;
+    margin-left: 6em; 
 }
 #bottom {
     border-width: 0px;

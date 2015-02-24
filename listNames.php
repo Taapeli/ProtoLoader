@@ -12,10 +12,10 @@
   <a href="index.php">Paluu</a></div>
 <?php
 
-include 'classes/DateConv.php';
-include "inc/dbconnect.php";
+include '/classes/DateConv.php';
+include "/inc/dbconnect.php";
 
-echo "Käyttäjätunnus: " . $userid . "\n";
+echo "<p class='note'>Käyttäjätunnus: " . $userid . "</p>\n";
 
 if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Tiedoston käsittelyn muuttujat
