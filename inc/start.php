@@ -22,7 +22,7 @@
 <div id="wrap">
     <div id="menu">
         <ul class="menu">
-            <?php if (isset($_SESSION['userid'])) { ?>
+            <?php if (isset($_SESSION['taapeli'])) { ?>
               <li>Tietojen tarkistus
                   <ul class="menu">
                       <li><a href="listToDoData.php">Löydetty korjattavaa</a></li>

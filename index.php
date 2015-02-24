@@ -4,13 +4,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Taapelin prototyypin etusivu</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <style type="text/css">
-            div.form { background-color: #dde; 
-                       width: 25em;
-                       border: 2pt outset gray;
-                       padding: 6pt;
-            }
-        </style>
     </head>
     <body>
         <?php include "inc/start.php"; ?>
