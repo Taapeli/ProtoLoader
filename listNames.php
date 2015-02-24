@@ -1,32 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<?php include 'checkUserid.php'; ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli haku</title>
+<title>Taapelista haku</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body>
 <?php
+include 'checkUserid.php';
 include "inc/start.php";
 include 'classes/DateConv.php';
 include "inc/dbconnect.php";
 
-echo "<p class='note'>Käyttäjätunnus: " . $userid . "</p>\n";
-
 if(isset($_POST['name']) || isset($_POST['wildcard'])){
-    // Tiedoston käsittelyn muuttujat
-    $input_name = $_POST['name'];
-    $input_wildcard = $_POST['wildcard'];
-    if ($input_wildcard != '') {
-      $input_wildcard = $input_wildcard . ".*";
-      $showkey = $input_wildcard . '*';
+    // Tietojen poimintamuuttujat
+    if ($_POST['wildcard'] != '') {
+      $input_wildcard = $_POST['wildcard'] . ".*";
+      echo "<h1>Haku nimen alkuosalla '$input_wildcard' Taapeli-kannasta</h1>";
     } else {
-      $showkey = $input_name;
+      $input_name = $_POST['name'];
+      echo "<h1>Haku nimellä '$input_name' Taapeli-kannasta</h1>";
     }
 
-  echo "<h1>Haku nimellä '$showkey' Taapeli-kannasta</h1>";
     //echo "<p>Poimittu nimellä = '$input_name''$input_wildcard'</p>";
 
     if ($input_name != '') {
