@@ -18,13 +18,14 @@
          * -- Content page starts here -->
          */
 
-  echo '<h1>Henkilöt, joilla on tarkistettavaa tietoa.</h1>';
+  echo '<h1>Henkilöt, joilla on tarkistettavaa tietoa</h1>';
   
   $query_string = "MATCH (n:Person:" . $userid . 
     ")-[:HAS_NAME]-(m), (n)-[:TODO]->(t) RETURN n,m,t ORDER BY m.last_name, m.first_name";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
+  $id = [];
 
   foreach ($result as $row)
   {
@@ -61,8 +62,8 @@
   } 
 
   echo '<table  class="tulos">';
-  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika
-            <th>Syntym&auml;paikka</tr>';
+  echo '<tr><th>Id</th><th>Etunimet</th><th>Sukunimi</th><th>My&ouml;h. sukunimi</th>
+    <th>Syntym&auml;aika</th><th>Syntym&auml;paikka</th></tr>';
  
   for ($i=0; $i<sizeof($id); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" .
@@ -73,18 +74,15 @@
          "</td><td> " . $birth_date[$i] .
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";
-    echo "<tr><th>Huomautus:<td colspan='5'>" . $todo_description[$i] .
+    echo "<tr><th>Huomautus:</th><td colspan='5'>" . $todo_description[$i] .
          "</td></tr>";
   }
-  echo "</table>";
-?>
+  echo "</table><p>&nbsp;</p>";
+    
+  echo '<h1>Henkilöt, joilla on avioliittotiedoissa tarkistettavaa tietoa.</h1>';
 
-<br><br><br>
-<h1>Kaikki henkil&ouml;t, joilla on avioliittotiedoissa tarkistettavaa tietoa.</h1>
-
-<?php
-
-  $query_string = "MATCH (n:Person)-[:HAS_NAME]-(m), (n)-[:MARRIED]-()-[:TODO]->(t) RETURN n,m,t ORDER BY m.last_name, m.first_name";
+  $query_string = "MATCH (n:Person)-[:HAS_NAME]-(m), (n)-[:MARRIED]-()-[:TODO]->(t)"
+          . " RETURN n,m,t ORDER BY m.last_name, m.first_name";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
@@ -109,7 +107,8 @@
       $marr_birth_date[] = $row[0]->getProperty('birth_date');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . "' RETURN p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) "
+            . "WHERE n.id='" . $id[$i] . "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -121,8 +120,8 @@
   } 
 
   echo '<table  class="tulos">';
-  echo '<tr><th>Id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika
-            <th>Syntym&auml;paikka</tr>';
+  echo '<tr><th>Id</th><th>Etunimet</th><th>Sukunimi</th><th>My&ouml;h. sukunimi</th>
+    <th>Syntym&auml;aika</th><th>Syntym&auml;paikka</th></tr>';
  
   for ($i=0; $i<sizeof($id); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" .
@@ -133,7 +132,7 @@
          "</td><td> " . $marr_birth_date[$i] .
          "</td><td> " . $marr_birth_place[$i] .
          "</td></tr>";
-    echo "<tr><th>Huomautus:<td colspan='5'>" . $marr_todo_description[$i] .
+    echo "<tr><th>Huomautus:</th><td colspan='5'>" . $marr_todo_description[$i] .
          "</td></tr>";
   }
   echo "</table>";

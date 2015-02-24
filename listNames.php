@@ -20,7 +20,7 @@ include "inc/dbconnect.php";
 
 if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Check search variables
-    if (isset($_POST['wildcard'] && $_POST['wildcard'] != '') {
+    if (isset($_POST['wildcard']) && ($_POST['wildcard'] != '')) {
       $use_wildcard = true;
       // Protecting against exploits
       $input_wildcard = htmlspecialchars($_POST['wildcard']);

@@ -140,10 +140,18 @@
 </script>
 </head>
 <body>
-  <h1>Verrataan kahta henkilöitä toisiinsa</h1>
-  <p>Luetaan neo4j-tietokannasta.</p>
 
 <?php
+  include 'checkUserid.php';
+  include "inc/start.php";
+  include 'classes/DateConv.php';
+  include "inc/dbconnect.php";
+  
+        /*
+         * -- Content page starts here -->
+         */
+  
+  echo '<h1>Verrataan kahta henkilöä toisiinsa</h1>';
 
   echo "<table class='tulos'>";
   echo "<tr><th>Tietojen valinta</th><th>Tarjokas</th><th>Kannassa</th><th>Yhdistelyn tulos</th></tr>";
@@ -210,6 +218,9 @@
         </tr>";
 
   echo "</table>";
-?>
-</body>
-</html>
+
+  /*
+   *  -- End of content page -->
+   */
+
+include "inc/stop.php";

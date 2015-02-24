@@ -1,22 +1,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
     <head>
+        <?php session_start(); ?>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Taapeli aineiston ylläpito</title>
+        <title>Taapeli - syntymätiedon päivittäminen</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body>
-        <div class="goback">
-            <a href="index.php">Paluu</a></div>
-            <h1>Taapeli testiylläpito</h1>
-            <p>Syntymätiedon muokkaus</p>
 <?php
-        include 'classes/DateConv.php';
-        include "inc/dbconnect.php";
+  include 'checkUserid.php';
+  include "inc/start.php";
+  include 'classes/DateConv.php';
+  include "inc/dbconnect.php";
+  
+        /*
+         * -- Content page starts here -->
+         */
+
+        echo '<h1>Syntymätiedon muokkaus</h1>';
 
         if (!isset($_GET['id'])) {
           echo '<p>Ei valittua henkilöä</p></body></html>';
-          return;
+          die;
         }
         // Tiedoston käsittelyn muuttujat
         $input_id = $_GET['id'];
@@ -86,5 +91,9 @@
             </table>
         </form>
 
-    </body>
-</html>
+<?php
+  /*
+   *  -- End of content page -->
+   */
+
+include "inc/stop.php";
