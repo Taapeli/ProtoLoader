@@ -454,7 +454,7 @@
       echo "<tr><th class='right'>Henkilö<th>" . $id . "</td>";
       echo "<td>$first_name</td><td>$last_name";
       if (isset($later_names)) {
-        echo "<br />myöh. $later_names";
+        echo "<br /><i>myöh.</i> $later_names";
       }
       echo "</td><td>";
       if (isset($birth_date)) {
@@ -481,7 +481,7 @@
         $father_id . "'>" . $father_id . "</a></td>";
         echo "<td>$father_first_name</td><td>$father_last_name";
         if (isset($father_later_names)) {
-          echo "<br />myöh. $father_later_names";
+          echo "<br /><i>myöh.</i> $father_later_names";
         }
         echo "</td><td>";
         if (isset($father_birth_date)) {
@@ -508,7 +508,7 @@
         "</a></td><td>" . $mother_first_name .
         "</td><td>" . $mother_last_name;
         if (isset($mother_later_names)) {
-          echo "<br />myöh. $mother_later_names";
+          echo "<br /><i>myöh.</i> $mother_later_names";
         }
         echo "</td><td>" . DateConv::toDisplay($mother_birth_date) . ' ';
         if (isset($mother_birth_place)) {
@@ -544,13 +544,12 @@
 
       echo '<tr><th class="right">Puoliso(t)</th><th>id</th><th>Etunimet</th>
         <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
-      echo "<!-- sizeof($spouse_id)=" . sizeof($spouse_id) . " -->";
-      for ($i = 0; $i < sizeof($spouse_id); $i++) {
+      for ($i = 0; $i < sizeof($spouse_id[$i]); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
-        $spouse_id[$i] . "'>" . $spouse_id[$i] . "</a></td><td>";
+        $spouse_id[$i] . "'>" . $spouse_id[$i] . "</a></td>";
         echo "<td>sfm=$spouse_first_name[$i]</td><td>sln=$spouse_last_name[$i]";
         if (isset($spouse_later_names[$i])) {
-          echo "<br />myöh. $spouse_later_names[$i]";
+          echo "<br /><i>myöh.</i> $spouse_later_names[$i]";
         }
         echo "</td><td>";
         if (isset($spouse_birth_date[$i])) {
@@ -576,7 +575,7 @@
         $child_id[$i] . "'>" . $child_id[$i] . "</a></td>";
         echo "<td>" . $child_first_name[$i] . "</td><td>" . $child_last_name[$i];
         if (isset($child_later_names[$i])) {
-          echo "<br />myöh. $child_later_names[$i]";
+          echo "<br /><i>myöh.</i> $child_later_names[$i]";
         }
         echo "</td><td>";
         if (isset($child_birth_date[$i])) {
@@ -593,9 +592,7 @@
           echo $child_death_place[$i];
         }
         echo "</td></tr>";
-        
-        
-        }
+      }
 
       echo "</table>";
     }
