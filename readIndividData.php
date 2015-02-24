@@ -1,10 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<?php include 'checkUserid.php'; ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli aineiston luku kantaan</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
 <div class="goback">
@@ -12,10 +11,10 @@
 <h1>Taapeli testiluku</h1>
 <p>Luetaan neo4j-tietokannasta.</p>
 <?php
-
+  include 'checkUserid.php';
+  include "inc/start.php";
+  include 'classes/DateConv.php';
   include "inc/dbconnect.php";
-
-  echo "Käyttäjätunnus: " . $userid . "\n";
 
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
@@ -466,26 +465,30 @@
          "</td><td>" . $death_place .
          "</td></tr>";
 
-    echo "<tr><th>Huomautus:<td colspan='8'>" . $todo_description .
-         "</td></tr>";
+    if (isset($todo_description)) {
+      echo "<tr><th>Huomautus:<td colspan='8'>$todo_description</td></tr>";
+    }
 
     if (isset($father_id)) {
         echo "<tr><th>Isä:<td><a href='readIndividData.php?id=" .
-               $father_id . "'>" . $father_id . 
-             "</a></td><td>" . $father_first_name .
-             "</td><td>" . $father_last_name .
-             "</td><td>" . $father_later_names .
-             "</td><td>" . $father_birth_date .
-             "</td><td>" . $father_birth_place .
-             "</td><td>" . $father_death_date .
-             "</td><td>" . $father_death_place .
-             "</td></tr>";
+               $father_id . "'>" . $father_id . "</a></td>";
+        echo "<td>$father_first_name</td><td>$father_last_name</td><td>";
+        if (isset($father_later_names)) { echo $father_later_names; }
+        echo "</td><td>";
+        if (isset($father_birth_date)) { echo $father_birth_date; }
+        echo "</td><td>";
+        if (isset($father_birth_place)) { echo $father_birth_place; }
+        echo "</td><td>";
+        if (isset($father_death_date)) { echo $father_death_date; }
+        echo "</td><td>";
+        if (isset($father_death_date)) { echo $father_death_place; }
+        echo "</tr>";
     } else {
         echo "<tr><td colspan='9'>Ei tietoa isästä</td></tr>\n";
     }
  
     if (isset($mother_id)) {
-        echo "<tr><th>&Auml;iti:<td><a href='readIndividData.php?id=" .
+        echo "<tr><th>Äiti:<td><a href='readIndividData.php?id=" .
                $mother_id . "'>" . $mother_id . 
              "</a></td><td>" . $mother_first_name .
              "</td><td>" . $mother_last_name .
