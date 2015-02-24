@@ -1,6 +1,6 @@
 <?php ?>
 <div id="top">
-    <span>&nbsp;<img src=$_SERVER['DOCUMENT_ROOT']."images/Vaakuna_v65px.png" alt="" /></span>
+    <span>&nbsp;<img src=$_SERVER['DOCUMENT_ROOT']."/images/Vaakuna_v65px.png" alt="" /></span>
     <span id="toptitle">
         Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
     </span>
@@ -8,7 +8,7 @@
         <?php
         if (isset($_SESSION['userid'])) { // Logged in
           echo "Käyttäjä " . $_SESSION['userid']
-          . " &mdash; <a href='inc/logout.php'>kirjaudu ulos</a>";
+          . " &mdash; <a href='/inc/logout.php'>kirjaudu ulos</a>";
         } else { // Do login
           ?>
           <form action="inc/setUserid.php" method="post" enctype="multipart/form-data">

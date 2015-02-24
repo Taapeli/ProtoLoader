@@ -524,7 +524,7 @@
         echo "<tr><th class='right'>Äiti<th><td colspan='6'>Ei tietoa</td></tr>\n";
       }
 
-      echo '<tr><th class="right">Avioliitot</th><th colspan="2">
+      echo '<tr><th><div class="right">Avioliitot</div></th><th colspan="2">
           <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td colspan='2'></td>";
@@ -543,12 +543,12 @@
         echo "</tr>";
       }
 
-      echo '<tr><th class="right">Puoliso(t)</th><th>id</th><th>Etunimet</th>
+      echo '<tr><th><div class="right">Puoliso(t)</div></th><th>id</th><th>Etunimet</th>
         <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id[$i]); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $spouse_id[$i] . "'>" . $spouse_id[$i] . "</a></td>";
-        echo "<td>sfm=$spouse_first_name[$i]</td><td>sln=$spouse_last_name[$i]";
+        echo "<td>$spouse_first_name[$i]</td><td>$spouse_last_name[$i]";
         if (isset($spouse_later_names[$i])) {
           echo "<br /><i>myöh.</i> $spouse_later_names[$i]";
         }
@@ -569,7 +569,7 @@
         echo "</td></tr>";
       }
 
-      echo '<tr><th class="right">Lapset</th><th>id</th><th>Etunimet</th>
+      echo '<tr><th><div class="right">Lapset</div></th><th>id</th><th>Etunimet</th>
         <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($child_id); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .

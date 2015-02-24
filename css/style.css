@@ -21,7 +21,7 @@ th,td {
 th {
     background-color: wheat;
 }
-.right { float: right; }
+div.right { float: right; }
 
 // start-sivun tyylit
 
