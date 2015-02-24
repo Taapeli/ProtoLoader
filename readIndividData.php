@@ -520,7 +520,7 @@
       }
 
       echo '<tr><th>Avioliitot</th><th colspan="2">
-          <th>Vihitty</th><th>Vihkiaika, paikka</th>
+          <th>Liitto</th><th>Vihitty</th>
           <th>Eronnut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td colspan='2'></td>";
@@ -534,9 +534,8 @@
         . $marr_todo_description[$i] . "</td></tr>";
       }
 
-
       echo '<tr><th>Puoliso(t)</th><th>id</th><th>Etunimet</th><th>Sukunimet</th>
-          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
+          <th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><td></td><td><a href='readIndividData.php?id=" .
         $spouse_id[$i] . "'>" . $spouse_id[$i] .
@@ -552,12 +551,10 @@
         "</td></tr>";
       }
 
-
       echo '<tr><th>Lapset</th><th>id</th><th>Etunimet</th><th>Sukunimi</th>
-          <th>Myöh. sukunimi</th>
-          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
+          <th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($child_id); $i++) {
-        echo "<tr><td></td><td><a href='readIndividData.php?id=" .
+        echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $child_id[$i] . "'>" . $child_id[$i] .
         "</a></td><td>" . $child_first_name[$i] .
         "</td><td>" . $child_last_name[$i];
