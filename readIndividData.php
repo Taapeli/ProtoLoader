@@ -450,16 +450,27 @@
      */
     echo '<table class="tulos">';
       echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
-          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
-
-      echo "<tr><th>Henkilö<td>" . $id . "</td><td>" . $first_name .
-      "</td><td>" . $last_name;
-      if (strlen($later_names) > 0) {
+          <th>Syntynyt</th><th>Kuollut/th></tr>';
+      echo "<tr><th>Henkilö<td>" . $id . "</td>";
+      echo "<td>$first_name</td><td>$last_name";
+      if (isset($later_names)) {
         echo "<br />myöh. $later_names";
-      };
-      echo "</td><td>" . DateConv::toDisplay($birth_date) . ' ' . $birth_place .
-      "</td><td>" . DateConv::toDisplay($death_date) . ' ' . $death_place .
-      "</td></tr>";
+      }
+      echo "</td><td>";
+      if (isset($birth_date)) {
+        echo DateConv::toDisplay($birth_date) . ' ';
+      }
+      if (isset($birth_place)) {
+        echo $birth_place;
+      }
+      echo "</td><td>";
+      if (isset($death_date)) {
+        echo DateConv::toDisplay($death_date) . ' ';
+      }
+      if (isset($death_place)) {
+        echo $death_place;
+      }
+      echo "</tr>";
 
       if (isset($todo_description)) {
         echo "<tr><th>Huomautus<td colspan='7'>$todo_description</td></tr>";
@@ -468,7 +479,7 @@
       if (isset($father_id)) {
         echo "<tr><th>Isä<td><a href='readIndividData.php?id=" .
         $father_id . "'>" . $father_id . "</a></td>";
-        echo "<td>$father_first_name</td><td>$father_last_name</td><td>";
+        echo "<td>$father_first_name</td><td>$father_last_name";
         if (isset($father_later_names)) {
           echo "<br />myöh. $father_later_names";
         }
@@ -512,7 +523,7 @@
           <th>Vihitty</th><th>Vihkiaika, paikka</th>
           <th>Eronnut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
-        echo "<tr><td></td><td colspan='2'></td>";
+        echo "<tr><th></th><td colspan='2'></td>";
         echo "<td>" . $married_status[$i];
         echo "</td><td>" . DateConv::toDisplay($married_date[$i])
         . ' ' . $married_place[$i];

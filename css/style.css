@@ -32,6 +32,7 @@ div.right { float: right; }
     background-color: #82ac92;
     border-width: 0px;
     padding: 0px;
+    height: 69pt;
 }
 #toptitle {
     font-family:Georgia, serif;
@@ -51,6 +52,7 @@ div.right { float: right; }
     background-color: #144d2a;
     font-size: 75%;
     color: white;
+    height: 24pt;
 }
 #menu {
     border-width: 0px;
@@ -59,6 +61,7 @@ div.right { float: right; }
     padding: 10px;
     vertical-align: top;
     width: 15em;
+    min-height: calc(100% - 93pt);
 }
 #content {
     position: relative ; right: 0px;
