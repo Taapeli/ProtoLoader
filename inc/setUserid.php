@@ -4,6 +4,7 @@
         <?php session_start(); ?>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Kirjautuminen ...</title>
+        <meta http-equiv="refresh" content="3; url=/index.php" />
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
     </head>
     <body>
@@ -19,10 +20,6 @@
         // Content page starts here -->
 
         echo "<p>Käyttäjätunnus: " . $_SESSION['userid'] . " asetettu.</p>";
-        echo "<div class='goback'><a href='/index.php'>Jatka</a></div>";
+        echo "<div class='goback'><a href='/index.php'>Siirrytään alkusivulle ...</a></div>";
         ?>
-
-        <!-- End of content page -->
-
-        <?php include "../inc/stop.php"; ?> 
 
