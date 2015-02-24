@@ -23,7 +23,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Henkilön sulauttaminen Taapeli-kantaan</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 <script type="text/javascript">
   window.onload = function() {
 
