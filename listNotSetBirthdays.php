@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<?php include 'checkUserid.php'; ?>
+        <?php session_start(); ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli-aineiston ylläpito</title>
@@ -8,16 +8,21 @@
 </head>
 
 <body>
-<div  class="goback">
-  <a href="#" onclick="history.go(-1)">Paluu</a></div>
-<h1>Henkilöt, joilla ei ole syntymäaikaa</h1>
-<h2>Lisää syntymäaika osoittamalla henkilön id:tä</h2>
 
 <?php
 
+  include 'checkUserid.php';
+  include "inc/start.php";
   include 'classes/DateConv.php';
   include "inc/dbconnect.php";
+  
+        /*
+         * -- Content page starts here -->
+         */
 
+  echo '<h1>Henkilöt, joilla ei ole syntymäaikaa</h1>
+    <p>Lisää syntymäaika osoittamalla henkilön id:tä</p>';
+  
   $query_string = "MATCH (n:Person:" . $userid . ")-[:HAS_NAME]->(m) "
           . "WHERE NOT HAS (n.birth_date) "
           . "RETURN n, m ORDER BY m.last_name, m.first_name";
@@ -70,7 +75,9 @@
     echo "</td></tr>\n";
   }
 echo '</table>';
-?>
 
-</body>
-</html>
+/*
+ *  End of content page -->
+ */
+
+include "inc/stop.php"; 

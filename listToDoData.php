@@ -1,23 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<?php include 'checkUserid.php'; ?>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli haku</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
-</head>
+        <?php session_start(); ?>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Taapeli haku</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
 
 <body>
-<div  class="goback">
-  <a href="index.php">Paluu</a></div>
-<h1>Kaikki henkil&ouml;t, joilla on tarkistettavaa tietoa.</h1>
-
 <?php
-
+  include 'checkUserid.php';
+  include "inc/start.php";
+  include 'classes/DateConv.php';
   include "inc/dbconnect.php";
-
   
+        /*
+         * -- Content page starts here -->
+         */
 
+  echo '<h1>Henkilöt, joilla on tarkistettavaa tietoa.</h1>';
+  
   $query_string = "MATCH (n:Person:" . $userid . 
     ")-[:HAS_NAME]-(m), (n)-[:TODO]->(t) RETURN n,m,t ORDER BY m.last_name, m.first_name";
 
@@ -135,7 +137,9 @@
          "</td></tr>";
   }
   echo "</table>";
-?>
 
-</body>
-</html>
+  /*
+   *  -- End of content page -->
+   */
+
+include "inc/stop.php";

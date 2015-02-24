@@ -1,25 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<?php include 'checkUserid.php'; ?>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli haku</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
-</head>
+    <head>
+        <?php session_start(); ?>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Taapeli - puuttuvat Hiski-linkit</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
 
 <body>
-<div  class="goback">
-  <a href="index.php">Paluu</a></div>
-<h1>Kaikki henkil&ouml;t, joilla ei ole Hiski-linkki&auml;</h1>
-<h2>Lis&auml;&auml; Hiski-linkki klikkaamalla henkil&ouml;n id:t&auml;</h2>
-
 <?php
+include 'checkUserid.php';
+    include "inc/start.php";
+    include 'classes/DateConv.php';
+    include "inc/dbconnect.php";
 
-  include "inc/dbconnect.php";
+    echo '<h1>Henkil&ouml;t, joilla ei ole Hiski-linkki&auml;</h1>
+    <p>Lis&auml;&auml; Hiski-linkki klikkaamalla henkil&ouml;n id:t&auml;<p>';
 
-  
-
-  $query_string = "MATCH (n:Person:" . $userid . ")-[:HAS_NAME]-(m) 
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:HAS_NAME]-(m) 
     OPTIONAL MATCH (n)-[r:HISKI_LINK]->() WITH n,r,m 
     WHERE r IS NULL RETURN n,m ORDER BY m.last_name, m.first_name";
 
@@ -72,7 +70,8 @@
          "</td></tr>";
   }
   echo "</table>";
-?>
-
-</body>
-</html>
+  
+  /*
+   * --- End of content page ---
+   */
+include "inc/stop.php";

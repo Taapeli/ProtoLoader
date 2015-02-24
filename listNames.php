@@ -14,6 +14,10 @@ include "inc/start.php";
 include 'classes/DateConv.php';
 include "inc/dbconnect.php";
 
+        /*
+         * -- Content page starts here -->
+         */
+
 if(isset($_POST['name']) || isset($_POST['wildcard'])){
     // Check search variables
     if (isset($_POST['wildcard'] && $_POST['wildcard'] != '') {
@@ -95,5 +99,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
          "</td></tr>";
   }
   echo "</table>";
-  
+  /*
+   * --- End of content page ---
+   */
 include "inc/stop.php";

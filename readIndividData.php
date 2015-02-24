@@ -452,7 +452,7 @@
     echo '<table class="tulos">';
       echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
           <th>Syntynyt</th><th>Kuollut</th></tr>';
-      echo "<tr><th class='right'>Henkilö<th>" . $id . "</td>";
+      echo "<tr><th><div class='right'>Henkilö</div></th><td>" . $id . "</td>";
       echo "<td>$first_name</td><td>$last_name";
       if (isset($later_names)) {
         echo "<br /><i>myöh.</i> $later_names";
@@ -474,11 +474,11 @@
       echo "</tr>";
 
       if (isset($todo_description)) {
-        echo "<tr><th class='right'>Huomautus</th><td colspan='7'>$todo_description</td></tr>";
+        echo "<tr><th><div class='right'>Huomautus</th><td colspan='7'>$todo_description</td></tr>";
       }
 
       if (isset($father_id)) {
-        echo "<tr><th class='right'>Isä<th><a href='readIndividData.php?id=" .
+        echo "<tr><th><div class='right'>Isä</th><td><a href='readIndividData.php?id=" .
         $father_id . "'>" . $father_id . "</a></td>";
         echo "<td>$father_first_name</td><td>$father_last_name";
         if (isset($father_later_names)) {
@@ -500,11 +500,11 @@
         }
         echo "</td></tr>";
       } else {
-        echo "<tr><th class='right'>Isä</th><td colspan='6'>Ei tietoa</td></tr>\n";
+        echo "<tr><th><div class='right'>Isä</div></th><td colspan='6'>Ei tietoa</td></tr>\n";
       }
 
       if (isset($mother_id)) {
-        echo "<tr><th class='right'>Äiti</th><td><a href='readIndividData.php?id=" .
+        echo "<tr><th><div class='right'>Äiti</div></th><td><a href='readIndividData.php?id=" .
         $mother_id . "'>" . $mother_id .
         "</a></td><td>" . $mother_first_name .
         "</td><td>" . $mother_last_name;
@@ -521,7 +521,7 @@
         }
         echo "</td></tr>";
       } else {
-        echo "<tr><th class='right'>Äiti<th><td colspan='6'>Ei tietoa</td></tr>\n";
+        echo "<tr><th><div class='right'>Äiti</div></th><td colspan='7'>Ei tietoa</td></tr>\n";
       }
 
       echo '<tr><th><div class="right">Avioliitot</div></th><th colspan="2">
@@ -537,7 +537,7 @@
         echo "</td></tr>";
 
         if (isset($marr_todo_description[$i])) {
-          echo "<tr><th class='right'>Huomautus</th><td colspan='6'>"
+          echo "<tr><th><div class='right'>Huomautus</div></th><td colspan='6'>"
           . $marr_todo_description[$i] . "</td>";
         }
         echo "</tr>";
