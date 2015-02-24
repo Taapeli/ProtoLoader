@@ -28,7 +28,8 @@
                       <li><a href="listToDoData.php">Löydetty korjattavaa</a></li>
                       <li><a href="listNotSetBirthdays.php">Ei syntymäaikaa</a></li>
                       <li><a href="listNoHiskiLinks.php">Ei Hiski-linkkiä</a></li>
-                      <li><a href="listMayBeSame.php">Sama syntymäaika, etu- ja sukunimi</a></li>
+                      <li>Keskeneräinen<a href="listMayBeSame.php">
+                              Sama syntymäaika, etu- ja sukunimi</a></li>
                   </ul>
               </li>
               <li>Henkilöiden yhdistely
