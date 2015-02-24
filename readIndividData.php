@@ -451,7 +451,7 @@
     echo '<table class="tulos">';
       echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
           <th>Syntynyt</th><th>Kuollut</th></tr>';
-      echo "<tr><th>Henkilö<td>" . $id . "</td>";
+      echo "<tr><th class='right'>Henkilö<th>" . $id . "</td>";
       echo "<td>$first_name</td><td>$last_name";
       if (isset($later_names)) {
         echo "<br />myöh. $later_names";
@@ -473,11 +473,11 @@
       echo "</tr>";
 
       if (isset($todo_description)) {
-        echo "<tr><th>Huomautus<td colspan='7'>$todo_description</td></tr>";
+        echo "<tr><th class='right'>Huomautus</th><td colspan='7'>$todo_description</td></tr>";
       }
 
       if (isset($father_id)) {
-        echo "<tr><th>Isä<td><a href='readIndividData.php?id=" .
+        echo "<tr><th class='right'>Isä<th><a href='readIndividData.php?id=" .
         $father_id . "'>" . $father_id . "</a></td>";
         echo "<td>$father_first_name</td><td>$father_last_name";
         if (isset($father_later_names)) {
@@ -497,31 +497,35 @@
         if (isset($father_death_place)) {
           echo $father_death_place;
         }
-        echo "</tr>";
+        echo "</td></tr>";
       } else {
-        echo "<tr><td colspan='7'>Ei tietoa isästä</td></tr>\n";
+        echo "<tr><th class='right'>Isä</th><td colspan='6'>Ei tietoa</td></tr>\n";
       }
 
       if (isset($mother_id)) {
-        echo "<tr><th>Äiti<td><a href='readIndividData.php?id=" .
+        echo "<tr><th class='right'>Äiti</th><td><a href='readIndividData.php?id=" .
         $mother_id . "'>" . $mother_id .
         "</a></td><td>" . $mother_first_name .
         "</td><td>" . $mother_last_name;
         if (isset($mother_later_names)) {
           echo "<br />myöh. $mother_later_names";
         }
-        echo "</td><td>" . DateConv::toDisplay($mother_birth_date)
-        . ' ' . $mother_birth_place .
-        "</td><td>" . DateConv::toDisplay($mother_death_date)
-        . ' ' . $mother_death_place .
-        "</td></tr>";
+        echo "</td><td>" . DateConv::toDisplay($mother_birth_date) . ' ';
+        if (isset($mother_birth_place)) {
+          echo $mother_birth_place;
+        }
+        echo "</td><td>" . DateConv::toDisplay($mother_death_date) . ' ';
+        if (isset($mother_death_place)) {
+          echo $mother_death_place;
+        }
+        echo $mother_death_place;
+        echo "</td></tr>";
       } else {
-        echo "<tr><td colspan='7'>Ei tietoa äidistä</td></tr>\n";
+        echo "<tr><th class='right'>Äiti<th><td colspan='6'>Ei tietoa</td></tr>\n";
       }
 
-      echo '<tr><th>Avioliitot</th><th colspan="2">
-          <th>Liitto</th><th>Vihitty</th>
-          <th>Eronnut</th></tr>';
+      echo '<tr><th class="right">Avioliitot</th><th colspan="2">
+          <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td colspan='2'></td>";
         echo "<td>" . $married_status[$i];
@@ -530,12 +534,15 @@
         echo "</td><td align='center'>" . $divoced_status[$i] . ' '
         . DateConv::toDisplay($divoced_date[$i]);
         echo "</td></tr>";
-        echo "<tr><th>Huomautus</th><td colspan='6'>"
-        . $marr_todo_description[$i] . "</td></tr>";
+        if (isset($marr_todo_description[$i])) {
+          echo "<tr><th class='right'>Huomautus</th><td colspan='6'>"
+          . $marr_todo_description[$i] . "</td>";
+        }
+        echo "</tr>";
       }
 
-      echo '<tr><th>Puoliso(t)</th><th>id</th><th>Etunimet</th><th>Sukunimet</th>
-          <th>Syntynyt</th><th>Kuollut</th></tr>';
+      echo '<tr><th class="right">Puoliso(t)</th><th>id</th><th>Etunimet</th>
+        <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $spouse_id[$i] . "'>" . $spouse_id[$i] .
@@ -551,8 +558,8 @@
         "</td></tr>";
       }
 
-      echo '<tr><th>Lapset</th><th>id</th><th>Etunimet</th><th>Sukunimi</th>
-          <th>Syntynyt</th><th>Kuollut</th></tr>';
+      echo '<tr><th class="right">Lapset</th><th>id</th><th>Etunimet</th>
+        <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($child_id); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $child_id[$i] . "'>" . $child_id[$i] .
