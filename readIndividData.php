@@ -457,8 +457,8 @@
          "</td><td>" . $first_name .
          "</td><td>" . $last_name .
          "</td><td>" . $later_names .
-         "</td><td>" . $birth_date . ' ' . $birth_place .
-         "</td><td>" . $death_date . ' ' . $death_place .
+         "</td><td>" . DateConv::toDisplay($birth_date) . ' ' . $birth_place .
+         "</td><td>" . DateConv::toDisplay($death_date) . ' ' . $death_place .
          "</td></tr>";
 
     if (isset($todo_description)) {
@@ -471,10 +471,13 @@
         echo "<td>$father_first_name</td><td>$father_last_name</td><td>";
         if (isset($father_later_names)) { echo $father_later_names; }
         echo "</td><td>";
-        if (isset($father_birth_date)) { echo $father_birth_date . ' '; }
+        if (isset($father_birth_date)) { 
+          echo DateConv::toDisplay($father_birth_date) . ' '; 
+        }
         if (isset($father_birth_place)) { echo $father_birth_place; }
         echo "</td><td>";
-        if (isset($father_death_date)) { echo $father_death_date . ' '; }
+        if (isset($father_death_date)) { 
+          echo DateConv::toDisplay($father_death_date) . ' '; }
         if (isset($father_death_date)) { echo $father_death_place; }
         echo "</tr>";
     } else {
@@ -487,8 +490,10 @@
              "</a></td><td>" . $mother_first_name .
              "</td><td>" . $mother_last_name .
              "</td><td>" . $mother_later_names .
-             "</td><td>" . $mother_birth_date . ' ' . $mother_birth_place .
-             "</td><td>" . $mother_death_date . ' ' . $mother_death_place .
+             "</td><td>" . DateConv::toDisplay($mother_birth_date) 
+                . ' ' . $mother_birth_place .
+             "</td><td>" . DateConv::toDisplay($mother_death_date) 
+                . ' ' . $mother_death_place .
              "</td></tr>";
         } else {
         echo "<tr><td colspan='8'>Ei tietoa äidistä</td></tr>\n";
@@ -500,8 +505,10 @@
     for ($i=0; $i<sizeof($spouse_id); $i++) {
       echo "<tr><td></td><td colspan='3'></td>";
       echo "<td>" . $married_status[$i];
-      echo "</td><td>" . $married_date[$i] . ' ' . $married_place[$i];
-      echo "</td><td align='center'>" . $divoced_status[$i] . ' ' . $divoced_date[$i];
+      echo "</td><td>" . DateConv::toDisplay($married_date[$i]) 
+              . ' ' . $married_place[$i];
+      echo "</td><td align='center'>" . $divoced_status[$i] . ' ' 
+              . DateConv::toDisplay($divoced_date[$i]);
       echo "</td></tr>";
       echo "<tr><th>Huomautus:<td colspan='7'>" . $marr_todo_description[$i] .
          "</td></tr>";
@@ -517,8 +524,10 @@
        "</a></td><td>" . $spouse_first_name[$i] .
        "</td><td>" . $spouse_last_name[$i] .
        "</td><td>" . $spouse_later_names[$i] .
-       "</td><td>" . $spouse_birth_date[$i] . ' ' . $spouse_birth_place[$i] .
-       "</td><td>" . $spouse_death_date[$i] . ' ' . $spouse_death_place[$i] .
+       "</td><td>" . DateConv::toDisplay($spouse_birth_date[$i]) 
+              . ' ' . $spouse_birth_place[$i] .
+       "</td><td>" . DateConv::toDisplay($spouse_death_date[$i]) 
+              . ' ' . $spouse_death_place[$i] .
        "</td></tr>";
     }
 
@@ -532,8 +541,10 @@
        "</a></td><td>" . $child_first_name[$i] .
        "</td><td>" . $child_last_name[$i] .
        "</td><td>" . $child_later_names[$i] .
-       "</td><td>" . $child_birth_date[$i] . ' ' . $child_birth_place[$i] .
-       "</td><td>" . $child_death_date[$i] . ' ' . $child_death_place[$i] .
+       "</td><td>" . DateConv::toDisplay($child_birth_date[$i])
+              . ' ' . $child_birth_place[$i] .
+       "</td><td>" . DateConv::toDisplay($child_death_date[$i])
+              . ' ' . $child_death_place[$i] .
        "</td></tr>";
     }
 
