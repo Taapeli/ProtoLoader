@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli aineiston luku kantaan</title>
+<title>Sululaisuussuhteet</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
@@ -452,17 +452,15 @@
      */
     echo '<table class="tulos">';
     echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimi</th>
-          <th>Myöh. sukunimi</th><th>Syntymäaika</th><th>Syntymäpaikka</th>
-          <th>Kuolinaika</th><th>Kuolinpaikka</th></tr>';
+          <th>Myöh. sukunimi</th><th>Syntymäaika, paikka</th>
+          <th>Kuolinaika, paikka</th></tr>';
  
     echo "<tr><th>Henkilö:<td>" . $id . 
          "</td><td>" . $first_name .
          "</td><td>" . $last_name .
          "</td><td>" . $later_names .
-         "</td><td>" . $birth_date .
-         "</td><td>" . $birth_place .
-         "</td><td>" . $death_date .
-         "</td><td>" . $death_place .
+         "</td><td>" . $birth_date . ' ' . $birth_place .
+         "</td><td>" . $death_date . ' ' . $death_place .
          "</td></tr>";
 
     if (isset($todo_description)) {
@@ -475,16 +473,14 @@
         echo "<td>$father_first_name</td><td>$father_last_name</td><td>";
         if (isset($father_later_names)) { echo $father_later_names; }
         echo "</td><td>";
-        if (isset($father_birth_date)) { echo $father_birth_date; }
-        echo "</td><td>";
+        if (isset($father_birth_date)) { echo $father_birth_date . ' '; }
         if (isset($father_birth_place)) { echo $father_birth_place; }
         echo "</td><td>";
-        if (isset($father_death_date)) { echo $father_death_date; }
-        echo "</td><td>";
+        if (isset($father_death_date)) { echo $father_death_date . ' '; }
         if (isset($father_death_date)) { echo $father_death_place; }
         echo "</tr>";
     } else {
-        echo "<tr><td colspan='9'>Ei tietoa isästä</td></tr>\n";
+        echo "<tr><td colspan='8'>Ei tietoa isästä</td></tr>\n";
     }
  
     if (isset($mother_id)) {
@@ -493,59 +489,53 @@
              "</a></td><td>" . $mother_first_name .
              "</td><td>" . $mother_last_name .
              "</td><td>" . $mother_later_names .
-             "</td><td>" . $mother_birth_date .
-             "</td><td>" . $mother_birth_place .
-             "</td><td>" . $mother_death_date .
-             "</td><td>" . $mother_death_place .
+             "</td><td>" . $mother_birth_date . ' ' . $mother_birth_place .
+             "</td><td>" . $mother_death_date . ' ' . $mother_death_place .
              "</td></tr>";
         } else {
-        echo "<tr><td colspan='9'>Ei tietoa äidistä</td></tr>\n";
+        echo "<tr><td colspan='8'>Ei tietoa äidistä</td></tr>\n";
     }
 
-    echo '<tr><th>Avioliitot:<th><th>Vihitty<th>Vihkiaika<th>Vihkipaikka
-          <th><th>Eronnut<th>Eroaika<th></tr>';
+    echo '<tr><th>Avioliitot:</th><th colspan="4">
+          <th>Vihitty</th><th>Vihkiaika, paikka</th>
+          <th>Eronnut</th><th>Eroaika</th></tr>';
     for ($i=0; $i<sizeof($spouse_id); $i++) {
-      echo "<tr><td></td><td></td><td>" . $married_status[$i] .
-       "</td><td>" . $married_date[$i] .
-       "</td><td>" . $married_place[$i] .
-       "</td><td> </td><td align='center'>" . $divoced_status[$i] .
-       "</td><td>" . $divoced_date[$i] .
-       "</td><td></td></tr>";
-      echo "<tr><th>Huomautus:<td colspan='8'>" . $marr_todo_description[$i] .
+      echo "<tr><td></td><td colspan='4'></td>";
+      echo "<td>" . $married_status[$i];
+      echo "</td><td>" . $married_date[$i] . ' ' . $married_place[$i];
+      echo "</td><td align='center'>" . $divoced_status[$i] . ' ' . $divoced_date[$i];
+      echo "</td></tr>";
+      echo "<tr><th>Huomautus:<td colspan='7'>" . $marr_todo_description[$i] .
          "</td></tr>";
     }
 
 
-    echo '<tr><th>Puoliso(t):<th>id<th>Etunimet<th>Sukunimi<th>Myöh. sukunimi
-          <th>Syntymäaika<th>Syntymäpaikka
-          <th>Kuolinaika<th>Kuolinpaikka</tr>';
+    echo '<tr><th>Puoliso(t):</th><th>id</th><th>Etunimet</th><th>Sukunimi</th>
+          <th>Myöh. sukunimi</th>
+          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
     for ($i=0; $i<sizeof($spouse_id); $i++) {
       echo "<tr><td></td><td><a href='readIndividData.php?id=" .
          $spouse_id[$i] . "'>" . $spouse_id[$i] .
        "</a></td><td>" . $spouse_first_name[$i] .
        "</td><td>" . $spouse_last_name[$i] .
        "</td><td>" . $spouse_later_names[$i] .
-       "</td><td>" . $spouse_birth_date[$i] .
-       "</td><td>" . $spouse_birth_place[$i] .
-       "</td><td>" . $spouse_death_date[$i] .
-       "</td><td>" . $spouse_death_place[$i] .
+       "</td><td>" . $spouse_birth_date[$i] . ' ' . $spouse_birth_place[$i] .
+       "</td><td>" . $spouse_death_date[$i] . ' ' . $spouse_death_place[$i] .
        "</td></tr>";
     }
 
 
-    echo '<tr><th>Lapset:<th>id<th>Etunimet<th>Sukunimi<th>Myöh. sukunimi
-          <th>Syntymäaika<th>Syntymäpaikka
-          <th>Kuolinaika<th>Kuolinpaikka</tr>';
+    echo '<tr><th>Lapset:</th><th>id</th><th>Etunimet</th><th>Sukunimi</th>
+          <th>Myöh. sukunimi</th>
+          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
     for ($i=0; $i<sizeof($child_id); $i++) {
       echo "<tr><td></td><td><a href='readIndividData.php?id=" .
          $child_id[$i] . "'>" . $child_id[$i] .
        "</a></td><td>" . $child_first_name[$i] .
        "</td><td>" . $child_last_name[$i] .
        "</td><td>" . $child_later_names[$i] .
-       "</td><td>" . $child_birth_date[$i] .
-       "</td><td>" . $child_birth_place[$i] .
-       "</td><td>" . $child_death_date[$i] .
-       "</td><td>" . $child_death_place[$i] .
+       "</td><td>" . $child_birth_date[$i] . ' ' . $child_birth_place[$i] .
+       "</td><td>" . $child_death_date[$i] . ' ' . $child_death_place[$i] .
        "</td></tr>";
     }
 
@@ -553,7 +543,7 @@
   }
 ?>
 
-<form action="readHiskiLink.php" method="POST" enctype="multipart/form-data"></p>
+<form action="readHiskiLink.php" method="post" enctype="multipart/form-data"></p>
 <div class="form">
 <p>Katso/ylläpidä Hiski-linkkiä
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
@@ -575,7 +565,7 @@
 <input type="hidden" name="id" value="<?php echo $id; ?>" />
 <input type="submit" value="Siirry repository-tietoon" /></p>
 </div>
-</form>
 
-</body>
-</html>
+<!-- End of content page -->
+
+<?php include "inc/stop.php"; ?> 
