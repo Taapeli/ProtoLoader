@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Taapelin </title>
-        <meta http-equiv="refresh" content="9; url=/alku.php" />
+        <meta http-equiv="refresh" content="4; url=/alku.php" />
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
     </head>
     <body>

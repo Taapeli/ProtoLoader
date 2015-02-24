@@ -18,6 +18,9 @@ th,td {
     border-style:dotted;
     background-color: beige;
 }
+th {
+    background-color: wheat;
+}
 div.right { float: right; }
 
 // start-sivun tyylit

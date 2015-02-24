@@ -449,109 +449,120 @@
      * ------------------------- Show results ----------------------------
      */
     echo '<table class="tulos">';
-    echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimi</th>
-          <th>Myöh. sukunimi</th><th>Syntymäaika, paikka</th>
-          <th>Kuolinaika, paikka</th></tr>';
- 
-    echo "<tr><th>Henkilö:<td>" . $id . 
-         "</td><td>" . $first_name .
-         "</td><td>" . $last_name .
-         "</td><td>" . $later_names .
-         "</td><td>" . DateConv::toDisplay($birth_date) . ' ' . $birth_place .
-         "</td><td>" . DateConv::toDisplay($death_date) . ' ' . $death_place .
-         "</td></tr>";
+      echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
+          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
 
-    if (isset($todo_description)) {
-      echo "<tr><th>Huomautus:<td colspan='8'>$todo_description</td></tr>";
-    }
+      echo "<tr><th>Henkilö<td>" . $id . "</td><td>" . $first_name .
+      "</td><td>" . $last_name;
+      if (strlen($later_names) > 0) {
+        echo "<br />myöh. $later_names";
+      };
+      echo "</td><td>" . DateConv::toDisplay($birth_date) . ' ' . $birth_place .
+      "</td><td>" . DateConv::toDisplay($death_date) . ' ' . $death_place .
+      "</td></tr>";
 
-    if (isset($father_id)) {
-        echo "<tr><th>Isä:<td><a href='readIndividData.php?id=" .
-               $father_id . "'>" . $father_id . "</a></td>";
+      if (isset($todo_description)) {
+        echo "<tr><th>Huomautus<td colspan='7'>$todo_description</td></tr>";
+      }
+
+      if (isset($father_id)) {
+        echo "<tr><th>Isä<td><a href='readIndividData.php?id=" .
+        $father_id . "'>" . $father_id . "</a></td>";
         echo "<td>$father_first_name</td><td>$father_last_name</td><td>";
-        if (isset($father_later_names)) { echo $father_later_names; }
-        echo "</td><td>";
-        if (isset($father_birth_date)) { 
-          echo DateConv::toDisplay($father_birth_date) . ' '; 
+        if (isset($father_later_names)) {
+          echo "<br />myöh. $father_later_names";
         }
-        if (isset($father_birth_place)) { echo $father_birth_place; }
         echo "</td><td>";
-        if (isset($father_death_date)) { 
-          echo DateConv::toDisplay($father_death_date) . ' '; 
+        if (isset($father_birth_date)) {
+          echo DateConv::toDisplay($father_birth_date) . ' ';
         }
-        if (isset($father_death_place)) { echo $father_death_place; }
+        if (isset($father_birth_place)) {
+          echo $father_birth_place;
+        }
+        echo "</td><td>";
+        if (isset($father_death_date)) {
+          echo DateConv::toDisplay($father_death_date) . ' ';
+        }
+        if (isset($father_death_place)) {
+          echo $father_death_place;
+        }
         echo "</tr>";
-    } else {
-        echo "<tr><td colspan='8'>Ei tietoa isästä</td></tr>\n";
-    }
- 
-    if (isset($mother_id)) {
-        echo "<tr><th>Äiti:<td><a href='readIndividData.php?id=" .
-               $mother_id . "'>" . $mother_id . 
-             "</a></td><td>" . $mother_first_name .
-             "</td><td>" . $mother_last_name .
-             "</td><td>" . $mother_later_names .
-             "</td><td>" . DateConv::toDisplay($mother_birth_date) 
-                . ' ' . $mother_birth_place .
-             "</td><td>" . DateConv::toDisplay($mother_death_date) 
-                . ' ' . $mother_death_place .
-             "</td></tr>";
-        } else {
-        echo "<tr><td colspan='8'>Ei tietoa äidistä</td></tr>\n";
-    }
+      } else {
+        echo "<tr><td colspan='7'>Ei tietoa isästä</td></tr>\n";
+      }
 
-    echo '<tr><th>Avioliitot:</th><th colspan="3">
+      if (isset($mother_id)) {
+        echo "<tr><th>Äiti<td><a href='readIndividData.php?id=" .
+        $mother_id . "'>" . $mother_id .
+        "</a></td><td>" . $mother_first_name .
+        "</td><td>" . $mother_last_name;
+        if (isset($mother_later_names)) {
+          echo "<br />myöh. $mother_later_names";
+        }
+        echo "</td><td>" . DateConv::toDisplay($mother_birth_date)
+        . ' ' . $mother_birth_place .
+        "</td><td>" . DateConv::toDisplay($mother_death_date)
+        . ' ' . $mother_death_place .
+        "</td></tr>";
+      } else {
+        echo "<tr><td colspan='7'>Ei tietoa äidistä</td></tr>\n";
+      }
+
+      echo '<tr><th>Avioliitot</th><th colspan="2">
           <th>Vihitty</th><th>Vihkiaika, paikka</th>
           <th>Eronnut</th></tr>';
-    for ($i=0; $i<sizeof($spouse_id); $i++) {
-      echo "<tr><td></td><td colspan='3'></td>";
-      echo "<td>" . $married_status[$i];
-      echo "</td><td>" . DateConv::toDisplay($married_date[$i]) 
-              . ' ' . $married_place[$i];
-      echo "</td><td align='center'>" . $divoced_status[$i] . ' ' 
-              . DateConv::toDisplay($divoced_date[$i]);
-      echo "</td></tr>";
-      echo "<tr><th>Huomautus:<td colspan='7'>" . $marr_todo_description[$i] .
-         "</td></tr>";
-    }
+      for ($i = 0; $i < sizeof($spouse_id); $i++) {
+        echo "<tr><td></td><td colspan='2'></td>";
+        echo "<td>" . $married_status[$i];
+        echo "</td><td>" . DateConv::toDisplay($married_date[$i])
+        . ' ' . $married_place[$i];
+        echo "</td><td align='center'>" . $divoced_status[$i] . ' '
+        . DateConv::toDisplay($divoced_date[$i]);
+        echo "</td></tr>";
+        echo "<tr><th>Huomautus</th><td colspan='6'>"
+        . $marr_todo_description[$i] . "</td></tr>";
+      }
 
 
-    echo '<tr><th>Puoliso(t):</th><th>id</th><th>Etunimet</th><th>Sukunimi</th>
+      echo '<tr><th>Puoliso(t)</th><th>id</th><th>Etunimet</th><th>Sukunimet</th>
+          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
+      for ($i = 0; $i < sizeof($spouse_id); $i++) {
+        echo "<tr><td></td><td><a href='readIndividData.php?id=" .
+        $spouse_id[$i] . "'>" . $spouse_id[$i] .
+        "</a></td><td>" . $spouse_first_name[$i] .
+        "</td><td>" . $spouse_last_name[$i];
+        if (isset($spouce_later_names)) {
+          echo "<br />myöh. $spouce_later_names";
+        }
+        echo "</td><td>" . DateConv::toDisplay($spouse_birth_date[$i])
+        . ' ' . $spouse_birth_place[$i] .
+        "</td><td>" . DateConv::toDisplay($spouse_death_date[$i])
+        . ' ' . $spouse_death_place[$i] .
+        "</td></tr>";
+      }
+
+
+      echo '<tr><th>Lapset</th><th>id</th><th>Etunimet</th><th>Sukunimi</th>
           <th>Myöh. sukunimi</th>
           <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
-    for ($i=0; $i<sizeof($spouse_id); $i++) {
-      echo "<tr><td></td><td><a href='readIndividData.php?id=" .
-         $spouse_id[$i] . "'>" . $spouse_id[$i] .
-       "</a></td><td>" . $spouse_first_name[$i] .
-       "</td><td>" . $spouse_last_name[$i] .
-       "</td><td>" . $spouse_later_names[$i] .
-       "</td><td>" . DateConv::toDisplay($spouse_birth_date[$i]) 
-              . ' ' . $spouse_birth_place[$i] .
-       "</td><td>" . DateConv::toDisplay($spouse_death_date[$i]) 
-              . ' ' . $spouse_death_place[$i] .
-       "</td></tr>";
+      for ($i = 0; $i < sizeof($child_id); $i++) {
+        echo "<tr><td></td><td><a href='readIndividData.php?id=" .
+        $child_id[$i] . "'>" . $child_id[$i] .
+        "</a></td><td>" . $child_first_name[$i] .
+        "</td><td>" . $child_last_name[$i];
+        if (isset($child_later_names)) {
+          echo "<br />myöh. $child_later_names";
+        }
+        echo "</td><td>" . DateConv::toDisplay($child_birth_date[$i])
+        . ' ' . $child_birth_place[$i] .
+        "</td><td>" . DateConv::toDisplay($child_death_date[$i])
+        . ' ' . $child_death_place[$i] .
+        "</td></tr>";
+      }
+
+      echo "</table>";
     }
-
-
-    echo '<tr><th>Lapset:</th><th>id</th><th>Etunimet</th><th>Sukunimi</th>
-          <th>Myöh. sukunimi</th>
-          <th>Syntymäaika, paikka</th><th>Kuolinaika, paikka</th></tr>';
-    for ($i=0; $i<sizeof($child_id); $i++) {
-      echo "<tr><td></td><td><a href='readIndividData.php?id=" .
-         $child_id[$i] . "'>" . $child_id[$i] .
-       "</a></td><td>" . $child_first_name[$i] .
-       "</td><td>" . $child_last_name[$i] .
-       "</td><td>" . $child_later_names[$i] .
-       "</td><td>" . DateConv::toDisplay($child_birth_date[$i])
-              . ' ' . $child_birth_place[$i] .
-       "</td><td>" . DateConv::toDisplay($child_death_date[$i])
-              . ' ' . $child_death_place[$i] .
-       "</td></tr>";
-    }
-
-    echo "</table>";
-  }
-?>
+    ?>
 
     <h2>Toiminnot</h2>
     <ul>
