@@ -13,7 +13,7 @@
   include 'classes/DateConv.php';
   include "inc/dbconnect.php";
 
-  echo "<h1>Läheiset sukulaisuussuhteet</h1>";
+  echo "<h1>Läheiset sukulaisuussuhteet &mdash;";
   
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
@@ -90,6 +90,7 @@
       $last_name = $rows[0]->getProperty('last_name');
       $later_names = $rows[0]->getProperty('later_names');
     }
+      echo "<i>$first_name $last_name</i></h1>";
 
     $query_string = "MATCH (n:Person:" . $userid . 
       ")-[:TODO]->(t) WHERE n.id='" . $id . "' RETURN t";
@@ -543,7 +544,7 @@
         echo "</tr>";
       }
 
-      echo '<tr><th><div class="right">Puoliso(t)</div></th><th>id</th><th>Etunimet</th>
+      echo '<tr><th><div class="right">Puolisot</div></th><th>id</th><th>Etunimet</th>
         <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
       for ($i = 0; $i < sizeof($spouse_id[$i]); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .

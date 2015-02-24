@@ -66,6 +66,7 @@
     }
     echo '</td><td> ';
     if (isset($birth_date[$i])) {
+      echo "<!-- $birth_date[$i] -->";
       echo DateConv::toDisplay($birth_date[$i]);
     }
     echo '</td><td> ';

@@ -1,25 +1,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
 <head>
+        <?php session_start(); ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Taapeli haku</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
 <body>
-<div  class="goback">
-  <a href="index.php">Paluu</a></div>
-<h1>Henkilöt, jotka mahdollisesti samoja.</h1>
 
 <?php
+include 'checkUserid.php';
+include "inc/start.php";
+include 'classes/DateConv.php';
+include "inc/dbconnect.php";
 
-  include "inc/dbconnect.php";
+        /*
+         * -- Content page starts here -->
+         */
+
+  echo '<h1>Henkilöt, jotka mahdollisesti samoja</h1>';
 
   $query_string = "MATCH (n:Person:user0498)-[r:MAY_BE_SAME]-(m:Person:user6321)" .
           " WHERE r.indication1=1 AND r.indication2=1 RETURN n,m,r";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
+  $id = $id2 = [];
 
   foreach ($result as $row)
   {
@@ -138,7 +145,7 @@
   }
   echo "</table>";
 
-?>
-
-</body>
-</html>
+  /*
+   * --- End of content page ---
+   */
+include "inc/stop.php";
