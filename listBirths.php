@@ -18,7 +18,7 @@
   if(isset($_POST['birth'])){
     // Input variables
     $input_birth = htmlentities($_POST['birth']);
-    echo "<p>Poiminta syntymäaika = '$input_birth'</p>";
+    echo "<h1>Haku syntymäajalla <i>$input_birth</i></h1>";
 
     // Neo4j parameter {birth} is used to avoid hacking injection
     $query_string = "MATCH (n:Person:" . $userid . 
