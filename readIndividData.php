@@ -6,16 +6,14 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-<div class="goback">
-  <a href="index.php">Paluu</a></div>
-<h1>Taapeli testiluku</h1>
-<p>Luetaan neo4j-tietokannasta.</p>
 <?php
   include 'checkUserid.php';
   include "inc/start.php";
   include 'classes/DateConv.php';
   include "inc/dbconnect.php";
 
+  echo "<h1>Läheiset sukulaisuussuhteet</h1>";
+  
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
     $input_id = $_GET['id'];
@@ -448,7 +446,7 @@
     }
 
     /*
-     * Tulostus
+     * ------------------------- Show results ----------------------------
      */
     echo '<table class="tulos">';
     echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimi</th>
@@ -496,11 +494,11 @@
         echo "<tr><td colspan='8'>Ei tietoa äidistä</td></tr>\n";
     }
 
-    echo '<tr><th>Avioliitot:</th><th colspan="4">
+    echo '<tr><th>Avioliitot:</th><th colspan="3">
           <th>Vihitty</th><th>Vihkiaika, paikka</th>
-          <th>Eronnut</th><th>Eroaika</th></tr>';
+          <th>Eronnut</th></tr>';
     for ($i=0; $i<sizeof($spouse_id); $i++) {
-      echo "<tr><td></td><td colspan='4'></td>";
+      echo "<tr><td></td><td colspan='3'></td>";
       echo "<td>" . $married_status[$i];
       echo "</td><td>" . $married_date[$i] . ' ' . $married_place[$i];
       echo "</td><td align='center'>" . $divoced_status[$i] . ' ' . $divoced_date[$i];
@@ -543,29 +541,31 @@
   }
 ?>
 
-<form action="readHiskiLink.php" method="post" enctype="multipart/form-data"></p>
-<div class="form">
-<p>Katso/ylläpidä Hiski-linkkiä
-<input type="hidden" name="id" value="<?php echo $id; ?>" />
-<input type="submit" value="Siirry Hiski-tietoon"/></p>
-</div>
-</form>
+    <h2>Toiminnot</h2>
+    <ul>
+        <li>
+            <form action="readHiskiLink.php" method="post" enctype="multipart/form-data">
+                <p>Katso/ylläpidä Hiski-linkkiä
+                    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                    <input type="submit" value="Siirry Hiski-tietoon"/></p>
+            </form>
+        </li>
+        <li>
 
-<form action="updateBirthData.php" method="GET" enctype="multipart/form-data"></p>
-<div class="form">
-<p>Ylläpidä syntymätietoa
-<input type="hidden" name="id" value="<?php echo $id; ?>" />
-<input type="submit"  value="Siirry syntymätietoon" /></p>
-</div>
-</form>
-
-<form action="updateRepoData.php" method="GET" enctype="multipart/form-data"></p>
-<div class="form">
-<p>Ylläpidä repository-tietoa
-<input type="hidden" name="id" value="<?php echo $id; ?>" />
-<input type="submit" value="Siirry repository-tietoon" /></p>
-</div>
-
-<!-- End of content page -->
+            <form action="updateBirthData.php" method="get" enctype="multipart/form-data">
+                <p>Ylläpidä syntymätietoa
+                    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                    <input type="submit"  value="Siirry syntymätietoon" /></p>
+            </form>
+        </li>
+        <li>
+            <form action="updateRepoData.php" method="get" enctype="multipart/form-data">
+                <p>Ylläpidä repository-tietoa
+                    <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                    <input type="submit" value="Siirry repository-tietoon" /></p>
+            </form>
+        </li>
+    </ul>
+    <!-- End of content page -->
 
 <?php include "inc/stop.php"; ?> 
