@@ -14,6 +14,10 @@
     include 'classes/DateConv.php';
     include "inc/dbconnect.php";
 
+        /*
+         * -- Content page starts here -->
+         */
+
     echo '<h1>Henkil&ouml;t, joilla ei ole Hiski-linkki&auml;</h1>
     <p>Lis&auml;&auml; Hiski-linkki klikkaamalla henkil&ouml;n id:t&auml;<p>';
 

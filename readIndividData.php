@@ -530,10 +530,10 @@
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td colspan='2'></td>";
         echo "<td>" . $married_status[$i] . "</td>";
-        //echo "<td>" . DateConv::toDisplay($married_date[$i]) HUOM
-        echo "<td>" . $married_date[$i]
-        . ' ' . $married_place[$i] . "</td>";
-        echo "<td>" . $divoced_status[$i] . ' '
+        echo "<!--  $married_date[$i] -->";
+        echo "<td>" . DateConv::toDisplay($married_date[$i]) . ' ';
+        if (isset($married_place[$i])) { $married_place[$i]; }
+        echo "</td><td>" . $divoced_status[$i] . ' '
         . DateConv::toDisplay($divoced_date[$i]);
         echo "</td></tr>";
 
