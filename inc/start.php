@@ -75,6 +75,6 @@
                     </li>
                 </ul>
                 <div class="note">Gedcom-tiedoston latauksessa uudet tiedot luetaan kantaan
-                    siellä jo olevien tietojen lisäksi.</div>
+                    siellä jo olevien tietojen lisäksi.<br/>&nbsp;</div>
             </div>
             <div id="content">
