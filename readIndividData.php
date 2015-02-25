@@ -450,7 +450,7 @@
     /*
      * ------------------------- Show results ----------------------------
      */
-    echo '<table class="tulos">';
+    echo '<table class="tulos" style="width:90%;">';
       echo "<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
           <th>Syntynyt</th><th>Kuollut</th></tr>\n";
       echo "<tr><th><div class='right'>Henkilö</div></th><td>" . $id . "</td>";
