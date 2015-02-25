@@ -689,23 +689,24 @@ include 'classes/DateConv.php';
                   $date_str = DateConv::fromGed($arg0);
                   switch ($event) {
                     case "MARR":
-                      if (sizeof($date) == 3) {
+//                      if (sizeof($date) == 3) {
                         $marr_date = $marr
                           ->setProperty('married_date', $date_str)
                           ->save();
-                      }
+/*                      }
                       else {
                         $marr = $marr
                           ->setProperty('married_status', $arg0)
                           ->save();
                       }
+*/
                       break;
                     case "DIV":
-                      if (sizeof($date) == 3) {
+//                      if (sizeof($date) == 3) {
                         $div_date = $marr
                           ->setProperty('divoced_date', $date_str)
                           ->save();
-                      }
+//                      }
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "

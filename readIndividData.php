@@ -546,7 +546,7 @@
 
       echo "<tr><th><div class='right'>Puolisot</div></th><th>id</th><th>Etunimet</th>
         <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>\n";
-      for ($i = 0; $i < sizeof($spouse_id[$i]); $i++) {
+      for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $spouse_id[$i] . "'>" . $spouse_id[$i] . "</a></td>";
         echo "<td>$spouse_first_name[$i]</td><td>$spouse_last_name[$i]";
