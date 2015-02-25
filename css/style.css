@@ -1,4 +1,4 @@
-// Taapelin tyylit
+/* Taapelin tyylit */
 
 body { font-family:Helvetica, sans-serif; 
        font-size: 11pt;
@@ -26,14 +26,14 @@ table.tulos {
 div.right { float: right; }
 div.note { font-size: 9pt; }
 
-// start-page styles (container blocks)
+/* start-page styles (different container blocks) */
 
 #page {
     min-height: 100%;
     width: 100%;
     position: relative;
 }
-#top {
+#top { /* Header area */
     float:left;
     width: 100%;
     background-color: #82ac92;
@@ -41,21 +41,21 @@ div.note { font-size: 9pt; }
     padding: 0px;
     //height: 69px;
 }
-#container2 {
+#container2 {  /* Menu & content area */
     float:left;
     width:100%;
-    background-color: #82ac92;  // green
+    background-color: #82ac92;  /* green */
     overflow:hidden;
     position:relative;
 }
-#container1 {
+#container1 {  /* White area right */
     float:left;
     padding-bottom: 24px;
     background: whitesmoke;
     position:relative;
-    left: 15em;
+    left: 250px;
 }
-#menu {
+#menu { /* Menu text area */
     float:left;
     border-width: 0px;
     width: 220px;
@@ -63,15 +63,15 @@ div.note { font-size: 9pt; }
     left:-230px;
     min-height: calc(100% - 93pt);
 }
-#content {
+#content { /* Content text area */
     float: left;
     position: relative;
     left: -210px;
-    width:calc(100% - 305px);
+    width:calc(100% - 275px);
     border-width: 0px;
     height: calc(100% - 35px);
 }
-#bottom {
+#bottom { /* Footer area */
     position: absolute;
     bottom: 0;
     width: 100%;
