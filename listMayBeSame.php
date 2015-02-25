@@ -143,7 +143,7 @@ include "inc/dbconnect.php";
          "</td><td rowspan='2' align='center'>" . $show_indication2[$i] .
          "</td></tr><tr><td colspan='10'> </td></tr>";
   }
-  echo "</table>";
+  echo "</table><p>&nbsp;</p>";
 
   /*
    * --- End of content page ---

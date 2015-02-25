@@ -135,7 +135,7 @@
     echo "<tr><th>Huomautus:</th><td colspan='5'>" . $marr_todo_description[$i] .
          "</td></tr>";
   }
-  echo "</table>";
+  echo "</table><p>&nbsp;</p>";
 
   /*
    *  -- End of content page -->

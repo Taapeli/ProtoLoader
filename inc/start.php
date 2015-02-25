@@ -26,11 +26,6 @@
         <div id="container1">
             <div id="menu">
                 <ul class="menu">
-                    <li>Haku syntymäajalla <i>vvvv.kk.pp</i>
-                        <form action="listBirths.php" method="post" enctype="multipart/form-data">
-                            <input type="text" name="birth" />
-                            <input type="submit" value="Etsi" />
-                        </form></li>
                     <li>Haku koko sukunimellä
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="name"/>
@@ -40,6 +35,11 @@
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="wildcard"/>
                             <input type="submit" value="Etsi"/>
+                        </form></li>
+                    <li>Haku syntymäajalla <i>vvvv.kk.pp</i>
+                        <form action="listBirths.php" method="post" enctype="multipart/form-data">
+                            <input type="text" name="birth" />
+                            <input type="submit" value="Etsi" />
                         </form></li>
 
                     <?php if (isset($_SESSION['taapeli'])) { ?>
