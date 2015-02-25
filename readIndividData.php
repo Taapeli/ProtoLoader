@@ -451,8 +451,8 @@
      * ------------------------- Show results ----------------------------
      */
     echo '<table class="tulos">';
-      echo '<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
-          <th>Syntynyt</th><th>Kuollut</th></tr>';
+      echo "<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
+          <th>Syntynyt</th><th>Kuollut</th></tr>\n";
       echo "<tr><th><div class='right'>Henkilö</div></th><td>" . $id . "</td>";
       echo "<td>$first_name</td><td>$last_name";
       if (isset($later_names)) {
@@ -472,10 +472,10 @@
       if (isset($death_place)) {
         echo $death_place;
       }
-      echo "</tr>";
+      echo "</tr>\n";
 
       if (isset($todo_description)) {
-        echo "<tr><th><div class='right'>Huomautus</th><td colspan='7'>$todo_description</td></tr>";
+        echo "<tr><th><div class='right'>Huomautus</th><td colspan='7'>$todo_description</td></tr>\n";
       }
 
       if (isset($father_id)) {
@@ -499,7 +499,7 @@
         if (isset($father_death_place)) {
           echo $father_death_place;
         }
-        echo "</td></tr>";
+        echo "</td></tr>\n";
       } else {
         echo "<tr><th><div class='right'>Isä</div></th><td colspan='6'>Ei tietoa</td></tr>\n";
       }
@@ -520,13 +520,13 @@
         if (isset($mother_death_place)) {
           echo $mother_death_place;
         }
-        echo "</td></tr>";
+        echo "</td></tr>\n";
       } else {
         echo "<tr><th><div class='right'>Äiti</div></th><td colspan='7'>Ei tietoa</td></tr>\n";
       }
 
-      echo '<tr><th><div class="right">Avioliitot</div></th><th colspan="2">
-          <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>';
+      echo "<tr><th><div class='right'>Avioliitot</div></th><th colspan='2'>
+          <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>\n";
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td colspan='2'></td>";
         echo "<td>" . $married_status[$i] . "</td>";
@@ -535,17 +535,17 @@
         if (isset($married_place[$i])) { $married_place[$i]; }
         echo "</td><td>" . $divoced_status[$i] . ' '
         . DateConv::toDisplay($divoced_date[$i]);
-        echo "</td></tr>";
+        echo "</td></tr>\n";
 
         if (isset($marr_todo_description[$i])) {
           echo "<tr><th><div class='right'>Huomautus</div></th><td colspan='6'>"
           . $marr_todo_description[$i] . "</td>";
         }
-        echo "</tr>";
+        echo "</tr>\n";
       }
 
-      echo '<tr><th><div class="right">Puolisot</div></th><th>id</th><th>Etunimet</th>
-        <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
+      echo "<tr><th><div class='right'>Puolisot</div></th><th>id</th><th>Etunimet</th>
+        <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>\n";
       for ($i = 0; $i < sizeof($spouse_id[$i]); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $spouse_id[$i] . "'>" . $spouse_id[$i] . "</a></td>";
@@ -567,11 +567,11 @@
         if (isset($spouse_death_place[$i])) {
           echo $spouse_death_place[$i];
         }
-        echo "</td></tr>";
+        echo "</td></tr>\n";
       }
 
-      echo '<tr><th><div class="right">Lapset</div></th><th>id</th><th>Etunimet</th>
-        <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>';
+      echo "<tr><th><div class='right'>Lapset</div></th><th>id</th><th>Etunimet</th>
+        <th>Sukunimet</th><th>Syntynyt</th><th>Kuollut</th></tr>\n";
       for ($i = 0; $i < sizeof($child_id); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $child_id[$i] . "'>" . $child_id[$i] . "</a></td>";
@@ -593,7 +593,7 @@
         if (isset($child_death_place[$i])) {
           echo $child_death_place[$i];
         }
-        echo "</td></tr>";
+        echo "</td></tr>\n";
       }
 
       echo "</table>";
