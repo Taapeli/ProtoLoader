@@ -90,7 +90,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
   echo '<tr><th>id</th><th>Etunimet</th><th>Sukunimi</th>' .
        '<th>Myöh. sukunimi</th><th>Syntymäaika</th><th>Syntymäpaikka</th></tr>';
  
-  for ($i=0; $i<sizeof($first_name); $i++) {
+  for ($i=0; $i<sizeof($id); $i++) {
     echo "<tr><td><a href='readIndividData.php?id=" . $id[$i] . "'>" 
          . $id[$i] . "</a></td>";
     echo "<td> " . (isset($first_name[$i]) ? $first_name[$i] : '-') .
