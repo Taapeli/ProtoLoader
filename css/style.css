@@ -1,7 +1,10 @@
 // Taapelin tyylit
 
 body { font-family:Helvetica, sans-serif; 
-    font-size: 11pt;
+       font-size: 11pt;
+       margin:0;
+       padding:0;
+       height:100%;
 }
 h1,h2,h3 { font-family:Georgia, serif; color: #144d2a; }
 h1 { font-size: 120%; }
@@ -18,61 +21,84 @@ th,td {
     border-style:dotted;
     background-color: beige;
 }
-th {
-    background-color: wheat;
-}
+th { background-color: wheat; }
+input { font-size: 90% }
 div.right { float: right; }
+div.note { font-size: 9pt; }
 
-// start-sivun tyylit
+// start-page styles (container blocks)
 
-#wrap {
-    white-space: nowrap;
+#page {
+    min-height: 100%;
+    width: 100%;
+    position: relative;
 }
 #top {
+    float:left;
+    width: 100%;
     background-color: #82ac92;
     border-width: 0px;
     padding: 0px;
-    height: 69pt;
+    //height: 69px;
 }
-#toptitle {
-    font-family:Georgia, serif;
-    font-style: italic;
-    color: #144d2a;
-    font-size: 18pt;
-    vertical-align: 18pt;
+#container2 {
+    float:left;
+    width:100%;
+    background-color: #82ac92;  // green
+    overflow:hidden;
+    position:relative;
 }
-#login {
-    display: inline-block;
-    vertical-align: 18pt;
-    margin-left: 6em; 
+#container1,#wrap {
+    float:left;
+    padding-bottom: 24px;
+    background: whitesmoke;
+    position:relative;
+    left: 15em;
+}
+#menu {
+    float:left;
+    border-width: 0px;
+    width: 220px;
+    position: relative;
+    left:-230px;
+    min-height: calc(100% - 93pt);
+}
+#content {
+    float: left;
+    position: relative;
+    left: -210px;
+    width:calc(100% - 305px);
+    border-width: 0px;
+    height: calc(100% - 35px);
 }
 #bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     border-width: 0px;
     padding: 5px;
     background-color: #144d2a;
     font-size: 75%;
     color: white;
-    height: 24pt;
+    height: 14pt;
 }
-#menu {
-    border-width: 0px;
-    display: inline-block;
-    background-color: #82ac92;
-    padding: 10px;
-    vertical-align: top;
-    width: 15em;
-    min-height: calc(100% - 93pt);
-}
-#content {
-    position: relative ; right: 0px;
-    border-width: 0px;
-    display: inline-block;
-    padding: 10px;
-    vertical-align: top;
-    word-wrap: break-word;
-    width:calc(100% - 20em);
 
+#toptitle {
+    font-family: Georgia, serif;
+    font-style: italic;
+    color: #144d2a;
+    font-size: 18pt;
+    vertical-align: 18pt;
 }
+#titleblock {
+    display: inline-block;
+}
+#login {
+    display: inline-block;
+    padding: 22px;
+    float: right;
+}
+
 ul.menu {
     list-style: none;
     margin-left: 0;
@@ -82,8 +108,4 @@ ul.menu {
 ul.menu li:before {
     content: "\0BB \020";
 }
-div.note { font-size: 9pt; }
 
-// Vanhoja tyylejä
-
-input { font-size: 90% }
