@@ -19,6 +19,10 @@
         <p>  Järjestelmään tehdään selainkäyttöliittymät tietojen lataamiseen, 
             validointiin ja selaamiseen. </p>
 
-        <!-- End of content page -->
+        <h2>Kirjaudu järjestelmään</h2>
+        <p>Taapelin sovelluksia saavat käyttää vain siihen kirjautuneet käyttäjät.</p>
+        <p><a href="http://taapeli.referata.com/wiki/Ohjeet">Ohjeet</a></p>
+    
+    <!-- End of content page -->
 
         <?php include "inc/stop.php"; ?> 
