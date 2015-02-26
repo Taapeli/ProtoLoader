@@ -2,7 +2,7 @@
 <div id="page">
     <div id="top">
         <div id="titleblock">
-                    <span>&nbsp;<a href="/alku.php"><img src="/images/Vaakuna_v65px.png" 
+                    <span>&nbsp;<a href="/index.php"><img src="/images/Vaakuna_v65px.png" 
                                 onmouseover="this.src='/images/Vaakuna_65px.png'" 
                                 onmouseout="this.src='/images/Vaakuna_v65px.png'"
                                 alt="" /></a></span>
