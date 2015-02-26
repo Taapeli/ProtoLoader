@@ -23,8 +23,8 @@
   echo '<h1>Henkilöt, joilla ei ole syntymäaikaa</h1>
     <p>Lisää syntymäaika osoittamalla henkilön id:tä</p>';
   
-  $query_string = "MATCH (n:Person:" . $userid . ")-[:HAS_NAME]->(m) "
-          . "WHERE NOT HAS (n.birth_date) "
+  $query_string = "MATCH (n:Person:" . $userid . ") "
+          . "WHERE NOT (n)-[:BIRTH]->() WITH n MATCH (n)-[:HAS_NAME]->(m)"
           . "RETURN n, m ORDER BY m.last_name, m.first_name";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -33,7 +33,6 @@
   foreach ($result as $row)
   {
     $id[] = $row[0]->getProperty('id');
-    $birth_date[] = $row[0]->getProperty('birth_date');
     $first_name[] = $row[1]->getProperty('first_name');
     $last_name[] = $row[1]->getProperty('last_name');
     $later_names[] = $row[1]->getProperty('later_names');
