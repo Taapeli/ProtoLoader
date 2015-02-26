@@ -81,7 +81,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
 
       foreach ($result as $rows)
       {
-        $birth_place[] = $rows[0]->getProperty('name');
+        $birth_place[$i] = $rows[0]->getProperty('name');
       }
     }
   }
