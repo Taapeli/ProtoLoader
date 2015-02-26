@@ -2,7 +2,10 @@
 <div id="page">
     <div id="top">
         <div id="titleblock">
-            <span>&nbsp;<img src="/images/Vaakuna_v65px.png" alt="" /></span>
+                    <span>&nbsp;<a href="/index.php"><img src="/images/Vaakuna_v65px.png" 
+                                onmouseover="this.src='/images/Vaakuna_65px.png'" 
+                                onmouseout="this.src='/images/Vaakuna_v65px.png'"
+                                alt="" /></a></span>
             <span id="toptitle">
                 Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
             </span>
@@ -26,11 +29,6 @@
         <div id="container1">
             <div id="menu">
                 <ul class="menu">
-                    <li>Haku syntymäajalla <i>vvvv.kk.pp</i>
-                        <form action="listBirths.php" method="post" enctype="multipart/form-data">
-                            <input type="text" name="birth" />
-                            <input type="submit" value="Etsi" />
-                        </form></li>
                     <li>Haku koko sukunimellä
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="name"/>
@@ -40,6 +38,11 @@
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="wildcard"/>
                             <input type="submit" value="Etsi"/>
+                        </form></li>
+                    <li>Haku syntymäajalla <i>vvvv.kk.pp</i>
+                        <form action="listBirths.php" method="post" enctype="multipart/form-data">
+                            <input type="text" name="birth" />
+                            <input type="submit" value="Etsi" />
                         </form></li>
 
                     <?php if (isset($_SESSION['taapeli'])) { ?>

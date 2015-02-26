@@ -74,7 +74,7 @@
     }
     echo "</td></tr>\n";
   }
-echo '</table>';
+echo '</table><p>&nbsp;</p>';
 
 /*
  *  End of content page -->

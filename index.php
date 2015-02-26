@@ -21,7 +21,7 @@
 
         <h2>Kirjaudu järjestelmään</h2>
         <p>Taapelin sovelluksia saavat käyttää vain siihen kirjautuneet käyttäjät.</p>
-        <p><a href="http://taapeli.referata.com/wiki/Ohjeet">Ohjeet</a></p>
+        <p><a href="http://taapeli.referata.com/wiki/Ohjeet" target="help">Ohjeet</a></p>
     
     <!-- End of content page -->
 

@@ -82,6 +82,6 @@
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";
   }
-  echo "</table>";
+  echo "</table><p>&nbsp;</p>";
 
   include "inc/stop.php"; 
