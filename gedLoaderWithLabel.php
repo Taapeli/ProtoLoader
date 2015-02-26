@@ -1,28 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<?php include 'checkUserid.php'; ?>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli aineiston luku kantaan</title>
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-</head>
+    <head>
+        <?php session_start(); ?>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Taapeli - aineiston luku kantaan</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
 
-<body>
-<div  class="goback">
-  <a href="index.php">Paluu</a></div>
-<h1>Taapeli testilataus</h1>
-<p>Luetaan gedcom-tiedostoa.</p>
-<?php
+    <body>
+        <?php
+        include 'checkUserid.php';
+        include "inc/start.php";
+        include 'classes/DateConv.php';
+        include "inc/dbconnect.php";
 
-include 'inc/dbconnect.php';
-include 'classes/DateConv.php';
+        /*
+         * -- Content page starts here -->
+         */
 
-//function __autoload($class_name) {
-//    include 'classes/' . $class_name . '.php';
-//}
+        echo '<p>Ladataan gedcom-tiedosto järjestelmään</p>';
 
-/*-------------------------- Tiedoston luku ----------------------------*/
 /*
+ * -------------------------- Tiedoston luku ----------------------------
+*
 * 	   Simple file Upload system with PHP by Tech Stream
 *      http://techstream.org/Web-Development/PHP/Single-File-Upload-With-PHP
 */
@@ -35,8 +35,7 @@ include 'classes/DateConv.php';
     $file_tmp =$_FILES['image']['tmp_name'];
   //$max_lines = $_POST["maxlines"];
     $x=explode('.',$file_name);
-    $x=end($x);
-    $file_ext = strtolower($x);	
+    $file_ext = strtolower(end($x));	
     $expensions= array("ged","degcom","txt"); 
 
     if(in_array($file_ext,$expensions)=== false){
@@ -44,9 +43,9 @@ include 'classes/DateConv.php';
 			"ged, degcom tai txt";
     }
 
-    if($file_size > 2097152){
-      $errors[].='Tiedostokoko on nyt rajoitettu 2 Mb:een ';
-    }
+  // if($file_size > 2097152){
+  //   $errors[].='Tiedostokoko on nyt rajoitettu 2 Mb:een ';
+  // }
 
     if(empty($errors)==true) {
       echo "<p><em>Ladattu ty&ouml;tiedosto: " . $file_tmp 
@@ -88,7 +87,6 @@ include 'classes/DateConv.php';
       $repoLabel = $sukudb->makeLabel('Repo');
       $userLabel = $sukudb->makeLabel($userid);
 
-      $n = 0;
       $n = $n_indi = $n_fam = $n_sour = $n_repo = 0; // How many lines were read
       $load_type = ""; // values: INDI, FAM, SOUR, REPO 
 
@@ -915,8 +913,7 @@ include 'classes/DateConv.php';
     print_r($errors);
   }
 
-/*-------------------------- Tiedoston valintalomake ----------------------------*/
-?>
+/*-------------------------- Tiedoston valintalomake ----------------------------
 
 <form action="" method="POST" enctype="multipart/form-data"></p>
 <table class="form">
@@ -936,5 +933,10 @@ include 'classes/DateConv.php';
 </td></tr>
 </table>
 </form>
-</body>
-</html>
+
+*/
+        
+  /*
+   * --- End of content page ---
+   */
+include "inc/stop.php";
