@@ -52,6 +52,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
     $id = [];
+    $first_name = [];
 
     foreach ($result as $rows)
     {
