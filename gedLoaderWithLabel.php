@@ -90,6 +90,12 @@
       $n = $n_indi = $n_fam = $n_sour = $n_repo = 0; // How many lines were read
       $load_type = ""; // values: INDI, FAM, SOUR, REPO 
 
+      // Store the userid into the database as an single node without any connections
+      $query_string = "MERGE (u:Userid {userid:'" . $userid . 
+                    "'})";
+      $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
+      $result = $query->getResultSet();
+
 /*
 ** Avataan tiedosto
 */
