@@ -4,6 +4,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>DateConv testi</title>
         <link rel="stylesheet" type="text/css" href="../style.css" />
+        <style type="text/css">
+          old { color: gray; }
+        </style>
     </head>
 
     <body>
@@ -13,6 +16,12 @@
          * To change this template file, choose Tools | Templates
          * and open the template in the editor.
          */
+        $geddates = [ "1 FEB 1900", "11 MAR 1640", "12 JOU 1901", "0 0 1913", 
+            "n. 1778", "1914", "FEB 2012", "Hauskaa pääsiäistä", "40 HEL 123",
+            "EST 12 OCT 1430" ];
+        $dates = [ "1900-02-01", "1901-05-12", "1913-00-00", "1914-08-00",
+            "815-02-31", "1640-00-40", "1786.11.2", "1909.2.13", "1940.12.30"];
+        
 
         function __autoload($class_name) {
             // Polku on ilman '../', jos ei olla testihakemistossa
@@ -20,18 +29,17 @@
         }
         
         echo "<h2>DateConv-testit</h2>\n";
+        
         echo "<h3>fromGed</h3>\n";
 
-        $geddates = [ "1 FEB 1900", "11 MAR 1640", "12 JOU 1901", "0 0 1913", 
-            "n. 1778", "1914", "FEB 2012", "Hauskaa pääsiäistä", "40 HEL 123",
-            "EST 12 OCT 1430" ];
+        $ged = new GedDateParser();
         foreach ($geddates as $s) {
-            echo "<p><b>" . DateConv::fromGed($s) . 
-                    "</b> = DateConv::fromGed($s)</p>\n";
+            echo "<p><b>" . $ged->fromGed($s) . 
+                    "</b> = GedDateParser->fromGed($s)<br />\n";
+            echo "<span class='old'><b>" . DateConv::fromGed($s) . 
+                    "</b> = DateConv::fromGed($s)</span></p>\n";
         }
         echo "<h3>toDisplay</h3>\n";
-        $dates = [ "1900-02-01", "1901-05-12", "1913-00-00", "1914-08-00",
-            "815-02-31", "1640-00-40", "1786.11.2", "1909.2.13", "1940.12.30"];
         foreach ($dates as $s) {
             echo "<p><b>" . DateConv::toDisplay($s) . 
                     "</b> = DateConv::toDisplay($s)</p>\n";

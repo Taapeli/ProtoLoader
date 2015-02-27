@@ -55,11 +55,10 @@ class DateConv {
         break;
     }
     if (strlen($year) != 4) {
-      echo 'Warning: DateConv: Invalid gedcom date "' . implode(' ', $date) . '"';
+      echo '<br />Warning: DateConv: Invalid gedcom date "' . implode(' ', $date) . '"<br />';
       return '';
     }
     // Day, always 2 numbers
-    $day = $day;
     if (strlen($day) == 1) {
       $day = '0' . $day;
     }
@@ -74,23 +73,7 @@ class DateConv {
    */
   static function fromGed($gedDate) {
     $date = explode(' ', $gedDate);
-
-//  switch ($date[0]) {
-//  case 'ABT':
-//  case 'CAL':
-//  case 'EST':
-//    /* DATE_APPROXIMATED */
-//    $approx = array_shift($date);
-//    $dbDate = self::fromBasicGed($date);
-//    return $dbDate . ' ' . $approx;
-//  case 'FROM':
-//    /* DATE_PERIOD */
-//    $approx = array_shift($date);
-//    $dbDate = self::fromBasicGed($date);
-//
-//    default:
     return self::fromBasicGed($date);
-//   }
   }
 
   /**
@@ -128,5 +111,14 @@ class DateConv {
         break;
     }
   }
+
+  /*
+   * Conversion from input field to db format
+   */
+
+ // static function fromDisplay($date) {
+    /* $Todo fromDisplay($date) */
+ //   return $date;
+ // }
 
 }
