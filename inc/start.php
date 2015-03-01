@@ -2,9 +2,9 @@
 <div id="page">
     <div id="top">
         <div id="titleblock">
-                    <span>&nbsp;<a href="/index.php"><img src="/images/Vaakuna_v65px.png" 
-                                onmouseover="this.src='/images/Vaakuna_65px.png'" 
-                                onmouseout="this.src='/images/Vaakuna_v65px.png'"
+                    <span>&nbsp;<a href="index.php"><img src="images/Vaakuna_v65px.png" 
+                                onmouseover="this.src='images/Vaakuna_65px.png'" 
+                                onmouseout="this.src='images/Vaakuna_v65px.png'"
                                 alt="" /></a></span>
             <span id="toptitle">
                 Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
@@ -14,7 +14,7 @@
             <?php
             if (isset($_SESSION['userid'])) { // Logged in
               echo "Käyttäjä " . $_SESSION['userid']
-              . " &mdash; <a href='/inc/logout.php'>kirjaudu ulos</a>";
+              . " &mdash; <a href='inc/logout.php'>kirjaudu ulos</a>";
             } else { // Do login
               ?>
               <form action="inc/setUserid.php" method="post" enctype="multipart/form-data">
@@ -73,6 +73,12 @@
                             <input type="file" name="image" />
                             <input type="submit" value="Lataa" />
                         </form>
+
+                    <li>Taapelin käyttäjät
+                        <ul class="menu">
+                            <li><a href="listUserids.php">Käyttäjät Taapeli-kannassa</a></li>
+                        </ul>
+                        
                     <?php } ?>
                         
                     </li>
