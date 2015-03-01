@@ -43,7 +43,9 @@
                         <form action="listBirths.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="birth" />
                             <input type="submit" value="Etsi" />
-                        </form></li>
+                        </form>
+                        <span>&nbsp;</span>
+                    </li>
 
                     <?php if (isset($_SESSION['taapeli'])) { ?>
                       <li>Tietojen tarkistus
@@ -66,11 +68,15 @@
                               <li><a href="disconnectSameNames.php">samat etu- ja sukunimet</a></li>
                               <li>Keskeneräinen   
                                   <a href="compareTwoFamilyForm.php">yhdistelyehdotus</a><br /></li>
-                          </ul></li>
+                          </ul>
+                          <span>&nbsp;</span>
+                      </li>
                       <li>Taapelin käyttäjät
                           <ul class="menu">
                               <li><a href="listUserids.php">Käyttäjäluettelo</a><br /></li>
                           </ul>
+                          <span>&nbsp;</span>
+                      </li>
 
                       <li>Lataa gedcom-tiedosto
                           <form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">

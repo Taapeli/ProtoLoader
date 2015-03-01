@@ -454,7 +454,7 @@
       echo "<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
           <th>Syntynyt</th><th>Kuollut</th></tr>\n";
       echo "<tr><th><div class='right'>Henkilö</div></th><td>" . $id . "</td>";
-      echo "<td>$first_name</td><td>$last_name";
+      echo "<td><b>$first_name</b></td><td><b>$last_name</b>";
       if (isset($later_names)) {
         echo "<br /><i>myöh.</i> $later_names";
       }
