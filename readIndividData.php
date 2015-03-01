@@ -8,7 +8,7 @@
     </head>
     <body>
 <?php
-  include 'checkUserid.php';
+  include 'inc/checkUserid.php';
   include "inc/start.php";
   include 'classes/DateConv.php';
   include "inc/dbconnect.php";
