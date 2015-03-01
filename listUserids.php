@@ -29,7 +29,7 @@
     $user[] = $rows[0]->getProperty('userid');
   }
 
-  echo '<h1>Käyttäjätunnukset Taapeli-kannassa<//h1>';
+  echo '<h1>Käyttäjätunnukset Taapeli-kannassa</h1>';
   echo '<table class="tulos">';
   echo '<tr><th>Userid</th></tr>';
  
