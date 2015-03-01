@@ -69,7 +69,7 @@
                           </ul></li>
                       <li>Taapelin käyttäjät
                           <ul class="menu">
-                              <li><a href="listUserids.php">Käyttäjät Taapeli-kannassa</a></li>
+                              <li><a href="listUserids.php">Käyttäjäluettelo</a><br /></li>
                           </ul>
 
                       <li>Lataa gedcom-tiedosto
