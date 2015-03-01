@@ -2,10 +2,10 @@
 <div id="page">
     <div id="top">
         <div id="titleblock">
-                    <span>&nbsp;<a href="index.php"><img src="images/Vaakuna_v65px.png" 
-                                onmouseover="this.src='images/Vaakuna_65px.png'" 
-                                onmouseout="this.src='images/Vaakuna_v65px.png'"
-                                alt="" /></a></span>
+            <span>&nbsp;<a href="index.php"><img src="images/Vaakuna_v65px.png" 
+                                                 onmouseover="this.src = 'images/Vaakuna_65px.png'" 
+                                                 onmouseout="this.src = 'images/Vaakuna_v65px.png'"
+                                                 alt="" /></a></span>
             <span id="toptitle">
                 Taapeli &mdash; suomalaisten sukutietojen demo-ohjelma
             </span>
@@ -29,12 +29,12 @@
         <div id="container1">
             <div id="menu">
                 <ul class="menu">
-                    <li>Haku koko sukunimellä
+                    <li>Haku kaikilla sukunimillä
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="name"/>
                             <input type="submit" value="Etsi"/>
                         </form></li>
-                    <li>Haku sukunimen alkuosalla
+                    <li>Haku sukunimien alkuosalla
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="wildcard"/>
                             <input type="submit" value="Etsi"/>
@@ -65,25 +65,27 @@
                               <li><a href="disconnectSameBirthDates.php">Sama syntymäaika</a></li>
                               <li><a href="disconnectSameNames.php">samat etu- ja sukunimet</a></li>
                               <li>Keskeneräinen   
-                                  <a href="compareTwoFamilyForm.php">yhdistelyehdotus</a></li>
+                                  <a href="compareTwoFamilyForm.php">yhdistelyehdotus</a><br /></li>
                           </ul></li>
+                      <li>Taapelin käyttäjät
+                          <ul class="menu">
+                              <li><a href="listUserids.php">Käyttäjät Taapeli-kannassa</a></li>
+                          </ul>
 
-                    <li>Lataa gedcom-tiedosto
-                        <form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">
-                            <input type="file" name="image" />
-                            <input type="submit" value="Lataa" />
-                        </form>
+                      <li>Lataa gedcom-tiedosto
+                          <form action="gedLoaderWithLabel.php" method="post" enctype="multipart/form-data">
+                              <input type="file" name="image" />
+                              <input type="submit" value="Lataa" />
+                          </form>
 
-                    <li>Taapelin käyttäjät
-                        <ul class="menu">
-                            <li><a href="listUserids.php">Käyttäjät Taapeli-kannassa</a></li>
-                        </ul>
-                        
-                    <?php } ?>
-                        
-                    </li>
-                </ul>
-                <div class="note">Gedcom-tiedoston latauksessa uudet tiedot luetaan kantaan
-                    siellä jo olevien tietojen lisäksi.<br/>&nbsp;</div>
+                      </li>
+                  </ul>
+                  <div class="note">Gedcom-tiedoston latauksessa uudet tiedot luetaan kantaan
+                      siellä jo olevien tietojen lisäksi.<br/>&nbsp;</div>
+                <?php } else { ?>
+                      </li>
+                  </ul>
+                <?php } ?>
             </div>
+            
             <div id="content">
