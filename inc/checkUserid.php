@@ -5,8 +5,8 @@ if (isset($_SESSION['taapeli']) && ($_SESSION['taapeli'] == 'on')) {
 } else {
   $message = "Sinun tulee kirjautua Taapeliin ensin!";
   echo "<script type='text/javascript'>alert('$message');</script>";
-  echo "<br><br><div class='goback'>
-      <a href='index.php'>Etusivulle</a></div><br><br>";
+  echo "<br /><br /><div class='goback'>
+      <a href='index.php'>Etusivulle</a></div><br /><br />";
   die("<p>Tuntematon käyttäjä</p>");
 }
 $userid = $_SESSION['userid'];
