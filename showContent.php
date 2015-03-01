@@ -3,7 +3,7 @@
     <head>
         <?php session_start(); ?>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Taapeli - tietojen poisto</title>
+        <title>Taapeli - Käyttäjän luomat tiedot</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body>
@@ -17,7 +17,7 @@
    * -- Content page starts here -->
    */
 
-  echo '<h1>Poista käyttäjän lataamat tiedot</h1>';
+  echo '<h1>Käyttäjän lataamat tiedot</h1>';
 
   if (!isset($_GET['user'])) {
     echo '<p>Ei valittua henkilöä</p></body></html>';
@@ -25,7 +25,7 @@
   }
 
   // Tiedoston käsittelyn muuttujat
-  $user = $_GET['user'];
+  $user = htmlentities($_GET['user']);
 
   $query_string = "MATCH (n:Person:" . $user . ") RETURN COUNT(n)";
 
@@ -60,6 +60,7 @@
   }
   echo "</table><p>&nbsp;</p>";
 
+      if ($_SESSION['userid'] == $user) {
 ?>
   <h2>Toiminnot</h2>
   <ul>
@@ -73,7 +74,7 @@
   </ul>
 
 <?php
-
+      };
   /*
    *  -- End of content page -->
    */

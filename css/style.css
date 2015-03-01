@@ -54,6 +54,7 @@ div.note { font-size: 9pt; }
     background: whitesmoke;
     position:relative;
     left: 250px;
+    width: 100%;
 }
 #menu { /* Menu text area */
     float:left;

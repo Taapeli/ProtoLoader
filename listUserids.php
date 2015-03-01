@@ -29,8 +29,8 @@
     $user[] = $rows[0]->getProperty('userid');
   }
 
+  echo '<h1>Käyttäjätunnukset Taapeli-kannassa<//h1>';
   echo '<table class="tulos">';
-  echo '<tr><th>Käyttäjätunnukset Taapeli-kannassa</th></tr>';
   echo '<tr><th>Userid</th></tr>';
  
   for ($i=0; $i<sizeof($user); $i++) {
