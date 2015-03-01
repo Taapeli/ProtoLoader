@@ -38,14 +38,16 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
     if (! $use_wildcard) {
       // Neo4j parameter {name} is used to avoid hacking injection
       $query_string = "MATCH (n:Name:" . $userid . ")<-[:HAS_NAME]-(id:Person:" . $userid . ") " .
-              "WHERE n.last_name={name} RETURN id, n ORDER BY n.last_name, n.first_name";
+              "WHERE n.last_name={name} OR n.later_names={name} "
+              . "RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('name' => $input_name);
     }
     else {
       // Neo4j parameter {wildcard} is used to avoid hacking injection
       $query_string = "MATCH (n:Name:" . $userid . ")<-[:HAS_NAME]-(id:Person:" . $userid . ") " .
-              "WHERE n.last_name=~{wildcard} RETURN id, n ORDER BY n.last_name, n.first_name";
+              "WHERE n.last_name=~{wildcard} OR n.later_names=~{wildcard} "
+              . "RETURN id, n ORDER BY n.last_name, n.first_name";
 
       $query_array = array('wildcard' => $input_wildcard);
     }
