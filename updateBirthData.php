@@ -74,16 +74,28 @@
                     <th>Syntymäaika</th><th>Syntymäpaikka</th></tr>
 <?php
         echo "<tr><td rowspan='2'>$id</td><td>$first_name</td><td>$last_name</td>";
-        echo "<td>$later_names</td><td>" . DateConv::toDisplay($birth_date) 
-                . "</td><td>$birth_place</td></tr>";
+        echo "<td>";
+        if (isset($later_names)) {
+          echo $later_names;
+        }
+        echo "</td><td>";
+        if (isset($birth_date)) {
+          echo DateConv::toDisplay($birth_date);
+        }
+        echo "</td><td>";
+        if (isset($birth_place)) {
+          echo $birth_place;
+        }
+        echo "</td></tr>";
         echo '<tr><td colspan="3"><div  class="right">Uudet tiedot:</div></td>';
-        echo '<td><input type="text" name="birth" value="' .$birth_date. '" /></td>';
-        echo '<td><input type="text" name="place" value="' . $birth_place . '" /></td></tr>';
+        echo '<td><input type="text" name="birth" value="' 
+          . (isset($birth_date) ? $birth_date : '-') . '" /></td>';
+        echo '<td><input type="text" name="place" value="' 
+          . (isset($birth_place) ? $birth_place : '-') . '" /></td></tr>';
 ?>
                 <tr>
                     <td colspan="6" >
                         <div class="right">
-                            <a href="#" onclick="history.go(-1)">Peru</a>
                             <input type="submit" value="Talleta"/>
                         </div>
                     </td>
