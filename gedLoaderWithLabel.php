@@ -18,7 +18,7 @@
          * -- Content page starts here -->
          */
 
-        echo '<p>Ladataan gedcom-tiedosto järjestelmään</p>';
+        echo '<h1>Ladataan gedcom-tiedosto järjestelmään</h1>';
 
 /*
  * -------------------------- Tiedoston luku ----------------------------
@@ -38,17 +38,13 @@
     $file_ext = strtolower(end($x));	
     $expensions= array("ged","degcom","txt"); 
 
-    if(in_array($file_ext,$expensions)=== false){
-      $errors[]="Väärä tiedostopääte. Anna Gedcom -tiedosto, jonka pääte on " .
-			"ged, degcom tai txt";
+    if (!in_array($file_ext, $expensions)) {
+      echo "<p>Väärä tiedostopääte. Anna Gedcom -tiedosto, jonka pääte on " .
+            implode(', ', $expensions) . "</p></body></html>";
+      die;
     }
 
-  // if($file_size > 2097152){
-  //   $errors[].='Tiedostokoko on nyt rajoitettu 2 Mb:een ';
-  // }
-
-    if(empty($errors)==true) {
-      echo "<p><em>Ladattu ty&ouml;tiedosto: " . $file_tmp 
+    echo "<p><em>Ladattu ty&ouml;tiedosto: " . $file_tmp 
 	. " (size=" . $file_size . ") <-- " . $file_name;
 	// . ", charset=" . $_POST["charset"]
 	// . ", k&auml;sitell&auml;&auml;n enint&auml;&auml;n " . $max_lines
@@ -907,17 +903,16 @@
           } // $load_type
         } // if $level = 3
       } // while feof
-    } // if empty errors
+    } // if filename given
+    else {
+      echo "<p>Tyhjä tiedostonimi, ei ladattu.</p></body></html>";
+    }
     echo "</p>\n";
 			
     fclose($file_handle);
-    echo "<p><em>{$file_name} {$n} rivi&auml; luettu</em></p>";
-    echo "<p><em>{$n_indi} henkilö&auml;, {$n_fam} perhett&auml;,";
-    echo "{$n_sour} l&auml;hdett&auml; ja {$n_repo} repoa tallennettu</em></p>";
-  }
-  else {
-    print_r($errors);
-  }
+    echo "<p><em>{$file_name} {$n} riviä luettu</em></p>";
+    echo "<p><em>{$n_indi} henkilöä, {$n_fam} perhettä,";
+    echo "{$n_sour} lähdettä ja {$n_repo} säilytyspaikkaa tallennettu</em></p>";
 
 /*-------------------------- Tiedoston valintalomake ----------------------------
 
