@@ -536,7 +536,7 @@
           <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>\n";
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td colspan='2'></td><td>";
-        echo ($married_status > '') ? $married_status[$i] : '<i>avioliitto</i>';
+        echo (trim($married_status) != '') ? $married_status[$i] : '<i>avioliitto</i>';
         echo "</td><!--  $married_date[$i] -->";
         echo "<td>" . DateConv::toDisplay($married_date[$i]) . ' ';
         if (isset($married_place[$i])) { $married_place[$i]; }
@@ -607,11 +607,11 @@
     }
     ?>
 
-    <h2>Toiminnot</h2>
+    <h2>Muokkaustoiminnot</h2>
     <ul>
         <li>
             <form action="readHiskiLink.php" method="post" enctype="multipart/form-data">
-                <p>Katso/ylläpidä Hiski-linkkiä
+                <p>Hiski-linkki
                     <input type="hidden" name="id" value="<?php echo $id; ?>" />
                     <input type="submit" value="Siirry Hiski-tietoon"/></p>
             </form>
@@ -619,16 +619,16 @@
         <li>
 
             <form action="updateBirthData.php" method="get" enctype="multipart/form-data">
-                <p>Ylläpidä syntymätietoa
+                <p>Syntymäaika ja paikka
                     <input type="hidden" name="id" value="<?php echo $id; ?>" />
                     <input type="submit"  value="Siirry syntymätietoon" /></p>
             </form>
         </li>
         <li>
             <form action="updateRepoData.php" method="get" enctype="multipart/form-data">
-                <p>Ylläpidä repository-tietoa
+                <p>Arkisto (repository)
                     <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                    <input type="submit" value="Siirry repository-tietoon" /></p>
+                    <input type="submit" value="Siirry arkistotietoon" /></p>
             </form>
         </li>
     </ul>
