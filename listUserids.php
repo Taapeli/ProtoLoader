@@ -28,17 +28,17 @@
     $user[] = $rows[0]->getProperty('userid');
   }
 
-  echo '<form action="">'
+  echo '<form action="">';
   echo '<h1>Käyttäjätunnukset Taapeli-kannassa</h1>';
   echo '<table class="tulos">';
   echo '<tr><th>Userid</th><th>Simuloi Taapelin kantaa?</th></tr>';
  
   for ($i = 0; $i < sizeof($user); $i++) {
-  echo "<tr><td><a href='showContent.php?user=" . $user[$i] . "'>"
-        . $user[$i] . "</a></td><td><input type="radio" name="sim" value=" 
-        . $user[$i] . "></td></tr>";
+  echo "<tr><td><a href='showContent.php?user='" . $user[$i] . "'>"
+        . $user[$i] . "</a></td><td><input type='radio' name='sim' value='" 
+        . $user[$i] . "'></td></tr>";
 }
-echo "</table><input type="submit" value="Ei vielä käytössä">"
+echo "</table><input type='submit' value='Ei vielä käytössä'>"
 . "</form><p>&nbsp;</p>";
   /*
    * --- End of content page ---
