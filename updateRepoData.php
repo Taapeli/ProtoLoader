@@ -10,9 +10,10 @@
     <body>
         <?php
         include 'inc/checkUserid.php';
-        include "inc/start.php";
+        include 'inc/start.php';
         include 'classes/DateConv.php';
-        include "inc/dbconnect.php";
+        include 'inc/dbconnect.php';
+        include 'inc/getRepositories.php';
 
         /*
          * -- Content page starts here -->
@@ -122,28 +123,41 @@
 
           echo "</table>";
         }
+        /*
+         * Get Sources for creating new references
+         */
+        $source_list = getSources($sukudb);
         ?>
 
         <h2>Toiminnot</h2>
         <div>
-        <form action="chooseRepo.php" method="post" enctype="multipart/form-data">
-            <h3>Lisää uusi arkisto tietokannassa olevista</h3>
-            <p><input type="hidden" name="id" value="<?php echo $id; ?>" />
-                Arkistoviite (esim. sivunumero): 
-                <input type="text" name="page" /></p>
-            <p class="right"><input type="submit" value="Talleta" /></p>
-        </form>
+            <form action="addRepoData.php" method="post" enctype="multipart/form-data">
+                <h3>Lisää uusi viite olemassa oleviin lähteisiin</h3>
+                <p><input type="hidden" name="id" value="<?php echo $id; ?>" />
+                    Lähde: 
+                    <select>
+            <?php
+                foreach ($source_list as $srow) {
+                  echo '<option value="' . $srow[0] . '">' . $srow[1] . '</option>';
+                }
+            ?>
+                    </select> </p>
+                <p><input type="hidden" name="id" value="<?php echo $id; ?>" />
+                    Lainaus (esim. sivunumero): 
+                    <input type="text" name="page" /></p>
+                <p class="right"><input type="submit" value="Talleta" /></p>
+            </form>
 
         <form action="addRepoData.php" method="post" enctype="multipart/form-data">
             <h3>Lisää uusi arkistotieto antamalla kaikki tiedot</h3>
             <p><input type="hidden" name="id" value="<?php echo $id; ?>" />
-                Arkiston nimi: 
+                Arkisto: 
                 <input type="text" value="Hangon seurakunnan arkisto" 
                        size="60" name="repo" /></p>
-            <p>Lähteen otsikko: 
+            <p>Lähde: 
                 <input type="text" value="Hanko syntyneiden ja kastettujen luettelo 1800-1806" 
                        size="60" name="source" /></p>
-            <p>Arkistoviite (esim. sivunumero): 
+            <p>Lainaus (esim. sivunumero): 
                 <input type="text" size="6" name="page" /></p>
             <p class="right"><input type="submit" value="Talleta" /></p>
         </form>
