@@ -18,16 +18,22 @@
          * -- Content page starts here -->
          */
 
-  if(isset($_POST['birth'])){
-    // Input variables
-    $input_birth = htmlentities($_POST['birth']);
-    echo "<h1>Haku syntymäajalla <i>$input_birth</i></h1>";
+  if (isset($_POST['birth'])) {
+  // Input variables
+  $input_birth = htmlentities($_POST['birth']);
+  if (strlen($input_birth) < 10) { // Search with the beginning of date
+    echo "<h1>Haku tarkalla syntymäajalla <i>$input_birth</i></h1>";
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b:Birth) "
+            . "WHERE b.birth_date=~{birth} "
+            . "RETURN n, b";
+  } else { // Exact birth date
+    echo "<h1>Haku syntymäajan alkuosalla <i>$input_birth</i></h1>";
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b:Birth) "
+            . "WHERE b.birth_date={birth} "
+            . "RETURN n, b";
+  }
 
-    // Neo4j parameter {birth} is used to avoid hacking injection
-    $query_string = "MATCH (n:Person:" . $userid . 
-      ")-[:BIRTH]->(b:Birth) WHERE b.birth_date={birth} RETURN n, b";
-
-    $query_array = array('birth' => $input_birth);
+  $query_array = array('birth' => $input_birth);
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();

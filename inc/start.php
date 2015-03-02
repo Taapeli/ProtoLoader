@@ -39,7 +39,7 @@
                             <input type="text" name="wildcard"/>
                             <input type="submit" value="Etsi"/>
                         </form></li>
-                    <li>Haku syntymäajalla <i>vvvv.kk.pp</i>
+                    <li>Haku syntymäajalla <i>vvvv.kk.pp</i> tai sen alkuosalla
                         <form action="listBirths.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="birth" />
                             <input type="submit" value="Etsi" />
