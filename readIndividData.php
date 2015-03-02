@@ -536,7 +536,7 @@
           <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>\n";
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td colspan='2'></td><td>";
-        echo (trim($married_status) != '') ? $married_status[$i] : '<i>avioliitto</i>';
+        echo (trim($married_status[$i]) != '') ? $married_status[$i] : '<i>avioliitto</i>';
         echo "</td><!--  $married_date[$i] -->";
         echo "<td>" . DateConv::toDisplay($married_date[$i]) . ' ';
         if (isset($married_place[$i])) { $married_place[$i]; }

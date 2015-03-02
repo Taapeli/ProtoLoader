@@ -89,9 +89,9 @@
         echo "</td></tr>";
         echo '<tr><td colspan="3"><div  class="right">Uudet tiedot:</div></td>';
         echo '<td><input type="text" name="birth" value="' 
-          . (isset($birth_date) ? $birth_date : '-') . '" /></td>';
+          . (isset($birth_date) ? $birth_date : '') . '" /></td>';
         echo '<td><input type="text" name="place" value="' 
-          . (isset($birth_place) ? $birth_place : '-') . '" /></td></tr>';
+          . (isset($birth_place) ? $birth_place : '') . '" /></td></tr>';
 ?>
                 <tr>
                     <td colspan="6" >
