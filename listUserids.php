@@ -38,7 +38,8 @@
         . $user[$i] . "</a></td><td><input type='radio' name='main' value=" 
         . $user[$i] . "></td></tr>";
 }
-echo "</table><input type='submit' value='Ei vielä käytössä' />"
+echo "</table>"
+. "<p><input type='submit' value='Ei vielä käytössä' />"
 . "</form><p>&nbsp;</p>";
   /*
    * --- End of content page ---

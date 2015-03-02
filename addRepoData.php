@@ -18,6 +18,8 @@ include "inc/dbconnect.php";
          * -- Content page starts here -->
          */
 
+echo '<h1>Päivitetyt tiedot</h1>';
+
   if ((isset($_POST['id'])) && (isset($_POST['repo'])) && (isset($_POST['source']))) {
     // Tiedoston käsittelyn muuttujat
     $input_id = htmlentities($_POST['id']);

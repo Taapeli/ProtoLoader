@@ -102,7 +102,7 @@
           "</td><td> " . $birth_place .
           "</td></tr>";
 
-          echo "<tr><th> <th colspan='4'>Arkisto/Lähde</th><th>Sivu</th></tr>";
+          echo "<tr><th> <th colspan='4'>Arkisto ja lähde</th><th>Lainaus</th></tr>";
 
           for ($i = 0; $i < sizeof($repo_source); $i++) {
             echo "<tr><td rowspan='2'><a href='disconnectRepo.php?id=" . $id .
@@ -149,13 +149,15 @@
             </form>
 
         <form action="addRepoData.php" method="post" enctype="multipart/form-data">
-            <h3>Lisää uusi arkistotieto antamalla kaikki tiedot</h3>
+            <h3>Lisää viite uuteen arkistoon ja lähteeseen antamalla kaikki tiedot</h3>
             <p><input type="hidden" name="id" value="<?php echo $id; ?>" />
                 Arkisto: 
-                <input type="text" value="Hangon seurakunnan arkisto" 
+                <input type="text" 
+                       value="Hangon seurakunnan arkisto" 
                        size="60" name="repo" /></p>
             <p>Lähde: 
-                <input type="text" value="Hanko syntyneiden ja kastettujen luettelo 1800-1806" 
+                <input type="text" 
+                       value="Hanko syntyneiden ja kastettujen luettelo 1800-1806" 
                        size="60" name="source" /></p>
             <p>Lainaus (esim. sivunumero): 
                 <input type="text" size="6" name="page" /></p>
