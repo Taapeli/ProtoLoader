@@ -912,7 +912,7 @@
     fclose($file_handle);
     echo "<p><em>{$file_name} {$n} riviä luettu</em></p>";
     echo "<p><em>{$n_indi} henkilöä, {$n_fam} perhettä,";
-    echo "{$n_sour} lähdettä ja {$n_repo} säilytyspaikkaa tallennettu</em></p>";
+    echo "{$n_sour} lähdettä ja {$n_repo} arkistoa tallennettu</em></p>";
 
 /*-------------------------- Tiedoston valintalomake ----------------------------
 

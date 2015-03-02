@@ -21,7 +21,7 @@
   if (isset($_POST['birth'])) {
   // Input variables
   $input_birth = htmlentities($_POST['birth']);
-  if (strlen($input_birth) < 10) { // Search with the beginning of date
+  if (strlen($input_birth) == 10) { // Search with the beginning of date
     echo "<h1>Haku tarkalla syntymäajalla <i>$input_birth</i></h1>";
     $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b:Birth) "
             . "WHERE b.birth_date=~{birth} "
