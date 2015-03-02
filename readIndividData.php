@@ -17,7 +17,7 @@
   
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
-    $input_id = $_GET['id'];
+    $input_id = htmlentities($_GET['id']);
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person:" . $userid . ") WHERE n.id={id} RETURN n";
@@ -26,6 +26,7 @@
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
+    $marriage_id = $spouse_id = $child_id = [];
 
     foreach ($result as $rows)
     {
