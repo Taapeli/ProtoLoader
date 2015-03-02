@@ -17,8 +17,6 @@
    * -- Content page starts here -->
    */
 
-  echo '<h1>Käyttäjän lataamat tiedot</h1>';
-
   if (!isset($_GET['user'])) {
     echo '<p>Ei valittua henkilöä</p></body></html>';
     die;
@@ -38,7 +36,7 @@
       $counter_p = $rows[0];
   }
 
-  $query_string = "MATCH (n:Person:" . $user . ")-[r]-() RETURN TYPE(r), COUNT(*)";
+  $query_string = "MATCH (n:Person:" . $user . ")-[r]-() RETURN TYPE(r), COUNT(*) ORDER BY TYPE(r)";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
@@ -50,13 +48,15 @@
       $counter[] = $rows[1];
   }
 
+  echo '<h1>Käyttäjän ' .  $user . ' lataamat tiedot</h1>';
+
+  echo '<h3>Henkilöitä kannassa: ' . $counter_p . '</h3>';
+
   echo '<table class="tulos">';
-  echo '<tr><th>Käyttäjä</th><th>' . $user . '</th></tr>';
-  echo '<tr><th>Henkilöitä</th><th>' . $counter_p . '</th></tr>';
-  echo '<tr><th>Relaatio</th><th>Lukumäärä</th></tr>';
+  echo '<tr><th>Relaation nimi</th><th>Lukumäärä</th></tr>';
  
   for ($i=0; $i<sizeof($type); $i++) {
-    echo "<tr><td>" . $type[$i] . "</td><td>" . $counter[$i] . "</td></tr>";
+    echo "<tr><td>" . $type[$i] . "</td><td align='right'>" . $counter[$i] . "</td></tr>";
   }
   echo "</table><p>&nbsp;</p>";
 

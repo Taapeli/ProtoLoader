@@ -28,6 +28,7 @@
             . "RETURN n, b";
   } else { // Exact birth date
     echo "<h1>Haku syntymäajan alkuosalla <i>$input_birth ...</i></h1>";
+    $input_birth .= ".*"; // This is very important line for searching with wildcard
     $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b:Birth) "
             . "WHERE b.birth_date=~{birth} "
             . "RETURN n, b";
