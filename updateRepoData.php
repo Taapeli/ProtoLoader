@@ -18,6 +18,7 @@
          * -- Content page starts here -->
          */
 
+        echo "<h1>Henkilön tietojen arkistoviite</h1>";
         if (isset($_GET['id'])) {
           // Tiedoston käsittelyn muuttujat
           $input_id = htmlentities($_GET['id']);

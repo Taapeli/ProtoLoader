@@ -1,46 +1,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli aineiston yll&auml;pito kannassa</title>
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-</head>
-<body>
-<div  class="goback">
-  <a href="index.php">Paluu</a></div>
-<h1>Taapeli testiyll&auml;pito</h1>
-<p>Tiedot muutettu neo4j-tietokantaan.</p>
+    <head>
+        <?php session_start(); ?>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Taapeli - lähdetietojen päivitys</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
 
+    <body>
 <?php
+include 'inc/checkUserid.php';
+include "inc/start.php";
+include 'classes/DateConv.php';
+include "inc/dbconnect.php";
 
-  include "inc/dbconnect.php";
-
-/*-------------------------- Tiedoston luku ----------------------------*/
-/*
-* 	   Simple file Upload system with PHP by Tech Stream
-*      http://techstream.org/Web-Development/PHP/Single-File-Upload-With-PHP
-*/
+        /*
+         * -- Content page starts here -->
+         */
 
   if ((isset($_POST['id'])) && (isset($_POST['repo'])) && (isset($_POST['source']))) {
     // Tiedoston käsittelyn muuttujat
-    $input_id = $_POST['id'];
-    $input_repo = $_POST['repo'];
-    $input_source = $_POST['source'];
+    $input_id = htmlentities($_POST['id']);
+    $input_repo = htmlentities($_POST['repo']);
+    $input_source = htmlentities($_POST['source']);
     $input_page = "";
-
-    
-
 
     if (isset($_POST['page'])) {
       $input_page = $_POST['page'];
     }
 
     $query_string = "MATCH (r:Repo {name:{repo}}) RETURN r";
-
     $query_array = array('repo' => $input_repo);
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
+    $repo_source = $repo_name_only = [];
 
     if (sizeof($result) > 0) { // repo exists
       foreach ($result as $rows)
@@ -97,7 +91,11 @@
           MERGE (r)-[:REPO_SOURCE]->(s) 
           MERGE (n)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
 
-        $query_array = array('id' => $input_id, 'source_id' => $source_id, 'source' => $input_source, 'repo_id' => $repo_id, 'page' => $input_page);
+        $query_array = array('id' => $input_id, 
+            'source_id' => $source_id, 
+            'source' => $input_source, 
+            'repo_id' => $repo_id, 
+            'page' => $input_page);
 
         $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
         $result = $query->getResultSet();
@@ -129,7 +127,12 @@
         MERGE (r)-[:REPO_SOURCE]->(s) 
         MERGE (n)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]->(s) SET p.page={page}";
 
-      $query_array = array('id' => $input_id, 'source_id' => $source_id, 'source' => $input_source, 'repo_id' => $repo_id, 'repo' => $input_repo, 'page' => $input_page);
+      $query_array = array('id' => $input_id, 
+          'source_id' => $source_id, 
+          'source' => $input_source, 
+          'repo_id' => $repo_id, 
+          'repo' => $input_repo, 
+          'page' => $input_page);
 
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
       $result = $query->getResultSet();
@@ -181,7 +184,8 @@
       $later_names = $rows[0]->getProperty('later_names');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]-(s:Source)-[:REPO_SOURCE]-(r:Repo) WHERE n.id='" . $id . "' RETURN r,s,p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]-(s:Source)-[:REPO_SOURCE]-(r:Repo) "
+            . "WHERE n.id='" . $id . "' RETURN r,s,p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -193,7 +197,8 @@
       $repo_page[] = $rows[2]->getProperty('page');
     }
 
-    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_REPO]-(r:Repo) WHERE n.id='" . $id . "' RETURN r, p";
+    $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_REPO]-(r:Repo) "
+            . "WHERE n.id='" . $id . "' RETURN r, p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -205,7 +210,8 @@
     }
 
     echo '<table  class="tulos">';
-    echo '<tr><th>id<th>Etunimet<th>Sukunimi<th>My&ouml;h. sukunimi<th>Syntym&auml;aika<th>Syntym&auml;paikka</tr>';
+    echo '<tr><th>id<th>Etunimet</th><th>Sukunimi</th><th>Myöh. sukunimi</th>'
+    . '<th>Syntymäaika</th><th>Syntymäpaikka</th></tr>';
 
     echo "<tr><td>" . $id .
          "</td><td> " . $first_name .
@@ -215,7 +221,7 @@
          "</td><td> " . $birth_place .
          "</td></tr>";
 
-    echo "<tr><th> <th colspan='4'>Repo/Source<th>Sivu</tr>";
+    echo "<tr><th></th><th colspan='4'>Arkisto ja lähde</th><th>Arkistoviite</th></tr>";
 
     for ($i=0; $i<sizeof($repo_source); $i++) {
       echo "<tr><td rowspan='2'></td><td colspan='5'> " . $repo_name[$i] .
@@ -233,7 +239,8 @@
     echo "</table>";
 
   }
-?>
-
-</body>
-</html>
+  
+  /*
+   * --- End of content page ---
+   */
+include "inc/stop.php";
