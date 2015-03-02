@@ -62,7 +62,7 @@
     if (isset($later_names[$i])) {
       echo ' <i>myöh.</i>&nbsp;' . $later_names[$i];
     }
-    echo '</td>\n<td>';
+    echo '</td><td>';
     if (isset($birth_date[$i])) {
       echo "<!-- $birth_date[$i] -->";
       echo DateConv::toDisplay($birth_date[$i]) . ' ';
@@ -73,7 +73,7 @@
       echo $birth_place[$i];
     }
     echo "</td><td><a href='updateBirthData.php?id=" . $id[$i] 
-            . "'><i>muokkaa</i></a></td></tr>\n";
+            . "'><i>muokkaa</i></a></td></tr>";
   }
 echo '</table><p>&nbsp;</p>';
 

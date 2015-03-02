@@ -69,8 +69,8 @@
          "</a></td><td>" . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
          "</td><td> " . $later_names[$i] .
-         "</td><td> " . DateConv::toDisplay($birth_date[$i]) .
-         "</td><td> " . $birth_place[$i] .
+         "</td><td> " . isset($birth_date[$i]) ? DateConv::toDisplay($birth_date[$i]) : '' .
+         "</td><td> " . isset($birth_place[$i]) ? $birth_place[$i] : '' .
          "</td></tr>";
   }
   echo "</table><p>&nbsp;</p>";
