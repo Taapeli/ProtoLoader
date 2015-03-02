@@ -20,8 +20,7 @@
          * -- Content page starts here -->
          */
 
-  echo '<h1>Henkilöt, joilla ei ole syntymäaikaa</h1>
-    <p>Lisää syntymäaika osoittamalla henkilön id:tä</p>';
+  echo '<h1>Henkilöt, joilla ei ole syntymäaikaa</h1>';
   
   $query_string = "MATCH (n:Person:" . $userid . ") "
           . "WHERE NOT (n)-[:BIRTH]->() WITH n MATCH (n)-[:HAS_NAME]->(m)"
@@ -53,27 +52,28 @@
   } 
 
   echo '<table  class="tulos">';
-  echo '<tr><th>Id</th><th>Etunimet</th><th>Sukunimi</th><th>Myöh. sukunimi</th>
-    <th>Syntymäaika</th><th>Syntymäpaikka</th></tr>';
+  echo '<tr><th>Id</th><th>Etunimet</th><th>Sukunimet</th>
+    <th>Syntymäaika ja -paikka</th><th></th></tr>';
  
   for ($i = 0; $i < sizeof($id); $i++) {
-    echo "<tr><td><a href='updateBirthData.php?id=" . $id[$i] . "'>" 
+    echo "<tr><td><a href='readIndividData.php?id=" . $id[$i] . "'>" 
             . $id[$i] . '</a></td><td>' 
-            . $first_name[$i] . '</td><td> ' 
-            . $last_name[$i] . '</td><td> ';
+            . $first_name[$i] . '</td><td> ' . $last_name[$i];
     if (isset($later_names[$i])) {
-      echo $later_names[$i];
+      echo ' <i>myöh.</i>&nbsp;' . $later_names[$i];
     }
-    echo '</td><td> ';
+    echo '</td><td>';
     if (isset($birth_date[$i])) {
       echo "<!-- $birth_date[$i] -->";
-      echo DateConv::toDisplay($birth_date[$i]);
+      echo DateConv::toDisplay($birth_date[$i]) . ' ';
+    } else {
+      echo '- ';
     }
-    echo '</td><td> ';
     if (isset($birth_place[$i])) {
       echo $birth_place[$i];
     }
-    echo "</td></tr>\n";
+    echo "</td><td><a href='updateBirthData.php?id=" . $id[$i] 
+            . "'><i>muokkaa</i></a></td></tr>";
   }
 echo '</table><p>&nbsp;</p>';
 

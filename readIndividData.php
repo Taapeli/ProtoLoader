@@ -17,7 +17,7 @@
   
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
-    $input_id = $_GET['id'];
+    $input_id = htmlentities($_GET['id']);
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person:" . $userid . ") WHERE n.id={id} RETURN n";
@@ -26,6 +26,7 @@
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
     $result = $query->getResultSet();
+    $marriage_id = $spouse_id = $child_id = [];
 
     foreach ($result as $rows)
     {
@@ -454,7 +455,7 @@
       echo "<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
           <th>Syntynyt</th><th>Kuollut</th></tr>\n";
       echo "<tr><th><div class='right'>Henkilö</div></th><td>" . $id . "</td>";
-      echo "<td>$first_name</td><td>$last_name";
+      echo "<td><b>$first_name</b></td><td><b>$last_name</b>";
       if (isset($later_names)) {
         echo "<br /><i>myöh.</i> $later_names";
       }
@@ -512,11 +513,17 @@
         if (isset($mother_later_names)) {
           echo "<br /><i>myöh.</i> $mother_later_names";
         }
-        echo "</td><td>" . DateConv::toDisplay($mother_birth_date) . ' ';
+        echo "</td><td>";
+        if (isset($mother_birth_date)) {
+          echo DateConv::toDisplay($mother_birth_date) . ' ';
+        }
         if (isset($mother_birth_place)) {
           echo $mother_birth_place;
         }
-        echo "</td><td>" . DateConv::toDisplay($mother_death_date) . ' ';
+        echo "</td><td>";
+        if (isset($mother_death_date)) {
+          echo DateConv::toDisplay($mother_death_date) . ' ';
+        }
         if (isset($mother_death_place)) {
           echo $mother_death_place;
         }
@@ -528,9 +535,9 @@
       echo "<tr><th><div class='right'>Avioliitot</div></th><th colspan='2'>
           <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>\n";
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
-        echo "<tr><th></th><td colspan='2'></td>";
-        echo "<td>" . $married_status[$i] . "</td>";
-        echo "<!--  $married_date[$i] -->";
+        echo "<tr><th></th><td colspan='2'></td><td>";
+        echo (trim($married_status[$i]) != '') ? $married_status[$i] : '<i>avioliitto</i>';
+        echo "</td><!--  $married_date[$i] -->";
         echo "<td>" . DateConv::toDisplay($married_date[$i]) . ' ';
         if (isset($married_place[$i])) { $married_place[$i]; }
         echo "</td><td>" . $divoced_status[$i] . ' '
@@ -600,11 +607,11 @@
     }
     ?>
 
-    <h2>Toiminnot</h2>
+    <h2>Muokkaustoiminnot</h2>
     <ul>
         <li>
             <form action="readHiskiLink.php" method="post" enctype="multipart/form-data">
-                <p>Katso/ylläpidä Hiski-linkkiä
+                <p>Hiski-linkki
                     <input type="hidden" name="id" value="<?php echo $id; ?>" />
                     <input type="submit" value="Siirry Hiski-tietoon"/></p>
             </form>
@@ -612,16 +619,16 @@
         <li>
 
             <form action="updateBirthData.php" method="get" enctype="multipart/form-data">
-                <p>Ylläpidä syntymätietoa
+                <p>Syntymäaika ja paikka
                     <input type="hidden" name="id" value="<?php echo $id; ?>" />
                     <input type="submit"  value="Siirry syntymätietoon" /></p>
             </form>
         </li>
         <li>
             <form action="updateRepoData.php" method="get" enctype="multipart/form-data">
-                <p>Ylläpidä repository-tietoa
+                <p>Arkisto (repository)
                     <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                    <input type="submit" value="Siirry repository-tietoon" /></p>
+                    <input type="submit" value="Siirry arkistotietoon" /></p>
             </form>
         </li>
     </ul>

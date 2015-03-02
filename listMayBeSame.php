@@ -3,7 +3,7 @@
 <head>
         <?php session_start(); ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Taapeli haku</title>
+<title>Taapeli - yhdistelytarjokkaat</title>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 
@@ -21,7 +21,7 @@ include "inc/dbconnect.php";
 
   echo '<h1>Henkilöt, jotka mahdollisesti samoja</h1>';
 
-  $query_string = "MATCH (n:Person:user0498)-[r:MAY_BE_SAME]-(m:Person:user6321)" .
+  $query_string = "MATCH (n:Person:" . $userid . ")-[r:MAY_BE_SAME]-(m:Person:user6321)" .
           " WHERE r.indication1=1 AND r.indication2=1 RETURN n,m,r";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -39,7 +39,7 @@ include "inc/dbconnect.php";
   }
 
   for ($i=0; $i<sizeof($id); $i++) {
-    $query_string = "MATCH (n:Person:user0498)-[:HAS_NAME]->(p)" .
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:HAS_NAME]->(p)" .
             "WHERE n.id='" . $id[$i] . "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -54,7 +54,7 @@ include "inc/dbconnect.php";
   }
 
   for ($i=0; $i<sizeof($id); $i++) {
-    $query_string = "MATCH (n:Person:user0498)-[:BIRTH_PLACE]->(p)" .
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH_PLACE]->(p)" .
             " WHERE n.id='" . $id[$i] . "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -67,7 +67,7 @@ include "inc/dbconnect.php";
   } 
 
   for ($i=0; $i<sizeof($id2); $i++) {
-    $query_string = "MATCH (n:Person:user6321)-[:HAS_NAME]->(p)" .
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:HAS_NAME]->(p)" .
             " WHERE n.id='" . $id2[$i] . "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -82,7 +82,7 @@ include "inc/dbconnect.php";
   }
 
   for ($i=0; $i<sizeof($id2); $i++) {
-    $query_string = "MATCH (n:Person:user6321)-[:BIRTH_PLACE]->(p)" .
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH_PLACE]->(p)" .
             " WHERE n.id='" . $id2[$i] . "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);

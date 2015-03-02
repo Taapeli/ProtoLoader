@@ -37,7 +37,8 @@
   }
 
   for ($i=0; $i<sizeof($id); $i++) {
-    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b) WHERE n.id='" . $id[$i] . "' RETURN b";
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b) "
+            . "WHERE n.id='" . $id[$i] . "' RETURN b";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -47,8 +48,8 @@
       $birth_date[] = $row[0]->getProperty('birth_date');
     }
 
-    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) WHERE n.id='" . $id[$i] . 
-      "' RETURN p";
+    $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) "
+            . "WHERE n.id='" . $id[$i] . "' RETURN p";
 
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
@@ -68,9 +69,9 @@
          $id[$i] . "'>" . $id[$i] .
          "</a></td><td>" . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
-         "</td><td> " . $later_names[$i] .
-         "</td><td> " . DateConv::toDisplay($birth_date[$i]) .
-         "</td><td> " . $birth_place[$i] .
+         "</td><td> " . (isset($later_names[$i]) ? $later_names[$i] : '') .
+         "</td><td> " . (isset($birth_date[$i]) ? DateConv::toDisplay($birth_date[$i]) : '') .
+         "</td><td> " . (isset($birth_place[$i]) ? $birth_place[$i] : '') .
          "</td></tr>";
   }
   echo "</table><p>&nbsp;</p>";
