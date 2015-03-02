@@ -512,11 +512,17 @@
         if (isset($mother_later_names)) {
           echo "<br /><i>myöh.</i> $mother_later_names";
         }
-        echo "</td><td>" . DateConv::toDisplay($mother_birth_date) . ' ';
+        echo "</td><td>";
+        if (isset($mother_birth_date)) {
+          echo DateConv::toDisplay($mother_birth_date) . ' ';
+        }
         if (isset($mother_birth_place)) {
           echo $mother_birth_place;
         }
-        echo "</td><td>" . DateConv::toDisplay($mother_death_date) . ' ';
+        echo "</td><td>";
+        if (isset($mother_death_date)) {
+          echo DateConv::toDisplay($mother_death_date) . ' ';
+        }
         if (isset($mother_death_place)) {
           echo $mother_death_place;
         }
@@ -528,9 +534,9 @@
       echo "<tr><th><div class='right'>Avioliitot</div></th><th colspan='2'>
           <th>Liitto</th><th>Vihitty</th><th>Eronnut</th></tr>\n";
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
-        echo "<tr><th></th><td colspan='2'></td>";
-        echo "<td>" . $married_status[$i] . "</td>";
-        echo "<!--  $married_date[$i] -->";
+        echo "<tr><th></th><td colspan='2'></td><td>";
+        echo ($married_status > '') ? $married_status[$i] : '<i>avioliitto</i>';
+        echo "</td><!--  $married_date[$i] -->";
         echo "<td>" . DateConv::toDisplay($married_date[$i]) . ' ';
         if (isset($married_place[$i])) { $married_place[$i]; }
         echo "</td><td>" . $divoced_status[$i] . ' '
