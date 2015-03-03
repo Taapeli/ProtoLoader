@@ -10,10 +10,10 @@
     <body>
         <?php
         include 'inc/checkUserid.php';
-        include "inc/start.php";
+        include 'inc/start.php';
         include 'classes/DateConv.php';
-        include "inc/dbconnect.php";
-
+        include 'inc/dbconnect.php';
+        include 'inc/gedcomTags.php';
         /*
          * -- Content page starts here -->
          */
@@ -83,7 +83,9 @@
       $repoLabel = $sukudb->makeLabel('Repo');
       $userLabel = $sukudb->makeLabel($userid);
 
-      $n = $n_indi = $n_fam = $n_sour = $n_repo = 0; // How many lines were read
+      // How many lines were read
+      $n = $n_skip = $n_indi = $n_fam = $n_sour = $n_repo = 0; 
+
       $load_type = ""; // values: INDI, FAM, SOUR, REPO 
 
       // Store the userid into the database as an single node without any connections
@@ -96,16 +98,32 @@
 ** Avataan tiedosto
 */
       $file_handle = fopen($file_tmp, "r");
+      $skip = '9';  // Skip this level and higher
       while (!feof($file_handle)) {
         $line = fgets($file_handle);
         $n++;
         $a = explode(' ', $line, 3);
         $level = $a[0];
+        
+        if ($skip > $level) {
+          // Preceeding upper level tag has been skipped
+          echo "<!-- skip $level $tag -->";
+          $skip_n++;
+          continue;
+        } else {
+          $skip = '9';
+        }
 
         if (sizeof($a) > 1) {
           $key = trim($a[1]);
-        }
-        else {
+          if (skipGedcomTag($key)) {
+            // This tag and following higher level tags shall be skipped
+            $skip = $level;
+            echo "<!-- skip $level $tag start -->";
+            $skip_n++;
+            continue;
+          }
+        } else {
           // echo "\n\nOnly one argument on line: " . $n . "\n";
           $key = "";
         }
@@ -910,9 +928,10 @@
     echo "</p>\n";
 			
     fclose($file_handle);
-    echo "<p><em>{$file_name} {$n} riviä luettu</em></p>";
-    echo "<p><em>{$n_indi} henkilöä, {$n_fam} perhettä,";
-    echo "{$n_sour} lähdettä ja {$n_repo} arkistoa tallennettu</em></p>";
+    echo "<p><em>{$file_name} {$n} riviä luettu, tallennettu:</em></p>";
+    echo "<p><em>{$n_indi} henkilöä <br />{$n_fam} perhettä <br />"
+    . "{$n_sour} lähdettä <br />{$n_repo} arkistoa</em></p>";
+    echo "<p><em>Ohitettu {$n_skip} riviä ei-kiinnostavia tageja</em></p>";
 
 /*-------------------------- Tiedoston valintalomake ----------------------------
 
