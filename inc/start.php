@@ -73,7 +73,7 @@
                       </li>
                       <li>Taapelin käyttäjät
                           <ul class="menu">
-                              <li><a href="listUserids.php">Käyttäjäluettelo</a><br /></li>
+                              <li><a href="listUserids.php">Käyttäjätoiminnot</a><br /></li>
                           </ul>
                           <span>&nbsp;</span>
                       </li>
