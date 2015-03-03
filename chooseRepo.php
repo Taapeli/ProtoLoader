@@ -25,7 +25,7 @@
       $page = $_POST['page'];
     }
 
-    $query_string = "MATCH (n:Repo) RETURN n ORDER BY n.name";
+    $query_string = "MATCH (n:Repo:" . $userid . ") RETURN n ORDER BY n.name";
     $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
     $result = $query->getResultSet();
 
@@ -36,7 +36,7 @@
       echo "<li>
       <a href='addBirthRepo.php?id=$id&repo=$repo_id&page=$page'>" . $repo_name . "</a>";
       echo "<ul>";
-      $query_string2 = "MATCH (n:Repo)-[:REPO_SOURCE]->(s) WHERE n.name='" .
+      $query_string2 = "MATCH (n:Repo:" . $userid . ")-[:REPO_SOURCE]->(s) WHERE n.name='" .
         $repo_name . "' RETURN s ORDER BY s.title";
       $query2 = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string2);
       $result2 = $query2->getResultSet();

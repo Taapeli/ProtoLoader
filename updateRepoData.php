@@ -25,7 +25,7 @@
           $input_id = htmlentities($_GET['id']);
 
           // Neo4j parameter {id} is used to avoid hacking injection
-          $query_string = "MATCH (n:Person) WHERE n.id={id} RETURN n";
+          $query_string = "MATCH (n:Person:" . $userid . ") WHERE n.id={id} RETURN n";
           $query_array = array('id' => $input_id);
 
           $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string, $query_array);
@@ -36,7 +36,7 @@
             $id = $rows[0]->getProperty('id'); // This variable is used for later MATCHs
           }
 
-          $query_string = "MATCH (n:Person)-[:BIRTH]->(b) "
+          $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b) "
                   . "WHERE n.id='" . $id . "' RETURN b";
           $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
           $result = $query->getResultSet();
@@ -45,7 +45,7 @@
             $birth_date = $rows[0]->getProperty('birth_date');
           }
 
-          $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) "
+          $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) "
                   . "WHERE n.id='" . $id . "' RETURN p";
           $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
           $result = $query->getResultSet();
@@ -54,7 +54,7 @@
             $birth_place = $rows[0]->getProperty('name');
           }
 
-          $query_string = "MATCH (n:Person)-[:HAS_NAME]-(m) "
+          $query_string = "MATCH (n:Person:" . $userid . ")-[:HAS_NAME]-(m) "
                   . "WHERE n.id='" . $id . "' RETURN m";
           $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
           $result = $query->getResultSet();
@@ -65,7 +65,8 @@
             $later_names = $rows[0]->getProperty('later_names');
           }
 
-          $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_SOURCE]->(s:Source)<-[:REPO_SOURCE]-(r:Repo) "
+          $query_string = "MATCH (n:Person:" . $userid . 
+                    ")-[:BIRTH]->(b)-[p:BIRTH_SOURCE]->(s:Source)<-[:REPO_SOURCE]-(r:Repo) "
                   . "WHERE n.id='" . $id . "' RETURN r, s, p";
           $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
           $result = $query->getResultSet();
@@ -78,7 +79,8 @@
             $repo_page[] = $rows[2]->getProperty('page');
           }
 
-          $query_string = "MATCH (n:Person)-[:BIRTH]->(b)-[p:BIRTH_REPO]-(m:Repo) "
+          $query_string = "MATCH (n:Person:" . $userid . 
+                    ")-[:BIRTH]->(b)-[p:BIRTH_REPO]-(m:Repo) "
                   . "WHERE n.id='" . $id . "' RETURN m, p";
           $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
 

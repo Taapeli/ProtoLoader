@@ -364,7 +364,7 @@
                 case "REPO":
                   $repo_id = idtrim($arg0);
                   $query_string = "MATCH (n:Source {id:'" . $id . 
-                    "'}) MERGE (p:Repo {id:'" . $repo_id . 
+                    "'}) MERGE (p:Repo:" . $userid . " {id:'" . $repo_id . 
                     "'}) MERGE (p)-[:REPO_SOURCE]->(n)";
 
                   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
@@ -376,14 +376,14 @@
             case "REPO":
               switch ($key)  {
                 case "NAME":
-                  $query_string = "MATCH (n:Repo {id:'" . $id . 
+                  $query_string = "MATCH (n:Repo:" . $userid . " {id:'" . $id . 
                     "'}) SET n.name='" . $arg0 . "'";
 
                   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
                   $result = $query->getResultSet();
                   break;
                 case "WWW":
-                  $query_string = "MATCH (n:Repo {id:'" . $id . 
+                  $query_string = "MATCH (n:Repo:" . $userid . " {id:'" . $id . 
                     "'}) SET n.www='" . $arg0 . "'";
 
                   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
