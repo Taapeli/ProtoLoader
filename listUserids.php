@@ -36,15 +36,16 @@
                 for ($i = 0; $i < sizeof($user); $i++) {
                   echo "<tr><td><a href='showContent.php?user=" 
                           . $user[$i] . "'>" . $user[$i] . "</a></td>"
-                    . "<td><input type='radio' name='userid' value=" 
-                          . $user[$i] . "></td></tr>";
+                    . "<td><span style='align:center;'>"
+                          . "<input type='radio' name='userid' value=" 
+                          . $user[$i] . "></span></td></tr>";
                 }
                 ?>
             </table>
             <h2>Toiminnot</h2>
             <p>Yhdistä valitun käyttäjän saman syntymäajan omaavat
                 <input type='submit' value='Tämä painike ei vielä käytössä' /></p>
-            <p>Yhdistä valitun käyttäjän saman syntymäajan omaavat
+            <p>Yhdistä valitun käyttäjän saman etu- ja sukunimen omaavat
                 <input type='submit' value='Tämä painike ei vielä käytössä' /></p>
             <p>Valittu käyttäjä edustamaan Taapeli-kantaa
                 <input type='submit' value='Tämä painike ei vielä käytössä' /></p>
