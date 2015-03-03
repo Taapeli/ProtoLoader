@@ -44,16 +44,8 @@
       die;
     }
 
-    echo "<p><em>Ladattu ty&ouml;tiedosto: " . $file_tmp 
-	. " (size=" . $file_size . ") <-- " . $file_name;
-	// . ", charset=" . $_POST["charset"]
-	// . ", k&auml;sitell&auml;&auml;n enint&auml;&auml;n " . $max_lines
-	// . " rivi&auml;";
-	//	
-	// if ($_POST["show"] == 'ged') {
-	//   $sg = true;		// Näytetään ged-koodi
-	// }
-      echo "</em><p>\n";
+    echo "<p><em>Ladattu tiedostiedosto " . $file_name 
+	. " (size=" . $file_size . ")</em><p>\n";
 
       function idtrim($id) {
         // Remove @ signs
@@ -99,6 +91,7 @@
 */
       $file_handle = fopen($file_tmp, "r");
       $skip = '9';  // Skip this level and higher
+      
       while (!feof($file_handle)) {
         $line = fgets($file_handle);
         $n++;
@@ -108,7 +101,7 @@
         if ($level > $skip) {
           // Preceeding upper level tag has been skipped
           echo "<!-- skip $line -->";
-          $skip_n++;
+          $n_skip++;
           continue;
         } else {
           $skip = '9';
@@ -119,8 +112,8 @@
           if (skipGedcomTag($key)) {
             // This tag and following higher level tags shall be skipped
             $skip = $level;
-            echo "<!-- Skip $line  -->";
-            $skip_n++;
+            echo "<!-- line:$n Skip $line  -->";
+            $n_skip++;
             continue;
           }
         } else {
