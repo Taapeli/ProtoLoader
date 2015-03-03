@@ -105,9 +105,9 @@
         $a = explode(' ', $line, 3);
         $level = $a[0];
         
-        if ($skip > $level) {
+        if ($level > $skip) {
           // Preceeding upper level tag has been skipped
-          echo "<!-- skip $level $tag -->";
+          echo "<!-- skip $line -->";
           $skip_n++;
           continue;
         } else {
@@ -119,7 +119,7 @@
           if (skipGedcomTag($key)) {
             // This tag and following higher level tags shall be skipped
             $skip = $level;
-            echo "<!-- skip $level $tag start -->";
+            echo "<!-- Skip $line  -->";
             $skip_n++;
             continue;
           }
