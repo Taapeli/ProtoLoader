@@ -140,6 +140,7 @@
                 $userLabels = $person[$id]->addLabels(array($userLabel));
                 break;
               case "FAM":
+                echo "<!-- FAM0 ($key) $line -->";
                 $n_fam++;
                 $load_type = "FAM";
                 $marr = $sukudb->makeNode()
@@ -272,7 +273,8 @@
                 case "FAMS":
                 case "LANG":
                 case "STAT":
-                  break;
+                  echo "<!-- FAM1 ($key) $line skipping -->";
+                break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
                           . "Unknown tag $key $event <p>\n";
@@ -281,6 +283,7 @@
               break;
 
             case "FAM":
+              echo "<!-- FAM1 ($key) $line -->";
               switch ($key)  {
                 case "HUSB":
                   $husb = idtrim($arg0);
@@ -695,6 +698,7 @@
               break;
 
             case "FAM":
+              echo "<!-- FAM2 ($key) $line -->";
               switch ($key)  {
                 case "DATE":
                   $date_str = DateConv::fromGed($arg0);
@@ -864,6 +868,7 @@
               break;
 
             case "FAM":
+              echo "<!-- FAM3 ($key) $line -->";
               switch ($key)  {
                 case "CONC":
                   switch ($event) {
