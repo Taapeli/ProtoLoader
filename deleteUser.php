@@ -27,7 +27,7 @@
   // Tiedoston käsittelyn muuttujat
   $user = $_GET['user'];
 
-  $query_string = "MATCH (n:Person:" . $user . ")-[r]-() DELETE n,r";
+  $query_string = "MATCH (n:" . $user . ")-[r]-() DELETE n,r";
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
