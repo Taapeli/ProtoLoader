@@ -79,6 +79,7 @@
       $n = $n_skip = $n_indi = $n_fam = $n_sour = $n_repo = 0; 
 
       $load_type = ""; // values: INDI, FAM, SOUR, REPO 
+      $event = "";
 
       // Store the userid into the database as an single node without any connections
       $query_string = "MERGE (u:Userid {userid:'" . $userid . 
@@ -141,7 +142,7 @@
                 $userLabels = $person[$id]->addLabels(array($userLabel));
                 break;
               case "FAM":
-                echo "<!-- FAM0 ($key) $line -->";
+                //echo "<!-- FAM0 ($key) $line -->";
                 $n_fam++;
                 $load_type = "FAM";
                 $marr = $sukudb->makeNode()
@@ -160,6 +161,14 @@
                 break;
               case "SUBM":
                 $load_type = "SUBM";
+                break;
+              case "NOTE":
+                /* @todo Epäsuoran noten (0 @N...@ NOTE) käsittely, tähän tapaan:
+                 * 1 NOTE @N0030@
+                 * 2 NOTE @N0032@
+                 * 0 @N0030@ NOTE Laitoksen nimi epävarma, nykyisellä Koskelantiellä
+                 * 0 @N0032@ NOTE Kääntyi uskoon vanhemmiten
+                 */
                 break;
               default;
                 echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
@@ -275,7 +284,7 @@
                 case "FAMS":
                 case "LANG":
                 case "STAT":
-                  echo "<!-- FAM1 ($key) $line skipping -->";
+                  //echo "<!-- FAM1 ($key) $line skipping -->";
                 break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
@@ -285,7 +294,7 @@
               break;
 
             case "FAM":
-              echo "<!-- FAM1 ($key) $line -->";
+              //echo "<!-- FAM1 ($key) $line -->";
               switch ($key)  {
                 case "HUSB":
                   $husb = idtrim($arg0);
@@ -295,7 +304,7 @@
                     if (isset($husb)) {
                         $rel_husb = $person[$husb]->relateTo($marr, 'MARRIED')->save();
                     } else {
-                        echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
+                        echo "<p><b>Info</b> gedloader:" . __LINE__ . " line $n: "
                                 . "No HUSB in the family $id</p>";
                     }
                   $rel_wife = $person[$wife]->relateTo($marr, 'MARRIED')->save();
@@ -705,7 +714,7 @@
               break; // End INDI
 
             case "FAM":
-              echo "<!-- FAM2 ($key) $line -->";
+              //echo "<!-- FAM2 ($key) $line -->";
               switch ($key)  {
                 case "DATE":
                   $date_str = DateConv::fromGed($arg0);
@@ -877,7 +886,7 @@
               break;
 
             case "FAM":
-              echo "<!-- FAM3 ($key) $line -->";
+              //echo "<!-- FAM3 ($key) $line -->";
               switch ($key)  {
                 case "CONC":
                   switch ($event) {

@@ -66,7 +66,7 @@
   <ul>
     <li>
       <form action="deleteUser.php" method="get" enctype="multipart/form-data">
-        <p>Poista valitun henkilön tiedot
+          <p>Poista käyttäjän <i><?php $user ?></i> tallettamat tiedot
             <input type="hidden" name="user" value="<?php echo $user; ?>" />
             <input type="submit" value="Poista tiedot"/></p>
       </form>
