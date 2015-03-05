@@ -125,6 +125,7 @@
           $arg = $arg0 = trim($a[2]);
         }
 
+        /*------------------------- Level  0  tags ----------------------*/
         if ($level == 0) {
           $id = idtrim($key);
           if (sizeof($a) > 2) {
@@ -162,13 +163,14 @@
                 break;
               default;
                 echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                        . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                 $event = "";
                 $load_type = "";
             }
           }
           // echo "id = " . $id . "\n";
         } // if level = 0
+        /*------------------------- Level  1  tags ----------------------*/
         else if ($level == 1) {
           switch ($load_type) {
             case "INDI":
@@ -277,7 +279,7 @@
                 break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                   $event = "";
               } // INDI switch $key
               break;
@@ -350,7 +352,7 @@
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                   $event = "";
               } // FAM switch $key
               break;
@@ -394,13 +396,15 @@
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                   $event = "";
               }
               break;
             default;
           } // load_type
         } // if level = 1
+        
+        /*------------------------- Level  2  tags ----------------------*/
         else if ($level == 2) {
           switch ($load_type) {
             case "INDI":
@@ -465,7 +469,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // INDI DATE $event
                   break;
@@ -532,7 +536,7 @@
                        break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // PLAC $event
                   break;
@@ -576,7 +580,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // SOUR event
                   break;
@@ -606,7 +610,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // CONC $event
                   break;
@@ -630,7 +634,7 @@
                      break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // CONT $event
                   break;
@@ -643,7 +647,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // CAUS $event
                   break;
@@ -656,7 +660,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -666,7 +670,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } 
                   break;
@@ -676,7 +680,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -686,16 +690,19 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   }
                   break;
+                case 'GIVN': // 1 NAME contains these?
+                case 'SURN':
+                  break;
                 default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key.<p>\n";
+                          . "Unknown tag $level $key.<p>\n";
                   $event = "";
               } // switch $key
-              break;
+              break; // End INDI
 
             case "FAM":
               echo "<!-- FAM2 ($key) $line -->";
@@ -725,7 +732,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -742,7 +749,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -770,12 +777,14 @@
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key.<p>\n";
+                          . "Unknown tag $level $key.<p>\n";
                   $event = "";
               } // $key
             default;
           }
         }
+        
+        /*------------------------- Level  3  tags ----------------------*/
         else if ($level == 3) {
           switch ($load_type) {
             case "INDI":
@@ -816,7 +825,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -836,7 +845,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -856,13 +865,13 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key.<p>\n";
+                          . "Unknown tag $level $key.<p>\n";
                   $event = "";
               } // $key
               break;
@@ -886,7 +895,7 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
@@ -906,18 +915,20 @@
                       break;
                     default;
                       echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                              . "Unknown tag $key $event <p>\n";
+                              . "Unknown tag $level $event/$key <p>\n";
                       $event = "";
                   } // $event
                   break;
                 default;
                   echo "<p><b>Warning</b> gedloader:" . __LINE__ . " line $n: "
-                          . "Unknown tag $key.<p>\n";
+                          . "Unknown tag $level $key.<p>\n";
                   $event = "";
               } // $key
               default;
           } // $load_type
         } // if $level = 3
+        /*----------------------- No Higher Level tags --------------------*/
+        
       } // while feof
     } // if filename given
     else {

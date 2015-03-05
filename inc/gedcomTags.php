@@ -18,7 +18,7 @@ function skipGedcomTag($tag) {
       'ADDR', 'ADR1', 'ADR2', 'ADOP', 'AFN',
       'AGNC', 'ANCI', 'BAPL', 'BAPM', 'BARM',
       'BASM', 'BLES', 'BLOB', 'CAST', 'CHAN',
-      'CHAR', 'CHIL', 'CHRA', 'CITY', 'CONL',
+      'CHAR',         'CHRA', 'CITY', 'CONL',
       'CTRY', 'DESI', 'EMAIL','ENDL', 'FAMF',
       'FAX',  'FCOM', 'FILE', 'FONE', 'FORM',
       'GEDC', 'IDNO', 'LATI', 'LEGA', 'LONG',
