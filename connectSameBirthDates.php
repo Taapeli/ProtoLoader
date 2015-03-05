@@ -23,7 +23,7 @@
           $user2 = htmlentities($_POST['userid']);
         }
         if (!isset($user2)) {
-          echo "<p>Yhdistelyä varten tarvitaan toinen käyttäjätunnus, "
+          echo "</h1><p>Yhdistelyä varten tarvitaan toinen käyttäjätunnus, "
           . "jonka aineistoon verrataan</p>";
         } else {
           echo "(<i>$user&lt;&gt;$user2</i></h1>";

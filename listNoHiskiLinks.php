@@ -27,6 +27,7 @@
 
   $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
   $result = $query->getResultSet();
+  $id = [];
 
   foreach ($result as $row)
   {
