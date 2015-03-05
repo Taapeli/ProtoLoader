@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Taapeli Project by Suomen Sukututkimusseura ry
+${licensePrefix}Creating a comprehensive genealogical database for Finland
+<#if licenseLast??>
+${licenseLast}
+</#if>
