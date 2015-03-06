@@ -25,8 +25,8 @@
         
         <h2>Teknisiä kokeita</h2>
         <p>Arkkitehtuurikokeiluja <i>
-            <a href="http://advancedkittenry.github.io/koodaaminen/arkkitehtuuri/index.html">
-                MVC-mallin</a></i> mukaisesti:
+            <a href="http://advancedkittenry.github.io/koodaaminen/arkkitehtuuri/index.html"
+               target="_blank">MVC-mallin</a></i> mukaisesti:
             <a href="views/userList.php">Käyttäjäluettelon haku</a>.
         </p>
     
