@@ -22,6 +22,13 @@
         <h2>Kirjaudu järjestelmään</h2>
         <p>Taapelin sovelluksia saavat käyttää vain siihen kirjautuneet käyttäjät.</p>
         <p><a href="http://taapeli.referata.com/wiki/Ohjeet" target="help">Ohjeet</a></p>
+        
+        <h2>Teknisiä kokeita</h2>
+        <p>Arkkitehtuurikokeiluja <i>
+            <a href="http://advancedkittenry.github.io/koodaaminen/arkkitehtuuri/index.html">
+                MVC-mallin</a></i> mukaisesti:
+            <a href="views/userList.php">Käyttäjäluettelon haku</a>.
+        </p>
     
     <!-- End of content page -->
 
