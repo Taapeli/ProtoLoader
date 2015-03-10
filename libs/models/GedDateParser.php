@@ -6,7 +6,7 @@
  */
 
 /**
- * Description of GedDate
+ * Description of GedDateParser
  *
  * @author jm
  */
@@ -142,7 +142,7 @@ class GedDateParser {
     } // while
 
     throw new Exception(
-      "Fatal GedDate state=$state, pos=$this->pos \"$this->dateStr\"");
+      "Fatal GedDateParser state=$state, pos=$this->pos \"$this->dateStr\"");
   }
 
   function dbDate($yyyy, $mm, $dd) {

@@ -24,13 +24,18 @@
             "8 MAY 123", "EST 12 OCT 1430"];
         $dates = [ "1900-02-01", "1901-05-12", "1913-00-00", "1914-08-00",
             "815-02-31", "1640-00-40", "1786.11.2", "1909.2.13", "1940.12.30"];
-
+        
+/* Tästä ei ole vielä tullut tolkkua ...
         function __autoload($class_name) {
           // Polku on ilman '../', jos ei olla testihakemistossa
-          include '../classes/' . $class_name . '.php';
+            include '../classes/' . $class_name . '.php';
         }
+*/
+        define('MAINDIR', __DIR__ . '/../');
+        require_once(MAINDIR . 'libs/models/GedDateParser.php');
+        require_once(MAINDIR . 'classes/DateConv.php');
 
-        echo "<h2>DateConv-testit</h2>\n";
+        echo "<h2>Päivämäärämuunnoksen testit</h2>\n";
 
         echo "<h3>fromGed</h3>\n";
 
