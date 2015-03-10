@@ -1,9 +1,8 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Taapeli Project by Suomen Sukututkimusseura ry
+ * Creating a comprehensive genealogical database for Finland
  */
 
 /**
@@ -13,7 +12,7 @@
  */
 class GedDateParser {
 
-  const DELIM = '.';    // Delimiter in the db
+  const DELIM = '-';    // Delimiter in the db
 
   // For parsing gedcom DATE_VALUE
 
@@ -22,10 +21,14 @@ class GedDateParser {
   private $pos;         // integer: index to $tokens;
   private $endPos;      // integer: pointer to last $tokens;
 
-  /*
+  /**
    * Gedcom DATE_VALUE to db format  -  TESTING NEW FUNC
+   * 
+   * @param type $gedDate
+   * @return type
+   * @throws InvalidArgumentException
+   * @throws Exception  internal parse error
    */
-
   public function fromGed($gedDate) {
     $this->dateStr = trim($gedDate);
     $this->tokens = explode(' ', $this->dateStr);
@@ -51,16 +54,20 @@ class GedDateParser {
       return "";  // Empty date
     }
     //if (is_numeric($this->tokens[$this->pos])) {
-      return self::gedBasicDate();
+    return self::gedBasicDate();
     //}
-    echo "<em>Error DateConv: invalid date value \"$this->dateStr\"</em>";
-    return;  // Unparseable
+    //echo "<em>Error DateConv: invalid date value \"$this->dateStr\"</em>";
+    //return;  // Unparseable
   }
 
-  /*
+  /**
    * gedcom basic DATE to db format
+   * 
+   * @staticvar array $monthNum
+   * @return string
+   * @throws InvalidArgumentException
+   * @throws Exception  internal parse error
    */
-
   private function gedBasicDate() {
     static $monthNum = array(
         'JAN' => '01', 'FEB' => '02', 'MAR' => '03',
@@ -74,7 +81,8 @@ class GedDateParser {
     );
 
     $state = 0;
-    $dd = $mm = $yyyy = "";
+    $dd = $mm = "00";
+    $yyyy = "";
     /*
       state  | 00 [2digit]         | mon [abbr]         | 0000 [4digit]               |
       --------+--------------------+--------------------+----------------------------+
@@ -95,12 +103,17 @@ class GedDateParser {
             } else {
               // 2digit: set day
               $dd = $a;
+              if ( $dd > 30 ) {
+                  throw new InvalidArgumentException(
+                    "invalid day value \"$dd\" in \"$this->dateStr\"");
+              }
               switch (strlen($dd)) {
-                case 1: $dd = '0' . $dd; break;
+                case 1: $dd = '0' . $dd;
+                  break;
                 case 2: break;
                 default:
-                  echo "<em>Error gedDateParser: invalid day value \"$this->dateStr\"</em>";
-                  return '';
+                  throw new InvalidArgumentException(
+                    "invalid day value \"$this->dateStr\"");
               }
               $state = 1;
               break;
@@ -108,8 +121,8 @@ class GedDateParser {
           }
           // Not a number: initial month expexted
           if (strlen($a) != 3) {
-            echo "<em>Error gedDateParser: invalid month value \"$this->dateStr\"</em>";
-            return '';
+            throw new InvalidArgumentException(
+              "invalid month value \"$this->dateStr\"");
           }
           $mm = isset($monthNum[$a]) ? $monthNum[$a] : '00';
           echo "<!-- mm=$a -> $mm -->";
@@ -121,15 +134,15 @@ class GedDateParser {
           break;
         case 2: // month passed, year expected
           if (strlen($a) != 4) {
-            echo "<em>Error gedDateParser: invalid year value \"$this->dateStr\"</em>";
-            return '';
+            throw new InvalidArgumentException(
+              "invalid year value \"$this->dateStr\"");
           }
           return $this->dbDate($a, $mm, $dd);
       } // switch
     } // while
 
-    echo "<em>Fatal gedDateParser: state=$state, pos=$this->pos \"$this->dateStr\"</em>";
-    die;
+    throw new Exception(
+      "Fatal GedDate state=$state, pos=$this->pos \"$this->dateStr\"");
   }
 
   function dbDate($yyyy, $mm, $dd) {
