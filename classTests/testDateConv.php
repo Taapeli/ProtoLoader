@@ -7,7 +7,7 @@
         <style type="text/css">
             .old { color: gray; }
             i { color: darkorange; font-style: normal; }
-            b {color: saddlebrown; }
+            b {color: saddlebrown; background-color: lightgray; }
             .error { color:red; }
         </style>
     </head>
@@ -15,13 +15,17 @@
     <body>
         <?php
         /*
-         * To change this license header, choose License Headers in Project Properties.
-         * To change this template file, choose Tools | Templates
-         * and open the template in the editor.
+         * Taapeli Project by Suomen Sukututkimusseura ry
+         * Creating a comprehensive genealogical database for Finland
          */
-        $geddates = [ "1 FEB 1900", "11 MAR 1640", "12 JOU 1901", "0 0 1913",
-            "n. 1778", "1914", "FEB 2012", "Hauskaa pääsiäistä", "40 HEL 1234",
-            "8 MAY 123", "EST 12 OCT 1430"];
+        $geddates = [ '1 FEB 1900', '11 MAR 1640', '12 JOU 1901', '0 0 1913',
+            'n. 1778', '1914', 'FEB 2012', 'Pääsiäisenä 1913', '40 HEL 1234',
+            '1830 syksyllä', '5 päivää myöhemmin', '8 MAY 123', 'EST 12 OCT 1430',
+            'ABT 21 JAN 1640', 'CAL 22 FEB 1641', 'EST 23 MAY 1642',
+            'FROM 1914 TO 1920', 'FROM 12 APR 1720 TO 15 JUN 1721', 
+            'BEF SEP 1900', 'AFT 1820', 'AFT 5 DEC 1917',
+            'BETW 24 JUN 1812 AND 31 AUG 1812',
+            ];
         $dates = [ "1900-02-01", "1901-05-12", "1913-00-00", "1914-08-00",
             "815-02-31", "1640-00-40", "1786.11.2", "1909.2.13", "1940.12.30"];
         
@@ -45,11 +49,11 @@
             echo "<p><b>" . $ged->fromGed($s) .
             "</b> = GedDateParser->fromGed(<i>$s</i>)<br />\n";
           } catch (Exception $e) {
-            echo "<p><em class='error' >Error gedDateParser: " . $e->getMessage() .
+            echo "<p><em class='error'>Error gedDateParser: " . $e->getMessage() .
             "</em> = GedDateParser->fromGed(<i>$s</i>).<br />\n";
           }
-          echo "<span class='old'><b>" . DateConv::fromGed($s) .
-          "</b> = DateConv::fromGed(<i>$s</i>)</span></p>\n";
+          //echo "<span class='old'><b>" . DateConv::fromGed($s) .
+          //"</b> = DateConv::fromGed(<i>$s</i>)</span></p>\n";
         }
         
         echo "<h3>toDisplay</h3>\n";

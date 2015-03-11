@@ -18,57 +18,89 @@ class GedDateParser {
 
   private $dateStr;     // string: original gedcom line
   private $tokens;      // array: gedcom input line
-  private $pos;         // integer: index to $tokens;
-  private $endPos;      // integer: pointer to last $tokens;
 
   /**
    * Gedcom DATE_VALUE to db format  -  TESTING NEW FUNC
    * 
-   * @param type $gedDate
-   * @return type
+   * @param string $gedDate
+   * @return string
    * @throws InvalidArgumentException
    * @throws Exception  internal parse error
    */
   public function fromGed($gedDate) {
     $this->dateStr = trim($gedDate);
     $this->tokens = explode(' ', $this->dateStr);
-    $this->pos = 0;
-    $this->endPos = sizeof($this->tokens) - 1;
-    return self::gedDateValue();
-  }
+    $pos = 0;                         // integer: index to $tokens;
+    $endPos = sizeof($this->tokens);  // integer: pointer next over last $tokens;
 
-  private function gedDateValue() {
-    /*
-      state   | 0 [digits]    | FROM          | BET           | TO            | AND | BEF/AFT     | end |
-      --------+---------------+---------------+---------------+---------------+-----+-------------+-----+
-      start 0 | 1,basicDate();| 2,stPeriod1() | 3,stRange1()  | 4,stRange2()  |     | 4,setAppr() |     |
-      end   1 |               |               |               |               |     |             | end |
-      from  2 | 5,basicDate() |               |               |               |     |             |     |
-      betw  3 | 6,basicDate() |               |               |               |     |             |     |
-      last  4 | 1,basicDate() |               |               |               |     |             |     |
-      -to   5 |               |               |               | 4             |     |             | end |
-      -and  6 |               |               |               |               | 4   |             |     |
-     */
-
-    if ($this->endPos == 0) {
-      return "";  // Empty date
+    if ($endPos == 0) {
+      throw new InvalidArgumentException('Invalid: empty date expression');
     }
-    //if (is_numeric($this->tokens[$this->pos])) {
-    return self::gedBasicDate();
-    //}
-    //echo "<em>Error DateConv: invalid date value \"$this->dateStr\"</em>";
-    //return;  // Unparseable
+    $key1 = $this->tokens[$pos];
+
+    // First word of the expression
+    switch ($key1) {
+      
+      // DATE_APPROXIMATED
+      case 'ABT': 
+        return self::gedBasicDate(++$pos, $endPos) . ' ~abt';
+      case 'CAL':
+        return self::gedBasicDate(++$pos, $endPos) . ' ~cal';
+      case 'EST':
+        return self::gedBasicDate(++$pos, $endPos) . ' ~est';
+        
+      // DATARANGE with single date
+      case 'BEF': 
+        return self::gedBasicDate(++$pos, $endPos) . ' >';
+      case 'AFT': 
+        return self::gedBasicDate(++$pos, $endPos) . ' <';
+        
+      // DATARANGE with 2 dates
+      case 'FROM':
+        return self::gedRangeDate('FROM', 'TO', $pos, $endPos);
+       case 'BETW':
+        return self::gedRangeDate('BETW', 'AND', $pos, $endPos);
+         
+      // DATE_JULN or (invalid) DATE_PHRASE
+      default:  
+        return self::gedBasicDate($pos, $endPos);
+    }
   }
 
   /**
-   * gedcom basic DATE to db format
+   * Internal function to parse date range
+   * @param type $str1 = FROM/BETW
+   * @param type $str2 = TO/AND
+   * @return type
+   * @throws InvalidArgumentException
+   */
+  private function gedRangeDate($str1, $str2, $pos, $endPos) {
+    $topos = array_search($str2, $this->tokens);
+    if ($topos == FALSE) { 
+      throw new InvalidArgumentException(
+              'Invalid date expression, ' . $str2 . ' expected. "' 
+              . $this->dateStr . '"');
+    }
+    $date1 = self::gedBasicDate($pos + 1, $topos);
+    $date2 = self::gedBasicDate($topos + 1, $endPos);
+    if ($str1 == 'FROM') {
+       return $date1 . ' - ' . $date2;
+    } else {
+       return $date1 . ' / ' . $date2;
+    }
+  }
+
+  /**
+   * Internal function to parse a gedcom DATE_JULN to db format
+   * 
+   * Note does not understand the "B.C." part
    * 
    * @staticvar array $monthNum
    * @return string
    * @throws InvalidArgumentException
    * @throws Exception  internal parse error
    */
-  private function gedBasicDate() {
+  private function gedBasicDate($pos, $endPos) {
     static $monthNum = array(
         'JAN' => '01', 'FEB' => '02', 'MAR' => '03',
         'APR' => '04', 'MAY' => '05', 'JUN' => '06',
@@ -80,9 +112,12 @@ class GedDateParser {
         'LOK' => '10', 'JOU' => '12'
     );
 
+  //echo "<!--debug " 
+  //        . implode(array_slice($this->tokens, $pos, $endPos - $pos, true), ':') 
+  //        . " -->";
+
     $state = 0;
-    $dd = $mm = "00";
-    $yyyy = "";
+    $dd = $mm = '00';
     /*
       state  | 00 [2digit]         | mon [abbr]         | 0000 [4digit]               |
       --------+--------------------+--------------------+----------------------------+
@@ -91,19 +126,24 @@ class GedDateParser {
       month 2 |                    |                    | 9, setYear();end           |
       --------+--------------------+--------------------+----------------------------+
      */
-    while ($this->pos <= $this->endPos) {
-      $a = $this->tokens[$this->pos];
-      $this->pos++;
+    while ($pos < $endPos) {
+      $a = $this->tokens[$pos];
+      $pos++;
       switch ($state) {
         case 0: // start
           if (is_numeric($a)) {
             if (strlen($a) == 4) {
               // 4digit: only year given
-              return $this->dbDate($a, '00', '00');
+              if ($pos == $endPos) {
+                return $this->dbDate($a, '00', '00');
+              } else {
+                throw new InvalidArgumentException(
+                  "garbage after valid date in \"$this->dateStr\"");
+              }
             } else {
               // 2digit: set day
               $dd = $a;
-              if ( $dd > 30 ) {
+              if ( $dd > 31 ) {
                   throw new InvalidArgumentException(
                     "invalid day value \"$dd\" in \"$this->dateStr\"");
               }
@@ -122,10 +162,10 @@ class GedDateParser {
           // Not a number: initial month expexted
           if (strlen($a) != 3) {
             throw new InvalidArgumentException(
-              "invalid month value \"$this->dateStr\"");
+              "invalid date value \"$this->dateStr\"");
           }
           $mm = isset($monthNum[$a]) ? $monthNum[$a] : '00';
-          echo "<!-- mm=$a -> $mm -->";
+          //echo "<!-- mm=$a -> $mm -->";
           $state = 2;
           break;
         case 1: // day passed, month expected
@@ -137,14 +177,26 @@ class GedDateParser {
             throw new InvalidArgumentException(
               "invalid year value \"$this->dateStr\"");
           }
-          return $this->dbDate($a, $mm, $dd);
+          if ($pos == $endPos) {
+            return $this->dbDate($a, $mm, $dd);
+          } else {
+            throw new InvalidArgumentException(
+              "garbage after valid date in \"$this->dateStr\"");
+          }
       } // switch
     } // while
 
     throw new Exception(
-      "Fatal GedDateParser state=$state, pos=$this->pos \"$this->dateStr\"");
+      "Fatal GedDateParser state=$state, pos=$pos-$endPos \"$this->dateStr\"");
   }
 
+  /**
+   * A function to build a basic DATE_JULN type db format date
+   * @param type $yyyy
+   * @param type $mm
+   * @param type $dd
+   * @return type
+   */
   function dbDate($yyyy, $mm, $dd) {
     return $yyyy . self::DELIM . $mm . self::DELIM . $dd;
   }
