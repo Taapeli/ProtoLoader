@@ -201,5 +201,74 @@ class GedDateParser {
     return $yyyy . self::DELIM . $mm . self::DELIM . $dd;
   }
 
-// gedBasicDate
+  /**
+   * Convert db Dates like "1918-01-03" to "3.1.1918"
+   * 
+   * @param string $date
+   * @return string
+   */
+  static function toDisplay($date) {
+    static $keyw = [
+        '~abt' => 'n. ',
+        '~cal' => 'laskettu ',
+        '~est' => 'arvio ',
+        '>' => 'jälkeen ',
+        '<' => 'ennen ',
+    ];
+    if ($date == '') {
+      return '';
+    }
+    $parts = explode(' ', $date);
+    switch (sizeof($parts)) {
+      case 1:
+        return self::toDisplayBasic($parts[0]);
+        break;
+      case 2:
+        if (key_exists($parts[1], $keyw)) {
+          return $keyw[$parts[1]] . self::toDisplayBasic($parts[0]);
+        }
+        break;
+      case 3:
+        $d1 = self::toDisplayBasic($parts[0]);
+        $d2 = self::toDisplayBasic($parts[2]);
+        if ($parts[1] == '-') {
+          return "$d1&ndash;$d2 aikana";
+        } else {
+          return "$d1...$d2 välillä";
+        }
+    }
+    return "!$date";
+  }
+
+  static private function toDisplayBasic($date) {
+    if (strstr($date, '-')) {
+      $a = explode('-', $date, 3);
+    } else {
+      $a = explode('.', $date, 3);
+      /* @todo piste päivämäärässä poistettaneen */
+    }
+
+    switch (sizeof($a)) {
+      case 3:
+        if ($a[2] == 0) { // No day
+          if ($a[1] == 0) { // No month
+            return $a[0];   // Year only 1918
+          } else { // Month . Year
+            return ($a[1] + 0) . '/' . $a[0]; // ?.1.1918
+          }
+        }
+        return ($a[2] + 0) . '.' . ($a[1] + 0) . '.' . $a[0];  // Normal
+      case 2:
+        if ($a[1] == 0) { // No month
+          return $a[0];   // Year only 1918
+        } else { // Month . Year
+          return '?.' . ($a[1] + 0) . '.' . $a[0]; // ?.1.1918
+        }
+      case 1:
+        return $a[0];   // Year only 1918
+      case 0:
+        return $date;
+    }
+  }
+
 }

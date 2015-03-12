@@ -49,18 +49,19 @@
 */
         define('MAINDIR', __DIR__ . '/../');
         require_once(MAINDIR . 'libs/models/GedDateParser.php');
-        require_once(MAINDIR . 'classes/DateConv.php');
+      //require_once(MAINDIR . 'classes/DateConv.php');
 
-        echo "<h2>Päivämäärämuunnoksen testit</h2>\n
+        echo "<h2>Päivämäärämuunnoksen <i>GedDateParser</i> testit</h2>
+          <p>Toimii molempiin suuntiin</p>
         <div>
         <div class='inline'>
-        <h3>fromGed</h3>\n";
+        <h3>fromGed tietokantaan</h3>\n";
 
         $ged = new GedDateParser();
         foreach ($geddates as $s) {
           try {
             $dgdate = $ged->fromGed($s);
-            echo "<p><b>$dgdate</b> = GedDateParser->fromGed(<i>$s</i>)<br />\n";
+            echo "<p><b>$dgdate</b> = \$myGedDateParser->fromGed(<i>$s</i>)<br />\n";
             $dates[] = $dgdate; // Show also toDisplay
           } catch (Exception $e) {
             echo "<p><em class='error'>Error gedDateParser: " . $e->getMessage() .
@@ -71,11 +72,11 @@
         }
         echo "</div>
         <div class='inline'>
-        <h3>toDisplay</h3>\n";
+        <h3>toDisplay tietokannasta</h3>\n";
 
         foreach ($dates as $s) {
-        echo "<p><b>" . DateConv::toDisplay($s) .
-        "</b> = DateConv::toDisplay(<i>$s</i>)</p>\n";
+        echo "<p><b>" . GedDateParser::toDisplay($s) .
+        "</b> = GedDateParser::toDisplay(<i>$s</i>)</p>\n";
         }
         ?>
         </div>
