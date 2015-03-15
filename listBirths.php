@@ -20,11 +20,16 @@
 
         if (isset($_POST['birth'])) {
           // Input variables
-          //$input_birth = trim(str_replace('.', '-', htmlentities($_POST['birth'])));
-          $input_birth = htmlentities($_POST['birth']);
+          //$input_birth = htmlentities($_POST['birth']);
+          $input_birth = trim(str_replace('.', '-', htmlentities($_POST['birth'])));
           echo "<!--$input_birth-->";
           if (strlen($input_birth) == 10) { 
-            // Exact birth date
+            // Exact birth date - which order: 2000-12-31 or 31.12.2000?
+            $a = explode('-', $input_birth);
+            if (is_array($a) && (sizeof($a) == 3) && (strlen($a[2] == 4))) {
+              $input_birth = "$a[2]-$a[1]-$a[0]";
+              echo "<!--$input_birth-->";
+            }
             echo "<h1>Haku tarkalla syntymäpäivällä <i>$input_birth</i></h1>";
             $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b:Birth) "
                     . "WHERE b.birth_date={birth} "
@@ -50,8 +55,11 @@
             $id[] = $row[0]->getProperty('id');
             $birth_date[] = $row[1]->getProperty('birth_date');
           }
-          echo "<!--". implode(' ', $id) ."--" . implode(' ', $birth_date) ."-->";
-
+          if (sizeof($id) > 0) {
+            echo "<!-- " . implode(' ', $id) . " -- " . implode(' ', $birth_date) . " -->";
+          } else {
+            echo "<p>Ei osumia!</p>";
+          }
           /*
            * Find Names for each Person id
            */
