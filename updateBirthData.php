@@ -10,7 +10,7 @@
 <?php
   include 'inc/checkUserid.php';
   include "inc/start.php";
-  include 'classes/DateConv.php';
+  include 'libs/models/GedDateParser.php';
   include "inc/dbconnect.php";
   
         /*
@@ -80,7 +80,7 @@
         }
         echo "</td><td>";
         if (isset($birth_date)) {
-          echo DateConv::toDisplay($birth_date);
+          echo GedDateParser::toDisplay($birth_date);
         }
         echo "</td><td>";
         if (isset($birth_place)) {

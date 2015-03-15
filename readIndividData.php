@@ -10,7 +10,7 @@
 <?php
   include 'inc/checkUserid.php';
   include "inc/start.php";
-  include 'classes/DateConv.php';
+  include 'libs/models/GedDateParser.php';
   include "inc/dbconnect.php";
 
   echo "<h1>Läheiset sukulaisuussuhteet &mdash;";
@@ -461,14 +461,14 @@
       }
       echo "</td><td>";
       if (isset($birth_date)) {
-        echo DateConv::toDisplay($birth_date) . ' ';
+        echo GedDateParser::toDisplay($birth_date) . ' ';
       }
       if (isset($birth_place)) {
         echo $birth_place;
       }
       echo "</td><td>";
       if (isset($death_date)) {
-        echo DateConv::toDisplay($death_date) . ' ';
+        echo GedDateParser::toDisplay($death_date) . ' ';
       }
       if (isset($death_place)) {
         echo $death_place;
@@ -488,14 +488,14 @@
         }
         echo "</td><td>";
         if (isset($father_birth_date)) {
-          echo DateConv::toDisplay($father_birth_date) . ' ';
+          echo GedDateParser::toDisplay($father_birth_date) . ' ';
         }
         if (isset($father_birth_place)) {
           echo $father_birth_place;
         }
         echo "</td><td>";
         if (isset($father_death_date)) {
-          echo DateConv::toDisplay($father_death_date) . ' ';
+          echo GedDateParser::toDisplay($father_death_date) . ' ';
         }
         if (isset($father_death_place)) {
           echo $father_death_place;
@@ -515,14 +515,14 @@
         }
         echo "</td><td>";
         if (isset($mother_birth_date)) {
-          echo DateConv::toDisplay($mother_birth_date) . ' ';
+          echo GedDateParser::toDisplay($mother_birth_date) . ' ';
         }
         if (isset($mother_birth_place)) {
           echo $mother_birth_place;
         }
         echo "</td><td>";
         if (isset($mother_death_date)) {
-          echo DateConv::toDisplay($mother_death_date) . ' ';
+          echo GedDateParser::toDisplay($mother_death_date) . ' ';
         }
         if (isset($mother_death_place)) {
           echo $mother_death_place;
@@ -538,10 +538,10 @@
         echo "<tr><th></th><td colspan='2'></td><td>";
         echo (trim($married_status[$i]) != '') ? $married_status[$i] : '<i>avioliitto</i>';
         echo "</td><!--  $married_date[$i] -->";
-        echo "<td>" . DateConv::toDisplay($married_date[$i]) . ' ';
+        echo "<td>" . GedDateParser::toDisplay($married_date[$i]) . ' ';
         if (isset($married_place[$i])) { $married_place[$i]; }
         echo "</td><td>" . $divoced_status[$i] . ' '
-        . DateConv::toDisplay($divoced_date[$i]);
+        . GedDateParser::toDisplay($divoced_date[$i]);
         echo "</td></tr>\n";
 
         if (isset($marr_todo_description[$i])) {
@@ -562,14 +562,14 @@
         }
         echo "</td><td>";
         if (isset($spouse_birth_date[$i])) {
-          echo DateConv::toDisplay($spouse_birth_date[$i]) . ' ';
+          echo GedDateParser::toDisplay($spouse_birth_date[$i]) . ' ';
         }
         if (isset($spouse_birth_place[$i])) {
           echo $spouse_birth_place[$i];
         }
         echo "</td><td>";
         if (isset($spouse_death_date[$i])) {
-          echo DateConv::toDisplay($spouse_death_date[$i]) . ' ';
+          echo GedDateParser::toDisplay($spouse_death_date[$i]) . ' ';
         }
         if (isset($spouse_death_place[$i])) {
           echo $spouse_death_place[$i];
@@ -588,14 +588,14 @@
         }
         echo "</td><td>";
         if (isset($child_birth_date[$i])) {
-          echo DateConv::toDisplay($child_birth_date[$i]) . ' ';
+          echo GedDateParser::toDisplay($child_birth_date[$i]) . ' ';
         }
         if (isset($child_birth_place[$i])) {
           echo $child_birth_place[$i];
         }
         echo "</td><td>";
         if (isset($child_death_date[$i])) {
-          echo DateConv::toDisplay($child_death_date[$i]) . ' ';
+          echo GedDateParser::toDisplay($child_death_date[$i]) . ' ';
         }
         if (isset($child_death_place[$i])) {
           echo $child_death_place[$i];

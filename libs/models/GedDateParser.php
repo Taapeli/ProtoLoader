@@ -20,7 +20,7 @@ class GedDateParser {
   private $tokens;      // array: gedcom input line
 
   /**
-   * Gedcom DATE_VALUE to db format  -  TESTING NEW FUNC
+   * Gedcom DATE_VALUE to db format
    * 
    * @param string $gedDate
    * @return string
@@ -231,7 +231,7 @@ class GedDateParser {
       case 3:
         $d1 = self::toDisplayBasic($parts[0]);
         $d2 = self::toDisplayBasic($parts[2]);
-        if ($parts[1] == '-') {
+        if ($parts[1] == '-') { // "1812&ndash;1821" (ndash = 0x02013)
           return "$d1&ndash;$d2 aikana";
         } else {
           return "$d1...$d2 välillä";

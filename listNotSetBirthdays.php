@@ -13,7 +13,7 @@
 
   include 'inc/checkUserid.php';
   include "inc/start.php";
-  include 'classes/DateConv.php';
+  include 'libs/models/GedDateParser.php';
   include "inc/dbconnect.php";
   
         /*
@@ -65,7 +65,7 @@
     echo '</td><td>';
     if (isset($birth_date[$i])) {
       echo "<!-- $birth_date[$i] -->";
-      echo DateConv::toDisplay($birth_date[$i]) . ' ';
+      echo GedDateParser::toDisplay($birth_date[$i]) . ' ';
     } else {
       echo '- ';
     }

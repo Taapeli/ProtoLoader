@@ -11,7 +11,7 @@
 <?php
   include 'inc/checkUserid.php';
   include "inc/start.php";
-  include 'classes/DateConv.php';
+  include 'libs/models/GedDateParser.php';
   include "inc/dbconnect.php";
 
           /*
@@ -85,7 +85,7 @@
          "</a></td><td>" . $first_name[$i] .
          "</td><td> " . $last_name[$i] .
          "</td><td> " . $later_names[$i] .
-         "</td><td> " . DateConv::toDisplay($birth_date[$i]) .
+         "</td><td> " . GedDateParser::toDisplay($birth_date[$i]) .
          "</td><td> " . $birth_place[$i] .
          "</td></tr>";
   }

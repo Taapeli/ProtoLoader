@@ -11,7 +11,7 @@
         <?php
         include 'inc/checkUserid.php';
         include 'inc/start.php';
-        include 'classes/DateConv.php';
+        include 'libs/models/GedDateParser.php';
         include 'inc/dbconnect.php';
         include 'inc/gedcomTags.php';
         /*
@@ -125,6 +125,8 @@
         if (sizeof($a) > 2) {
           $arg = $arg0 = trim($a[2]);
         }
+        $ged = new GedDateParser();
+
 
         /*------------------------- Level  0  tags ----------------------*/
         if ($level == 0) {
@@ -429,7 +431,7 @@
                   $nsfx = $name->setProperty('partonymic', $arg0)->save();
                   break;
                 case "DATE":
-                  $date_str = DateConv::fromGed($arg0);
+                  $date_str = $ged->fromGed($arg0);
                   switch ($event) {
                     case "BIRT":
                       $even = $sukudb->makeNode()
@@ -724,7 +726,7 @@
               //echo "<!-- FAM2 ($key) $line -->";
               switch ($key)  {
                 case "DATE":
-                  $date_str = DateConv::fromGed($arg0);
+                  $date_str = $ged->fromGed($arg0);
                   switch ($event) {
                     case "MARR":
 //                      if (sizeof($date) == 3) {
