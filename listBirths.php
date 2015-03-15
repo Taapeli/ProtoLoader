@@ -26,7 +26,7 @@
           if (strlen($input_birth) == 10) { 
             // Exact birth date - which order: 2000-12-31 or 31.12.2000?
             $a = explode('-', $input_birth);
-            if (is_array($a) && (sizeof($a) == 3) && (strlen($a[2] == 4))) {
+            if ((sizeof($a) == 3) && (strlen($a[2]) == 4)) {
               $input_birth = "$a[2]-$a[1]-$a[0]";
               echo "<!--$input_birth-->";
             }
