@@ -92,6 +92,7 @@
 */
       $file_handle = fopen($file_tmp, "r");
       $skip = '9';  // Skip this level and higher
+      $ged = new GedDateParser();
       
       while (!feof($file_handle)) {
         $line = fgets($file_handle);
@@ -125,7 +126,6 @@
         if (sizeof($a) > 2) {
           $arg = $arg0 = trim($a[2]);
         }
-        $ged = new GedDateParser();
 
 
         /*------------------------- Level  0  tags ----------------------*/
