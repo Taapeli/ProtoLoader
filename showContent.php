@@ -57,23 +57,23 @@
   for ($i=0; $i<sizeof($type); $i++) {
     echo "<tr><td>" . $type[$i] . "</td><td align='right'>" . $counter[$i] . "</td></tr>";
   }
-  echo "</table><p>&nbsp;</p>";
+  echo "</table><h2>Toiminnot</h2><ul><li>";
 
       if ($_SESSION['userid'] == $user) {
 ?>
-  <h2>Toiminnot</h2>
-  <ul>
-    <li>
+  
       <form action="deleteUser.php" method="get" enctype="multipart/form-data">
-          <p>Poista käyttäjän <i><?php $user ?></i> tallettamat tiedot
+          Poista käyttäjän <i><?php $user ?></i> tallettamat tiedot
             <input type="hidden" name="user" value="<?php echo $user; ?>" />
-            <input type="submit" value="Poista tiedot"/></p>
+            <input type="submit" value="Poista tiedot"/>
       </form>
-    </li>
-  </ul>
+    
 
 <?php
+      } else {
+        echo "Voit poistaa vain kirjautuneen käyttäjän itse tallettamat tiedot";
       };
+      echo "</li></ul><p>&nbsp;</p>";
   /*
    *  -- End of content page -->
    */
