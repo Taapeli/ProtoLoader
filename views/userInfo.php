@@ -17,6 +17,7 @@
         <?php
         //require '../inc/start.php';
         require_once '../libs/models/User.php';
+        
         $user = 'test100'; // Tilapäisesti
         $me = new User($user);
         $stats = $me->getStats();
@@ -29,7 +30,7 @@
         <h1>Käyttäjän <i><?php echo $me->getUserid(); ?></i> lataamat tiedot</h1>
         <!--<p>Yhteensä <?php echo $stats['NODE:PERSON']; ?> henkilöä</p>  -->
         <table class="tulos">
-            <tr><th>Relaatio</th><th>lukumäärä</th></tr>
+            <tr><th>Kohteet</th><th>lukumäärä</th></tr>
                 <?php
                 foreach ($stats as $key => $s):
                   // if (strncmp($key, 'NODE', 4) != 0) {
