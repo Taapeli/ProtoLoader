@@ -9,9 +9,6 @@
         Taapeli Project by Suomen Sukututkimusseura ry
         Creating a comprehensive genealogical database for Finland
          -->
-         <style type="text/css">
-           .right { text-align: right; }
-         </style>
     </head>
     <body>
         <?php
@@ -19,7 +16,7 @@
         require_once '../libs/models/User.php';
         
         if (!empty($_GET['user'])) {
-          $user = filter_input(INPUT_GET, 'user');
+          $user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
         }
 
         $me = User::getUser($user);
@@ -37,7 +34,7 @@
                 foreach ($stats as $key => $s):
                   // if (strncmp($key, 'NODE', 4) != 0) {
                     echo "<tr><td>" . ucwords(strtolower($key)) 
-                            . "</td><td class='right'>" . $s . "</td></tr>";
+                            . "</td><td><div class='right'>" . $s . "</div></td></tr>";
                   //}
                 endforeach;
                 ?>
