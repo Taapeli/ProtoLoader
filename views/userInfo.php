@@ -18,14 +18,16 @@
         //require '../inc/start.php';
         require_once '../libs/models/User.php';
         
-        $user = 'test100'; // Tilapäisesti
-        $me = new User($user);
+        if (!empty($_GET['user'])) {
+          $user = filter_input(INPUT_GET, 'user');
+        }
+
+        $me = User::getUser($user);
+        echo '<!--' . $me->dump() . '-->';
         $stats = $me->getStats();
         echo '<br />';
         //var_dump($stats);
         ?>
-
-        <!-- Content page starts here -->
 
         <h1>Käyttäjän <i><?php echo $me->getUserid(); ?></i> lataamat tiedot</h1>
         <!--<p>Yhteensä <?php echo $stats['NODE:PERSON']; ?> henkilöä</p>  -->

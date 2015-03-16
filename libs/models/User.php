@@ -33,7 +33,7 @@ class User {
    * @param string $password
    * @param int $type
    */
-  public function __construct($user_id, $password = '', $type = '') {
+  public function __construct($user_id, $password = '', $type = 2) {
     //echo "<br />construct($user_id, $password, $type)\n";
     $this->id = $user_id;
     $this->passwd = $password;
@@ -43,6 +43,16 @@ class User {
     } else {
       $this->role = 0;
     }
+  }
+
+  /**
+   * Get an user by it's id
+   * @param string $id
+   * @return \User
+   */
+  public static function getUser($id) {
+    // Tietokannan lukeminen tähän
+    return new User("$id", '', 2);
   }
 
   public static function getAllUsers() {
@@ -75,6 +85,18 @@ class User {
     $this->stats['REL BIRTH'] = 120;
     $this->stats['REL CHILD'] = 80;
     return $this->stats;
+  }
+
+  /**
+   * For debug purposes
+   * @return string Description of this user data
+   */
+  public function dump() {
+    $ret = "Käyttäjä=$this->id rooli=" . $this->displayRole();
+    foreach ($this->stats as $key => $s) {
+      $ret .= '\n\t' . $key . ' => ' . $val;
+    }
+    return $ret;
   }
 
   /*
