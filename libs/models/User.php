@@ -16,6 +16,7 @@ class User {
   private $id;      // User name
   private $passwd;  // User password
   private $role;    // User type
+  private $stats;   // User statistics as an array of keyword => value pairs
   static protected $roles = [
       0 => 'Unknown',
       1 => 'Reader',
@@ -32,24 +33,16 @@ class User {
    * @param string $password
    * @param int $type
    */
-  public function __construct($user_id, $password, $type) {
+  public function __construct($user_id, $password = '', $type = '') {
     //echo "<br />construct($user_id, $password, $type)\n";
     $this->id = $user_id;
     $this->passwd = $password;
+    $this->stats = [];
     if (array_key_exists($type, self::$roles)) {
       $this->role = $type;
     } else {
       $this->role = 0;
     }
-  }
-
-  /**
-   * Get an user by it's id
-   * @param string $id
-   * @return \User
-   */
-  public static function getUser($id) {
-    return new User("user$id", '', 2);
   }
 
   public static function getAllUsers() {
@@ -71,6 +64,19 @@ class User {
     return ($this->passwd == $passwd);
   }
 
+  /**
+ * Get an array of user statistics
+ * @return array of {key => value} pairs
+ */
+  public function getStats() {
+    // Tietokannan lukeminen tähän
+    $this->stats['NODE PERSON'] = 2900;
+    $this->stats['NODE NAME'] = 3100;
+    $this->stats['REL BIRTH'] = 120;
+    $this->stats['REL CHILD'] = 80;
+    return $this->stats;
+  }
+
   /*
    * Getters and setters
    */
@@ -90,5 +96,5 @@ class User {
   public function setPassword($passwd) {
     $this->passwd = $passwd;
   }
-
+  
 }
