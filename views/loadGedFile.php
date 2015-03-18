@@ -26,7 +26,7 @@
 
         if (isset($_FILES['image']) && $_FILES['image']['name'] != "") {
           // Tiedoston käsittelyn muuttujat
-          $errors = array();
+          $errors = [];
           $file_name = $_FILES['image']['name'];
           $file_size = $_FILES['image']['size'];
           $file_tmp = $_FILES['image']['tmp_name'];
@@ -52,10 +52,10 @@
 
             if (sizeof($stat) == 6) {
               // Print statistics
-              echo "<p><em>{$file_name} {$stat[0]} riviä luettu, tallennettu:</em></p>";
-              echo "<p><em>{$stat[2]} henkilöä <br />{$stat[3]} perhettä <br />"
-              . "{$stat[4]} lähdettä <br />{$stat[5]} arkistoa</em></p>";
-              echo "<p><em>Ohitettu {$stat[1]} riviä ei-kiinnostavia tageja</em></p>";
+              echo "<p>{$stat[0]} riviä luettu:</p><div style='margin-left: 1em;'>";
+              echo "<p>{$stat[2]} henkilöä <br />{$stat[3]} perhettä <br />"
+              . "{$stat[4]} lähdettä <br />{$stat[5]} arkistoa</p>";
+              echo "</div><p>Ohitettu {$stat[1]} riviä ei-kiinnostavia tageja</p>";
             }
 
             if (sizeof($messages) > 0) {
@@ -68,12 +68,15 @@
           } // Good filename
         } // Filename given
         else {
-          echo "<p>Tyhjä tiedostonimi, ei ladattu.</p>";
+          $errors[] = "Tyhjä tiedostonimi, ei ladattu";
         } // No filename
-        echo "</p>\n";
 
-
-        //<!--End of content page -->
-
+        if (sizeof($errors) > 0) {
+          foreach ($errors as $e) {
+            echo "<p><em>$e</em></p>";
+          }
+          ?> <p>&gt; <a href="selectGedFile.php">Paluu</a></p>
+          <?php
+        }
         require '../inc/stop.php';
         
