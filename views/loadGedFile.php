@@ -46,19 +46,24 @@
              * Process input file 
              */
 
-            $loader = new GedLoader();
-            $reply = $loader->loadFile($file_tmp);
+            $loader = new GedLoader($user);
+            $stat = $loader->loadFile($file_tmp);
+            $messages = $loader->getMessages();
 
-            if (sizeof($reply) == 2) {
-              // Got normal reply
-              // Print error messages
-              // ...
+            if (sizeof($stat) == 6) {
               // Print statistics
-              $stat = $reply[1];
               echo "<p><em>{$file_name} {$stat[0]} riviä luettu, tallennettu:</em></p>";
               echo "<p><em>{$stat[2]} henkilöä <br />{$stat[3]} perhettä <br />"
               . "{$stat[4]} lähdettä <br />{$stat[5]} arkistoa</em></p>";
               echo "<p><em>Ohitettu {$stat[1]} riviä ei-kiinnostavia tageja</em></p>";
+            }
+
+            if (sizeof($messages) > 0) {
+              echo "<h2>Havaittu " . sizeof($messages) . " virhettä</h2><ol>";
+              foreach ($messages as $msg) {
+                echo "<li>$msg</li>";
+              }
+              echo "</ol>";
             }
           } // Good filename
         } // Filename given

@@ -11,7 +11,6 @@
  *
  * @author jm
  */
-
 require_once 'GedDateParser.php';
 
 class GedLoader {
@@ -31,7 +30,7 @@ class GedLoader {
    * @param string $user_id
    */
   public function __construct($user_id) {
-    $this->user = $user_id;
+    self::$user = $user_id;
   }
 
   /**
@@ -97,16 +96,28 @@ class GedLoader {
   public function loadFile($file_tmp) {
     //put your code here
     //
-    // Remove these
-    $this->messages[] = "Warning line 68: Unknown tag 1 GRAD";
-    $this->messages[] = "Warning line 69: Unknown tag 2 TYPE";
-    
+    // Test data; Remove these
+    self::$messages[] = "Warning line 68: Unknown tag 1 GRAD";
+    self::$messages[] = "Warning line 69: Unknown tag 2 TYPE";
+    self::$cnt_lines = 762;
+    self::$cnt_lines_skipped = 242;
+    self::$cnt_persons = 15;
+    self::$cnt_families = 11;
+    self::$cnt_sources = 6;
+    self::$cnt_repositories = 2;
+
     return array(
-        $this->messages,
-        array($this->cnt_lines, $this->cnt_lines_skipped,
-            $this->cnt_persons, $this->cnt_families,
-            $this->cnt_sources, $this->cnt_repositories)
-    );
+        self::$cnt_lines, self::$cnt_lines_skipped,
+        self::$cnt_persons, self::$cnt_families,
+        self::$cnt_sources, self::$cnt_repositories);
+  }
+
+  /**
+   * Get error messages
+   * @return array of strings
+   */
+  public function getMessages() {
+    return self::$messages;
   }
 
 }
