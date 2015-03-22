@@ -9,6 +9,10 @@
  * User class for carrying user properties
  *
  * @todo Password shold be crypted in some level
+ * @solution We can use a php function md5 with salting constants.
+ * @example $salt1 = 'tA!pE; $salt2 = 'Li2o1S'; 
+ * @example $crypted_password = md5($salt1$password$salt2);
+
  * @author jm
  */
 class User {
