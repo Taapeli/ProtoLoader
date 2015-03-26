@@ -22,6 +22,7 @@
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
     $input_id = htmlentities($_GET['id']);
+    echo "<!-- $input_id -->\n";
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person:" . $userid . ") WHERE n.id={id} RETURN n";
