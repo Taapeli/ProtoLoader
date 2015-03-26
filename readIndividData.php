@@ -12,10 +12,10 @@
     </head>
     <body>
 <?php
-  include 'inc/checkUserid.php';
-  include "inc/start.php";
-  include 'libs/models/GedDateParser.php';
-  include "inc/dbconnect.php";
+  require_once 'inc/checkUserid.php';
+  require_once "inc/start.php";
+  require_once 'libs/models/GedDateParser.php';
+  require_once "inc/dbconnect.php";
 
   echo "<h1>Läheiset sukulaisuussuhteet &mdash;";
   
