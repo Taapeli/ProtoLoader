@@ -5,6 +5,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Sukulaisuussuhteet</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <!--
+        Taapeli Project by Suomen Sukututkimusseura ry
+        Creating a comprehensive genealogical database for Finland
+         -->
     </head>
     <body>
 <?php
