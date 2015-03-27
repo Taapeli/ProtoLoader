@@ -4,12 +4,13 @@
         <?php session_start(); ?>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Taapelin </title>
-        <meta http-equiv="refresh" content="3; url=/index.php" />
+        <meta http-equiv="refresh" content="3; url=../index.php" />
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
     </head>
     <body>
         <?php
         session_destroy();
+        include "start.php"; 
         ?>
         <p>Istuntosi on päättynyt, palaamme kohta alkusivulle</p>
     </body></html>
