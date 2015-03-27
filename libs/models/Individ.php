@@ -17,6 +17,7 @@ class Individ {
   private $firstname;
   private $lastname;
   private $laternames;
+  private $gender;
   private $birthdate;
   private $birthplace;
   private $deathdate;
@@ -26,8 +27,8 @@ class Individ {
    * Create a new Individ
    * @param string $id
    */
-  public function __construct($individ_id) {
-    $this->id = $individ_id;
+  public function __construct($id) {
+    $this->id = $id;
   }
 
   /**
@@ -49,15 +50,34 @@ class Individ {
   /**
    * Return all individs with given lastname
    * @param string $lastname
+   * @param int $method 0 = full name, 1 = match from beginning of name
    * @return list
    */
-  public function listNames($lastname) {
+  public function findByLastname($lastname, $method) {
+    $list = [];
     // Tietokannan lukeminen tähän
     return $list;
   }
 
   /*
-   * Getters and setters
+   * ---------- Private functions ----------
+   */
+  
+  /**
+   * Save name trimmed, empty name 'N'
+   * @param string $param
+   * @return string
+   */
+  private function formatName($param) {
+    if (isset($param) && trim($param) != '') {
+      return trim($param);
+    } else {
+      return 'N';
+    }
+  }
+
+  /*
+   * ---------- Getters and setters ----------
    */
 
   public function getId() {
@@ -72,8 +92,12 @@ class Individ {
     return $this->lastname;
   }
 
-  public function getLatername() {
-    return $this->latername;
+  public function getLaternames() {
+    return $this->laternames;
+  }
+  
+  public function getGender() {
+    return $this->gender;
   }
 
   public function getBirthdate() {
@@ -92,16 +116,36 @@ class Individ {
     return $this->deathplace;
   }
 
-  public function setFirstname($firstname) {
-    $this->firstname = $firstname;
+  public function setFirstname($param) {
+    $this->firstname = $this->formatName($param);
   }
 
-  public function setLastname($lastname) {
-    $this->lastname = $lastname;
+  public function setLastname($param) {
+    $this->lastname = $this->formatName($param);
   }
 
-  public function setLatername($latername) {
-    $this->latername = $latername;
+  public function setLaternames($param) {
+    if (isset($param)) {
+      $this->laternames = trim($param);
+    } else {
+      throw InvalidArgumentException('Invalid null argument, not set');
+    }
+  }
+
+  public function setGender($param) {
+    if (isset($param)) {
+      switch ($param) {
+        case 'M':
+        case 'F':
+        case 'U':
+          $this->gender = $param;
+          break;
+        case 'N':
+          $this->gender = 'F';
+          break;
+      }
+    }
+    throw new InvalidArgumentException("Unknown gender '$param' not set");
   }
 
   public function setBirthdate($birthdate) {
@@ -120,4 +164,37 @@ class Individ {
     $this->deathplace = $deathplace;
   }
   
+  /*
+   * ---------- Display functions ----------
+   */
+
+  /**
+   * Display this individ
+   * @return string
+   */
+  public function display() {
+    return "$this->lastname, $this->firstname "
+            . $this->displayGender()
+            . " [$this->id] ($this->birthdate - $this->deathdate)";
+  }
+
+  /**
+   * Display gender as a symbol
+   * @return string
+   */
+  public function displayGender() {
+    if (isset($this->gender)) {
+      switch ($this->gender) {
+        case 'M':
+          return '♂';
+        case 'F':
+          return '♀';
+        default:
+          return $this->gender;
+      }
+    } else {
+      return '-';
+    }
+  }
+
 }
