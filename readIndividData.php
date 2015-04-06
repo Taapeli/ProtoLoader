@@ -22,7 +22,6 @@
   if(isset($_GET['id'])){
     // Tiedoston käsittelyn muuttujat
     $input_id = htmlentities($_GET['id']);
-    echo "<!-- $input_id -->\n";
 
     // Neo4j parameter {id} is used to avoid hacking injection
     $query_string = "MATCH (n:Person:" . $userid . ") WHERE n.id={id} RETURN n";
@@ -343,15 +342,28 @@
         $child_later_names[$i] = $rows[0]->getProperty('later_names');
       } 
     }
-
+    
     /*
      * ------------------------- Show results ----------------------------
      */
-    echo '<table class="tulos">';
+    
+    /**
+     * Tulostaa etunimen tai 'nimetön'
+     * @param String $nm
+     * @return string
+     */
+    function showName($nm) {
+      if (isset($nm)) {
+        return ($nm == 'N') ? '<i>nimetön</i>' : $nm;
+      }
+      return '';
+    }
+
+      echo '<table class="tulos">';
       echo "<tr><th> </th><th>id</td><th>Etunimet</th><th>Sukunimet</th>
           <th>Syntynyt</th><th>Kuollut</th></tr>\n";
       echo "<tr><th><div class='right'>Henkilö</div></th><td>" . $id . "</td>";
-      echo "<td><b>$first_name</b></td><td><b>$last_name</b>";
+      echo "<td><b>" . showName($first_name) ."</b></td><td><b>$last_name</b>";
       if (isset($later_names)) {
         echo "<br /><i>myöh.</i> $later_names";
       }
@@ -378,7 +390,7 @@
       if (isset($father_id)) {
         echo "<tr><th><div class='right'>Isä</th><td><a href='readIndividData.php?id=" .
         $father_id . "'>" . $father_id . "</a></td>";
-        echo "<td>$father_first_name</td><td>$father_last_name";
+        echo "<td>" . showName($father_first_name) ."</td><td>$father_last_name";
         if (isset($father_later_names)) {
           echo "<br /><i>myöh.</i> $father_later_names";
         }
@@ -404,7 +416,7 @@
       if (isset($mother_id)) {
         echo "<tr><th><div class='right'>Äiti</div></th><td><a href='readIndividData.php?id=" .
         $mother_id . "'>" . $mother_id .
-        "</a></td><td>" . $mother_first_name .
+        "</a></td><td>" . showName($mother_first_name) .
         "</td><td>" . $mother_last_name;
         if (isset($mother_later_names)) {
           echo "<br /><i>myöh.</i> $mother_later_names";
@@ -452,7 +464,7 @@
       for ($i = 0; $i < sizeof($spouse_id); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $spouse_id[$i] . "'>" . $spouse_id[$i] . "</a></td>";
-        echo "<td>$spouse_first_name[$i]</td><td>$spouse_last_name[$i]";
+        echo "<td>" . showName($spouse_first_name[$i]) . "</td><td>$spouse_last_name[$i]";
         if (isset($spouse_later_names[$i])) {
           echo "<br /><i>myöh.</i> $spouse_later_names[$i]";
         }
@@ -478,7 +490,7 @@
       for ($i = 0; $i < sizeof($child_id); $i++) {
         echo "<tr><th></th><td><a href='readIndividData.php?id=" .
         $child_id[$i] . "'>" . $child_id[$i] . "</a></td>";
-        echo "<td>" . $child_first_name[$i] . "</td><td>" . $child_last_name[$i];
+        echo "<td>" . showName($child_first_name[$i]) . "</td><td>" . $child_last_name[$i];
         if (isset($child_later_names[$i])) {
           echo "<br /><i>myöh.</i> $child_later_names[$i]";
         }

@@ -97,7 +97,7 @@ class User {
    */
   public function dump() {
     $ret = "Käyttäjä=$this->id rooli=" . $this->displayRole();
-    foreach ($this->stats as $key => $s) {
+    foreach ($this->stats as $key => $val) {
       $ret .= '\n\t' . $key . ' => ' . $val;
     }
     return $ret;
