@@ -29,6 +29,11 @@
         <div id="container1">
             <div id="menu">
                 <ul class="menu">
+                    <li>Haku kaikilla sukunimillä luokassa
+                        <form action="listNamesClass3.php" method="post" enctype="multipart/form-data">
+                            <input type="text" name="name"/>
+                            <input type="submit" value="Etsi"/>
+                        </form></li>
                     <li>Haku kaikilla sukunimillä
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="name"/>

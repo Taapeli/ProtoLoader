@@ -116,20 +116,28 @@ class Individ {
     return $this->deathplace;
   }
 
+  public function setId($param) {
+    $this->id = $param;
+  }
+
   public function setFirstname($param) {
-    $this->firstname = $this->formatName($param);
+//    $this->firstname = this->formatName($param);
+    $this->firstname = $param;
   }
 
   public function setLastname($param) {
-    $this->lastname = $this->formatName($param);
+//    $this->lastname = $this->formatName($param);
+    $this->lastname = $param;
   }
 
   public function setLaternames($param) {
-    if (isset($param)) {
+    $this->laternames = trim($param);
+/*    if (isset($param)) {
       $this->laternames = trim($param);
     } else {
       throw InvalidArgumentException('Invalid null argument, not set');
     }
+*/
   }
 
   public function setGender($param) {
