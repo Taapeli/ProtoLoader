@@ -193,17 +193,27 @@ class Individ {
   }
 
   public function setFirstname($param) {
-//    $this->firstname = this->formatName($param);
-    $this->firstname = $param;
+    if ($param != "") {
+      $this->firstname = $this->formatName($param);
+    } else {
+      $this->firstname = "-";
+    }
   }
 
   public function setLastname($param) {
-//    $this->lastname = $this->formatName($param);
-    $this->lastname = $param;
+    if ($param != "") {
+      $this->lastname = $this->formatName($param);
+    } else {
+      $this->lastname = "-";
+    }
   }
 
   public function setLaternames($param) {
-    $this->laternames = trim($param);
+    if ($param != "") {
+      $this->laternames = trim($param);
+    } else {
+      $this->laternames = "-";
+    }
 /*    if (isset($param)) {
       $this->laternames = trim($param);
     } else {
