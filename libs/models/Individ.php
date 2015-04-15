@@ -183,15 +183,6 @@ class Individ {
     return $this->deathplace;
   }
 
-  /**
-   * 
-   * @todo  Tätä ei pitäisi olla eikä käyttää, vaan asettaa id luotaessa: new Individ('I123');
-   *        Ei kai olemassa olevan henkilön id:tä koskaan muuteta?
-   */
-  public function setId($param) {
-    $this->id = $param;
-  }
-
   public function setFirstname($param) {
     if ($param != "") {
       $this->firstname = $this->formatName($param);

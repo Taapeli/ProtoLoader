@@ -10,7 +10,7 @@
 
     <body>
 <?php
-  require_once 'listNamesClass2.php';
+  require_once 'listNamesClass.php';
 
   echo '<table class="tulos">';
   echo '<tr><th>id</th><th>Etunimet</th><th>Sukunimi</th>' .

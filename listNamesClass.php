@@ -51,8 +51,7 @@ if(isset($_POST['name']) || isset($_POST['wildcard'])){
 
     foreach ($result as $rows)
     {
-      $individ[$individ_index] = new Individ();
-      $individ[$individ_index]->setId($rows[0]->getProperty('id'));
+      $individ[$individ_index] = new Individ($rows[0]->getProperty('id'));
       $individ[$individ_index]->setFirstname($rows[1]->getProperty('first_name'));
       $individ[$individ_index]->setLastname($rows[1]->getProperty('last_name'));
       $individ[$individ_index]->setLaternames($rows[1]->getProperty('later_names'));
