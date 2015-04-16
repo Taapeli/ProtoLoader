@@ -13,9 +13,6 @@
   require_once 'listNamesClass.php';
   require_once 'views/lastnameList.php';
 
-  /*
-   * --- End of content page ---
-   */
   include "inc/stop.php";
 
 ?>
