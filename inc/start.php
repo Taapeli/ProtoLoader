@@ -29,13 +29,13 @@
         <div id="container1">
             <div id="menu">
                 <ul class="menu">
-                    <li><div style='background: #99ff99'>
-                            Haku kaikilla sukunimillä
-                        <form action="listControl.php" method="post" enctype="multipart/form-data">
-                            <input type="checkbox" name="method" value="match">alkuosalla<br>
-                            <input type="text" name="name"/>
+                    <li>Haku sukunimillä 
+                        <img src="images/New_icons_21.gif" alt=""/>
+                          <form action="listControl.php" method="post" enctype="multipart/form-data">
+                            <input type="text" name="name"/><br />
+                            <input type="checkbox" name="method" value="match">alkuosalla
                             <input type="submit" value="Etsi"/>
-                        </form></div></li>
+                        </form></li>
                     <li>Haku kaikilla sukunimillä
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="name"/>
