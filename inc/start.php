@@ -29,11 +29,13 @@
         <div id="container1">
             <div id="menu">
                 <ul class="menu">
-                    <li>Haku kaikilla sukunimillä luokassa
-                        <form action="viewLastnameList.php" method="post" enctype="multipart/form-data">
+                    <li><div style='background: #99ff99'>
+                            Haku kaikilla sukunimillä
+                        <form action="listControl.php" method="post" enctype="multipart/form-data">
+                            <input type="checkbox" name="method" value="match">alkuosalla<br>
                             <input type="text" name="name"/>
                             <input type="submit" value="Etsi"/>
-                        </form></li>
+                        </form></div></li>
                     <li>Haku kaikilla sukunimillä
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="name"/>
