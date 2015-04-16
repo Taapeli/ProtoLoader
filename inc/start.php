@@ -36,12 +36,12 @@
                             <input type="checkbox" name="method" value="match">alkuosalla
                             <input type="submit" value="Etsi"/>
                         </form></li>
-                    <li>Haku kaikilla sukunimillä
+                    <li style="color: #144d2a;">Haku kaikilla sukunimillä
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="name"/>
                             <input type="submit" value="Etsi"/>
                         </form></li>
-                    <li>Haku sukunimien alkuosalla
+                    <li style="color: #144d2a;">Haku sukunimien alkuosalla
                         <form action="listNames.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="wildcard"/>
                             <input type="submit" value="Etsi"/>
