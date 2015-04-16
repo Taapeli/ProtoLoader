@@ -2,6 +2,7 @@
 /**
  * Controller for search by name
  */
+session_start();
 include 'inc/checkUserid.php';
 include 'inc/dbconnect.php';
 include 'libs/models/GedDateParser.php';
