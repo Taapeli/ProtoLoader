@@ -97,7 +97,7 @@ class Individ {
     foreach ($indi_list as $i => $indi) {
       echo "<!-- Debug 3: [$i] =" . $indi . " -->\n";
       $id = $indi->getId();
-      $query_string = "MATCH (n:Person:" . $id . ")-[:BIRTH]->(b) "
+      $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b) "
               . "WHERE n.id='" . $id . "' RETURN b";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
@@ -111,7 +111,7 @@ class Individ {
 
     foreach ($indi_list as $i => $indi) {
       $id = $indi->getId();
-      $query_string = "MATCH (n:Person:" . $id . ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) "
+      $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b)-[:BIRTH_PLACE]->(p) "
               ."WHERE n.id='" . $id . "' RETURN p";
       $query = new Everyman\Neo4j\Cypher\Query($sukudb, $query_string);
       $result = $query->getResultSet();
