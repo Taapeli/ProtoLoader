@@ -22,7 +22,7 @@
           echo "<td> " . $indi->getFirstname() .
           "</td><td> " . $indi->getLastname() .
           "</td><td> " . $indi->getLaternames() .
-          "</td><td> " . $indi->getBirthdate() .
+          "</td><td> " . GedDateParser::toDisplay($indi->getBirthdate()) .
           "</td><td> " . $indi->getBirthplace() .
           "</td></tr>";
         }
