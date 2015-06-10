@@ -33,6 +33,7 @@ class Individ {
 
   /**
    * Get an individ by it's id
+   * @todo Haku tietokannasta puuttuu!
    * @param string $id
    * @return \Individ
    */
@@ -41,6 +42,11 @@ class Individ {
     return new Individ("$id");
   }
 
+  /**
+   * Get list of all individs
+   * @todo Haku tietokannasta puuttuu!
+   * @return array \Individ
+   */
   public static function getAllIndivids() {
     $list = [];
     // Tietokannan lukeminen tähän
@@ -84,18 +90,17 @@ class Individ {
 
     $i = 0;
     foreach ($result as $rows) {
-      $indi = new Individ($rows[0]->getProperty('id')); // itse asiassa kutsuu self::__construct($id)
+      $indi = new Individ($rows[0]->getProperty('id')); // kutsuu self::__construct($id)
       $indi->setFirstname($rows[1]->getProperty('first_name'));
       $indi->setLastname($rows[1]->getProperty('last_name'));
       $indi->setLaternames($rows[1]->getProperty('later_names'));
-      echo "<!-- Debug 2: [$i] =" . $indi . " -->\n";   // kutsuu automaattisesti $indi->__toString()
+      echo "<!-- Debug 2: [$i] =" . $indi . " -->\n";   // kutsuu $indi->__toString()
       $indi_list[$i++] = $indi;
     }
     
     // 3. Store birth dates
 
     foreach ($indi_list as $i => $indi) {
-      echo "<!-- Debug 3: [$i] =" . $indi . " -->\n";
       $id = $indi->getId();
       $query_string = "MATCH (n:Person:" . $userid . ")-[:BIRTH]->(b) "
               . "WHERE n.id='" . $id . "' RETURN b";
@@ -105,6 +110,7 @@ class Individ {
       foreach ($result as $rows) {
         $indi->setBirthdate($rows[0]->getProperty('birth_date'));
       }
+      echo "<!-- Debug 3: [$i] =" . $indi . " -->\n";
     }
     
     // 4. Store Birth places
